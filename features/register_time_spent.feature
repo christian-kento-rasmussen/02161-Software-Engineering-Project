@@ -15,7 +15,6 @@ Feature: Register work hours on an activity
     Then the error message "Time must be positive or 0" is given
     And the users work hours on the activity is 0.5 hours
 
-
   Scenario: The user registers work hours on an activity, but time is not divisible by 0.5 hours
     Given there is an activity with name "Brainstorming"
     And the user has spent 0.5 hours on the activity
