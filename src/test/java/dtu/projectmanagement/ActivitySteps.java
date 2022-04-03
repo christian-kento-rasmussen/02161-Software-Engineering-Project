@@ -92,8 +92,6 @@ public class ActivitySteps {
 
     @When("the activity is deleted from project")
     public void the_activity_is_deleted_from_project() {
-        // Write code here that turns the phrase above into concrete actions
-//        throw new io.cucumber.java.PendingException();
         selectedProject.removeActivity("save the world");
     }
 

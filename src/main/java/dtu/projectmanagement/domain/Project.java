@@ -30,7 +30,7 @@ public class Project {
     }
 
     public void removeActivity(String activityName) {
-        activities.remove(new Activity(0, activityName));
+        activities.remove(new Activity(getActivity(activityName).getActivityNum(), activityName));
         activityCnt--;
     }
 
@@ -51,6 +51,7 @@ public class Project {
     }
 
     public List getActivityList() {
+
         return this.activities;
     }
 

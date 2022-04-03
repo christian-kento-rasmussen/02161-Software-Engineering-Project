@@ -23,10 +23,12 @@ public class Activity {
         assignedEmployees.add(employee);
     }
 
-
-
     public String getActivityName() {
         return activityName;
+    }
+
+    public int getActivityNum() {
+        return activityNum;
     }
 
     public int getStartWeek() {
