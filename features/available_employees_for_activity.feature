@@ -3,15 +3,17 @@ Feature: Find available employees for activity
 	Actors: ProjectLeader
 
 Scenario: Find available employees for activity
-	Given there is a project
-	And the project has two employees attached with username "Mr Beast" and "PewDiePie" respectively
+	Given a project is created
+	And there is an employee with username "MRBE"
+	And there is an employee with username "PEWD"
+	And there exist a project "TeamTrees"
 	And there is an activity with activityName "save the world", start week 10, and end week 15 contained in project "TeamTrees"
-	And employee "Mr Beast" is attached to activity "save the world"
+	And employee "MRBE" is attached to activity "save the world"
 	And there is an activity with activityName "From the algorithm", start week 16, and end week 20 contained in project "TeamTrees"
-	Then available employees for activityName "From the algorithm" is PewDiePie
+	Then available employees for activityName "From the algorithm" is "PEWD"
 
 Scenario: No available employees for activity
-	Given there is a project
+	Given a project is created
 	And the project has two employees attached with username "Mr Beast" and "PewDiePie" respectively
 	And there is an activity with activityName "save the world", start week 10, and end week 15 contained in project "TeamTrees"
 	And employee "Mr Beast" is attached to activity "save the world"

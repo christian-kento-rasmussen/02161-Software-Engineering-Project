@@ -24,20 +24,23 @@ public class ManagementApp {
         serialNum.put(year,yearCounter+1);
 
         String projectNum = String.format("%02d%04d", year % 100, yearCounter+1);
-        Project project= new Project(projectNum);
+        Project project = new Project(projectNum);
 
         projectRepo.add(project);
     }
 
     public Project getProject(String project_number){
+        return projectRepo.stream()
+                .filter(project -> project.getProjectNum().equals(project_number))
+                .findAny()
+                .orElse(null);
+        //for (Project project : projectRepo) {
+        //    if (project.getProjectNum().equals(project_number)){
+        //        return project;
+        //    }
+        //}
 
-        for (Project project : projectRepo) {
-            if (project.getProjectNum().equals(project_number)){
-                return project;
-            }
-        }
-
-        return null;
+        //return null;
     }
 
     public void login(String username) {
