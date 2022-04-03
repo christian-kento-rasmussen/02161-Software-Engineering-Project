@@ -1,4 +1,5 @@
 package dtu.projectmanagement.domain;
+import dtu.projectmanagement.domain.Project;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,6 +23,7 @@ public class Activity {
         assignedEmployees.add(employee);
     }
 
+<<<<<<< Updated upstream
 
 
     public String getActivityName() {
@@ -43,4 +45,9 @@ public class Activity {
     public void setEndWeek(int endWeek) {
         this.endWeek = endWeek;
     }
+=======
+    public String getActivityName() {
+        return activityName;
+    }
+>>>>>>> Stashed changes
 }

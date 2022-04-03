@@ -4,13 +4,14 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+
 public class Project {
 
     private String projectNum;
     private String projectName;
     private int startWeek;
     private int endWeek;
-    private int activityCnt = 1;
+    private int activityCnt = 0; //Have changed it to zero, because I think it makes more sense - Christian
 
     private Employee projectLeader;
 
@@ -43,6 +44,22 @@ public class Project {
     public void setProjectLeader(Employee employee) {
         projectLeader = employee;
     }
+
+    public List getActivityList() {
+        return this.activities;
+    }
+
+    public Activity getActivity(String actname) {
+
+        for (Activity act : activities) {
+            if (act.activityName.equals(actname)){
+                return act;
+            }
+        }
+
+        return null;
+    }
+
 
 
 }

@@ -1,4 +1,4 @@
-Feature: Add activity to a project
+Feature: Create new activity
 	Description: Employee or ProjectLeader adds an activity
 	Actors: Employee, ProjectLeader
 
@@ -10,3 +10,6 @@ Scenario: add activity to a project
 	Then the activity with activityName "save the world" is contained in project
 
 
+
+
+	

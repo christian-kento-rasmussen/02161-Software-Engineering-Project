@@ -1,6 +1,7 @@
 package dtu.projectmanagement;
 
 import dtu.projectmanagement.app.ManagementApp;
+<<<<<<< Updated upstream
 import dtu.projectmanagement.domain.Activity;
 import dtu.projectmanagement.domain.Project;
 import io.cucumber.java.en.And;
@@ -11,11 +12,28 @@ import static org.junit.Assert.assertNotNull;
 
 public class ActivitySteps {
     ManagementApp managementApp;
+=======
+import io.cucumber.java.en.Given;
+import io.cucumber.java.en.Then;
+import dtu.projectmanagement.domain.Activity;
+import dtu.projectmanagement.domain.Project;
+import io.cucumber.java.en.When;
+
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+
+public class ActivitySteps {
+    ManagementApp managementApp;
+    Activity activity;
+    Project selectedProject;
+
+>>>>>>> Stashed changes
 
     public ActivitySteps(ManagementApp managementApp){
         this.managementApp = managementApp;
     }
 
+<<<<<<< Updated upstream
     @And("there is an employee with username {string}")
     public void thereIsAnEmployeeWithUsername(String username) {
         managementApp.addEmployee(username);
@@ -37,4 +55,37 @@ public class ActivitySteps {
         activity.assignEmployee(employee);
     }
 
+=======
+    @Given("there is an activity with activityName {string}")
+    public void there_is_an_activity_with_activity_name(String actname) {
+        activity = new Activity(123,actname);
+    }
+
+
+    @Given("activity is not already in the project")
+    public void activity_is_not_already_in_the_project() {
+        selectedProject=managementApp.getProject("220001"); //Temporary solution.
+        assertNull(selectedProject.getActivity(activity.getActivityName()));
+
+    }
+
+
+    @When("the activity is added to the project")
+    public void theActivityIsAddedToTheProject() {
+        selectedProject.addNewActivity(activity.getActivityName());
+    }
+
+    @Then("the activity with activityName {string} is contained in project")
+    public void theActivityWithActivityNameIsContainedInProject(String actString) {
+        assertNotNull(selectedProject.getActivity(actString));
+
+    }
+
+    @Given("there is an activity with activityName {string} contained in the project")
+    public void there_is_an_activity_with_activity_name_contained_in_the_project(String string) {
+        selectedProject.addNewActivity(string);
+    }
+
+
+>>>>>>> Stashed changes
 }

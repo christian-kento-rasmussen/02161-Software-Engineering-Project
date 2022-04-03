@@ -73,6 +73,7 @@ public class ManagementApp {
     }
 
 
+<<<<<<< Updated upstream
     public List<String> ListAvailableEmployeesForActivity(String projectNum, String activityName) {
         List<String> employeesAvailable = new ArrayList<>();
         Project project = getProject(projectNum);
@@ -81,6 +82,10 @@ public class ManagementApp {
         int endWeek = activity.getEndWeek();
         return employeesAvailable;
     }
+=======
+
+
+>>>>>>> Stashed changes
 }
 
 
