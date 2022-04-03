@@ -49,17 +49,5 @@ public class Project {
         return this.activities;
     }
 
-    public Activity getActivity(String actname) {
-
-        for (Activity act : activities) {
-            if (act.activityName.equals(actname)){
-                return act;
-            }
-        }
-
-        return null;
-    }
-
-
 
 }

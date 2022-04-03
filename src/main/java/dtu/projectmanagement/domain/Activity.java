@@ -23,9 +23,6 @@ public class Activity {
         assignedEmployees.add(employee);
     }
 
-<<<<<<< Updated upstream
-
-
     public String getActivityName() {
         return activityName;
     }
@@ -45,9 +42,5 @@ public class Activity {
     public void setEndWeek(int endWeek) {
         this.endWeek = endWeek;
     }
-=======
-    public String getActivityName() {
-        return activityName;
-    }
->>>>>>> Stashed changes
+
 }

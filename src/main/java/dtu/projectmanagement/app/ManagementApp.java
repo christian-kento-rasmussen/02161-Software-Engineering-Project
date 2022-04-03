@@ -35,13 +35,7 @@ public class ManagementApp {
                 .filter(project -> project.getProjectNum().equals(project_number))
                 .findAny()
                 .orElse(null);
-        //for (Project project : projectRepo) {
-        //    if (project.getProjectNum().equals(project_number)){
-        //        return project;
-        //    }
-        //}
 
-        //return null;
     }
 
     public void login(String username) {
@@ -72,8 +66,6 @@ public class ManagementApp {
         project.addNewActivity(activityName);
     }
 
-
-<<<<<<< Updated upstream
     public List<String> ListAvailableEmployeesForActivity(String projectNum, String activityName) {
         List<String> employeesAvailable = new ArrayList<>();
         Project project = getProject(projectNum);
@@ -82,10 +74,7 @@ public class ManagementApp {
         int endWeek = activity.getEndWeek();
         return employeesAvailable;
     }
-=======
 
-
->>>>>>> Stashed changes
 }
 
 

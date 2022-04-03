@@ -1,39 +1,27 @@
 package dtu.projectmanagement;
 
 import dtu.projectmanagement.app.ManagementApp;
-<<<<<<< Updated upstream
 import dtu.projectmanagement.domain.Activity;
 import dtu.projectmanagement.domain.Project;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Then;
-import io.cucumber.java.en_old.Ac;
-
-import static org.junit.Assert.assertNotNull;
-
-public class ActivitySteps {
-    ManagementApp managementApp;
-=======
-import io.cucumber.java.en.Given;
-import io.cucumber.java.en.Then;
-import dtu.projectmanagement.domain.Activity;
-import dtu.projectmanagement.domain.Project;
 import io.cucumber.java.en.When;
-
+import io.cucumber.java.en.Given;
+import io.cucumber.java.en_old.Ac;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
+
+import static org.junit.Assert.assertNotNull;
 
 public class ActivitySteps {
     ManagementApp managementApp;
     Activity activity;
     Project selectedProject;
 
->>>>>>> Stashed changes
-
     public ActivitySteps(ManagementApp managementApp){
         this.managementApp = managementApp;
     }
 
-<<<<<<< Updated upstream
     @And("there is an employee with username {string}")
     public void thereIsAnEmployeeWithUsername(String username) {
         managementApp.addEmployee(username);
@@ -55,7 +43,7 @@ public class ActivitySteps {
         activity.assignEmployee(employee);
     }
 
-=======
+
     @Given("there is an activity with activityName {string}")
     public void there_is_an_activity_with_activity_name(String actname) {
         activity = new Activity(123,actname);
@@ -68,7 +56,6 @@ public class ActivitySteps {
         assertNull(selectedProject.getActivity(activity.getActivityName()));
 
     }
-
 
     @When("the activity is added to the project")
     public void theActivityIsAddedToTheProject() {
@@ -85,7 +72,4 @@ public class ActivitySteps {
     public void there_is_an_activity_with_activity_name_contained_in_the_project(String string) {
         selectedProject.addNewActivity(string);
     }
-
-
->>>>>>> Stashed changes
 }
