@@ -1,6 +1,7 @@
 package dtu.projectmanagement;
 
 import dtu.projectmanagement.app.ManagementApp;
+import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 
@@ -22,6 +23,5 @@ public class ProjectSteps {
     public void thereExistAProjectWithNumber(String project_number) {
         assertNotNull(managementApp.getProject(project_number));
     }
-
 
 }

@@ -1,5 +1,6 @@
 package dtu.projectmanagement.app;
 
+import dtu.projectmanagement.domain.Activity;
 import dtu.projectmanagement.domain.Employee;
 import dtu.projectmanagement.domain.Project;
 
@@ -72,7 +73,14 @@ public class ManagementApp {
     }
 
 
-
+    public List<String> ListAvailableEmployeesForActivity(String projectNum, String activityName) {
+        List<String> employeesAvailable = new ArrayList<>();
+        Project project = getProject(projectNum);
+        Activity activity = project.getActivity(activityName);
+        int startWeek = activity.getStartWeek();
+        int endWeek = activity.getEndWeek();
+        return employeesAvailable;
+    }
 }
 
 

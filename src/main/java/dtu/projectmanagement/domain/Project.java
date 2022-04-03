@@ -28,6 +28,13 @@ public class Project {
         activityCnt++;
     }
 
+    public Activity getActivity(String activityName){
+        return activities.stream()
+                .filter(activity -> activity.getActivityName().equals(activityName))
+                .findAny()
+                .orElse(null);
+    }
+
     public String getProjectNum() {
         return projectNum;
     }
