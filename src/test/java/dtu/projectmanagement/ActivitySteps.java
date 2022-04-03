@@ -53,7 +53,8 @@ public class ActivitySteps {
     public void employeeIsAttachedToActivity(String employee, String activityName) {
         Project project = managementApp.getProject("220001");
         Activity activity = project.getActivity(activityName);
-        activity.assignEmployee(employee);
+
+        activity.assignEmployee(managementApp.getEmployee(employee));
     }
 
 

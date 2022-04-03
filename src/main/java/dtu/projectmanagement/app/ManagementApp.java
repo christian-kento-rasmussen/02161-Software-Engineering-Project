@@ -50,7 +50,7 @@ public class ManagementApp {
 
     public Employee getEmployee(String username) {
         return employeeRepo.stream()
-                .filter(emp -> emp.getUsername() == username)
+                .filter(emp -> emp.getUsername().equals(username))
                 .findAny()
                 .orElse(null);
     }
@@ -77,12 +77,19 @@ public class ManagementApp {
     }
 
 
-    public List<String> ListAvailableEmployeesForActivity(String projectNum, String activityName) {
-        List<String> employeesAvailable = new ArrayList<>();
+    public List<Employee> ListAvailableEmployeesForActivity(String projectNum, String activityName) {
+        List<Employee> employeesAvailable = new ArrayList<>();
         Project project = getProject(projectNum);
         Activity activity = project.getActivity(activityName);
         int startWeek = activity.getStartWeek();
         int endWeek = activity.getEndWeek();
+
+        for (Employee employee : employeeRepo) {
+            if (employee.availableInPeriod(startWeek,endWeek)){
+                employeesAvailable.add(employee);
+            }
+        }
+
         return employeesAvailable;
     }
 

@@ -18,5 +18,6 @@ Scenario: No available employees for activity
 	And there is an employee with username "PEWD"
 	And there is an activity with activityName "save the world", start week 10, and end week 15 contained in the project
 	And employee "MRBE" is attached to activity "save the world"
+	And employee "PEWD" is attached to activity "save the world"
 	And there is an activity with activityName "From the algorithm", start week 12, and end week 20 contained in the project
 	Then there is no available employees for activityName "From the algorithm"

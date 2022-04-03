@@ -11,7 +11,7 @@ public class Activity {
     int startWeek;
     int endWeek;
     double expectedWorkHours;
-    private List<String> assignedEmployees = new ArrayList<>();
+    private List<Employee> assignedEmployees = new ArrayList<>();
 
     public Activity(int activityNum, String activityName) {
         this.activityName = activityName;
@@ -19,8 +19,9 @@ public class Activity {
 
     }
 
-    public void assignEmployee(String employee){
+    public void assignEmployee(Employee employee){
         assignedEmployees.add(employee);
+        employee.assignActivity(this);
     }
 
     public String getActivityName() {
