@@ -1,18 +1,13 @@
 package dtu.projectmanagement;
 
 import dtu.projectmanagement.app.ManagementApp;
-<<<<<<< Updated upstream
+
 import dtu.projectmanagement.domain.Activity;
 import dtu.projectmanagement.domain.Project;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en_old.Ac;
 
-import static org.junit.Assert.assertNotNull;
-
-public class ActivitySteps {
-    ManagementApp managementApp;
-=======
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import dtu.projectmanagement.domain.Activity;
@@ -22,18 +17,24 @@ import io.cucumber.java.en.When;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 
+
+import static org.junit.Assert.assertNotNull;
+
+
+
+
 public class ActivitySteps {
     ManagementApp managementApp;
     Activity activity;
     Project selectedProject;
 
->>>>>>> Stashed changes
+
 
     public ActivitySteps(ManagementApp managementApp){
         this.managementApp = managementApp;
     }
 
-<<<<<<< Updated upstream
+
     @And("there is an employee with username {string}")
     public void thereIsAnEmployeeWithUsername(String username) {
         managementApp.addEmployee(username);
@@ -55,7 +56,8 @@ public class ActivitySteps {
         activity.assignEmployee(employee);
     }
 
-=======
+
+
     @Given("there is an activity with activityName {string}")
     public void there_is_an_activity_with_activity_name(String actname) {
         activity = new Activity(123,actname);
@@ -72,6 +74,7 @@ public class ActivitySteps {
 
     @When("the activity is added to the project")
     public void theActivityIsAddedToTheProject() {
+
         selectedProject.addNewActivity(activity.getActivityName());
     }
 
@@ -83,9 +86,23 @@ public class ActivitySteps {
 
     @Given("there is an activity with activityName {string} contained in the project")
     public void there_is_an_activity_with_activity_name_contained_in_the_project(String string) {
+        selectedProject=managementApp.getProject("220001"); //Temporary solution.
         selectedProject.addNewActivity(string);
     }
 
+    @When("the activity is deleted from project")
+    public void the_activity_is_deleted_from_project() {
+        // Write code here that turns the phrase above into concrete actions
+//        throw new io.cucumber.java.PendingException();
+        selectedProject.removeActivity("save the world");
+    }
 
->>>>>>> Stashed changes
+    @Then("the activity with activityName {string} is not contained in the project")
+    public void the_activity_with_activity_name_is_not_contained_in_the_project(String string) {
+        selectedProject=managementApp.getProject("220001"); //Temporary solution.L
+        assertNull(selectedProject.getActivity("save the world"));
+    }
+
+
+
 }

@@ -23,7 +23,6 @@ public class Activity {
         assignedEmployees.add(employee);
     }
 
-<<<<<<< Updated upstream
 
 
     public String getActivityName() {
@@ -45,9 +44,10 @@ public class Activity {
     public void setEndWeek(int endWeek) {
         this.endWeek = endWeek;
     }
-=======
-    public String getActivityName() {
-        return activityName;
+
+    public boolean equals( Object other) {
+        Activity act= (Activity) other;
+        return ((this.activityNum == act.activityNum) && (this.activityName.equals(act.activityName)) );
     }
->>>>>>> Stashed changes
+
 }

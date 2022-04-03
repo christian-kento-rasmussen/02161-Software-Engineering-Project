@@ -1,11 +1,11 @@
 package dtu.projectmanagement;
 
 import dtu.projectmanagement.app.ManagementApp;
-<<<<<<< Updated upstream
+
 import io.cucumber.java.en.And;
-=======
+
 import dtu.projectmanagement.domain.Project;
->>>>>>> Stashed changes
+
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 
