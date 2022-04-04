@@ -14,6 +14,7 @@ import io.cucumber.java.en.Then;
 import dtu.projectmanagement.domain.Activity;
 import dtu.projectmanagement.domain.Project;
 import io.cucumber.java.en.When;
+import jdk.dynalink.Operation;
 
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
@@ -128,5 +129,24 @@ public class ActivitySteps {
     @And("the other employee with initials {string} is already assigned to the activity")
     public void theOtherEmployeeWithInitialsIsAlreadyAssignedToTheActivity(String username) throws OperationNotAllowedException {
         activity.assignEmployee(managementApp.getEmployee(username));
+    }
+
+    @And("the employee has spent {float} hours on the activity")
+    public void theEmployeeHasSpentHoursOnTheActivity(float hours) throws OperationNotAllowedException {
+        activity.registerWorkHours(managementApp.getUser(), hours);
+    }
+
+    @When("the employee registers {float} hours spent on the activity")
+    public void theEmployeeRegistersHoursSpentOnTheActivity(float hours) throws OperationNotAllowedException {
+        try {
+            activity.registerWorkHours(managementApp.getUser(), hours);
+        } catch (OperationNotAllowedException e) {
+            errorMessage.setErrorMessage(e.getMessage());
+        }
+    }
+
+    @Then("the employees work hours on the activity is {float} hours")
+    public void theEmployeesWorkHoursOnTheActivityIsHours(float hours) {
+        assertEquals(hours, activity.getWorkHours(managementApp.getUser()), 0.001f);
     }
 }
