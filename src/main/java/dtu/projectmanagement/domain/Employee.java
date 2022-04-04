@@ -1,5 +1,7 @@
 package dtu.projectmanagement.domain;
 
+import dtu.projectmanagement.app.OperationNotAllowedException;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,7 +18,10 @@ public class Employee {
         return username;
     }
 
-    public void assignActivity(Activity activity) {
+    public void assignActivity(Activity activity) throws OperationNotAllowedException {
+        if (activities.contains(activity)){
+            throw new OperationNotAllowedException("Employee is already assigned to the activity");
+        }
         activities.add(activity);
     }
 
@@ -28,6 +33,8 @@ public class Employee {
         }
 
         return true;
-
     }
+
+    public List<Activity> getActivities() { return activities; }
+
 }

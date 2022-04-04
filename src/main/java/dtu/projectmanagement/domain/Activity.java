@@ -1,5 +1,6 @@
 package dtu.projectmanagement.domain;
 import dtu.projectmanagement.domain.Project;
+import dtu.projectmanagement.app.OperationNotAllowedException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,9 +20,14 @@ public class Activity {
 
     }
 
-    public void assignEmployee(Employee employee){
-        assignedEmployees.add(employee);
-        employee.assignActivity(this);
+    public void assignEmployee(Employee employee) throws OperationNotAllowedException {
+        try{
+            assignedEmployees.add(employee);
+            employee.assignActivity(this);
+        } catch (OperationNotAllowedException e) {
+            throw new OperationNotAllowedException(e.getMessage());
+        }
+
     }
 
     public String getActivityName() {
@@ -53,4 +59,5 @@ public class Activity {
         return ((this.activityNum == act.activityNum) && (this.activityName.equals(act.activityName)) );
     }
 
+    public List<Employee> getAssignedEmployees() {return assignedEmployees;}
 }

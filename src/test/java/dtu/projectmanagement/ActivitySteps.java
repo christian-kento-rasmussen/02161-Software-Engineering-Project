@@ -2,6 +2,7 @@ package dtu.projectmanagement;
 
 import dtu.projectmanagement.app.ManagementApp;
 
+import dtu.projectmanagement.app.OperationNotAllowedException;
 import dtu.projectmanagement.domain.Activity;
 import dtu.projectmanagement.domain.Project;
 import io.cucumber.java.en.And;
@@ -16,7 +17,8 @@ import io.cucumber.java.en.When;
 
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
-
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertEquals;
 
 import static org.junit.Assert.assertNotNull;
 
@@ -27,11 +29,12 @@ public class ActivitySteps {
     ManagementApp managementApp;
     Activity activity;
     Project selectedProject;
+    private ErrorMessageHolder errorMessage;
 
 
-
-    public ActivitySteps(ManagementApp managementApp){
+    public ActivitySteps(ManagementApp managementApp, ErrorMessageHolder errorMessage){
         this.managementApp = managementApp;
+        this.errorMessage = errorMessage;
     }
 
 
@@ -50,7 +53,7 @@ public class ActivitySteps {
     }
 
     @And("employee {string} is attached to activity {string}")
-    public void employeeIsAttachedToActivity(String employee, String activityName) {
+    public void employeeIsAttachedToActivity(String employee, String activityName) throws OperationNotAllowedException {
         Project project = managementApp.getProject("220001");
         Activity activity = project.getActivity(activityName);
 
@@ -102,6 +105,28 @@ public class ActivitySteps {
         assertNull(selectedProject.getActivity("save the world"));
     }
 
+    @When("the employee assigns the other employee with initials {string} to the activity")
+    public void theEmployeeAssignsTheOtherEmployeeWithInitialsToTheActivity(String username) throws OperationNotAllowedException {
+        try {
+            activity.assignEmployee(managementApp.getEmployee(username));
+        } catch (OperationNotAllowedException e) {
+            errorMessage.setErrorMessage(e.getMessage());
+        }
+    }
 
+    @Then("the other employee with initials {string} is assigned to the activity")
+    public void theOtherEmployeeWithInitialsIsAssignedToTheActivity(String username) {
+        assertTrue(activity.getAssignedEmployees().contains(managementApp.getEmployee(username)));
+        assertTrue(managementApp.getEmployee(username).getActivities().contains(activity));
+    }
 
+    @Then("the error message {string} is given")
+    public void theErrorMessageIsGiven(String errorMessage) {
+        assertEquals(errorMessage, this.errorMessage.getErrorMessage());
+    }
+
+    @And("the other employee with initials {string} is already assigned to the activity")
+    public void theOtherEmployeeWithInitialsIsAlreadyAssignedToTheActivity(String username) throws OperationNotAllowedException {
+        activity.assignEmployee(managementApp.getEmployee(username));
+    }
 }

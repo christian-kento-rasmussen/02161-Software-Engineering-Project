@@ -4,6 +4,7 @@ import dtu.projectmanagement.app.ManagementApp;
 import dtu.projectmanagement.domain.Activity;
 import dtu.projectmanagement.domain.Employee;
 import dtu.projectmanagement.domain.Project;
+import io.cucumber.java.en.And;
 import io.cucumber.java.en.Then;
 
 import java.util.List;
@@ -31,5 +32,10 @@ public class ManagementAppSteps {
         Activity activity = project.getActivity(activityName);
         List<Employee> employees = managementApp.ListAvailableEmployeesForActivity("220001",activityName);
         assertTrue(employees.size() == 0);
+    }
+
+    @And("the employee with username {string} is signed in")
+    public void theEmployeeWithUsernameIsSignedIn(String username) {
+        managementApp.login(username);
     }
 }
