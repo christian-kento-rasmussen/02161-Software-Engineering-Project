@@ -92,12 +92,18 @@ public class ActivitySteps {
     @Given("there is an activity with activityName {string} contained in the project")
     public void there_is_an_activity_with_activity_name_contained_in_the_project(String string) {
         selectedProject=managementApp.getProject("220001"); //Temporary solution.
-        selectedProject.addNewActivity(string);
+        managementApp.addNewActivity(selectedProject,string);
+        activity=selectedProject.getActivity(string);
     }
 
     @When("the activity is deleted from project")
-    public void the_activity_is_deleted_from_project() {
-        selectedProject.removeActivity("save the world");
+    public void the_activity_is_deleted_from_project() throws OperationNotAllowedException {
+        try {
+        managementApp.removeActivity(selectedProject,activity.getActivityName());}
+        catch (OperationNotAllowedException e) {
+            errorMessage.setErrorMessage(e.getMessage());
+        }
+//        selectedProject.removeActivity("save the world");
     }
 
     @Then("the activity with activityName {string} is not contained in the project")

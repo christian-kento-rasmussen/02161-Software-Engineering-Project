@@ -1,5 +1,7 @@
 package dtu.projectmanagement.domain;
 
+import dtu.projectmanagement.app.OperationNotAllowedException;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -29,9 +31,16 @@ public class Project {
         activityCnt++;
     }
 
-    public void removeActivity(String activityName) {
-        activities.remove(new Activity(getActivity(activityName).getActivityNum(), activityName));
-        activityCnt--;
+    public void removeActivity(String activityName) throws OperationNotAllowedException {
+            if (this.getActivity(activityName).getAssignedEmployees().size()>0) {
+            throw new OperationNotAllowedException("employee(s) attached to activity. Please remove activity from employee");
+        }
+
+
+            activities.remove(new Activity(getActivity(activityName).getActivityNum(), activityName));
+            activityCnt--;
+
+
     }
 
     public Activity getActivity(String activityName){
@@ -55,16 +64,11 @@ public class Project {
         return this.activities;
     }
 
-//    public Activity getActivity(String actname) {
-//
-//        for (Activity act : activities) {
-//            if (act.activityName.equals(actname)){
-//                return act;
-//            }
-//        }
-//
-//        return null;
-//    }
+
+
+
+
+
 
 
 }

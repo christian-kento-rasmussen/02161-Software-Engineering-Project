@@ -61,7 +61,9 @@ public class Activity {
         return ((this.activityNum == act.activityNum) && (this.activityName.equals(act.activityName)) );
     }
 
-    public List<Employee> getAssignedEmployees() {return assignedEmployees;}
+    public List<Employee> getAssignedEmployees() {
+        return assignedEmployees;
+        }
 
     public void registerWorkHours(Employee employee, float hours) throws OperationNotAllowedException {
         if (hours < 0f){

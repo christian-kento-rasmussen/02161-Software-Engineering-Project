@@ -35,13 +35,6 @@ public class ManagementApp {
                 .filter(project -> project.getProjectNum().equals(project_number))
                 .findAny()
                 .orElse(null);
-        //for (Project project : projectRepo) {
-        //    if (project.getProjectNum().equals(project_number)){
-        //        return project;
-        //    }
-        //}
-
-        //return null;
     }
 
     public void login(String username) {
@@ -72,8 +65,15 @@ public class ManagementApp {
         project.addNewActivity(activityName);
     }
 
-    public void removeActivity(Project project, String activityName) {
+    public void removeActivity(Project project, String activityName) throws OperationNotAllowedException {
+
+        try {
         project.removeActivity(activityName);
+        }
+        catch (OperationNotAllowedException e) {
+            throw new OperationNotAllowedException(e.getMessage());
+        }
+
     }
 
 
