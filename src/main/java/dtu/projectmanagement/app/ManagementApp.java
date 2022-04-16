@@ -108,11 +108,9 @@ public class ManagementApp {
         return employeesAvailable;
     }
 
-    public Employee getUser() { return user; }
-
-
-
-
+    public Employee getUser() {
+        return user;
+    }
 }
 
 

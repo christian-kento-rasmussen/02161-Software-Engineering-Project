@@ -19,8 +19,9 @@ public class Activity {
     public Activity(int activityNum, String activityName) {
         this.activityName = activityName;
         this.activityNum = activityNum;
-
     }
+
+
 
     public void assignEmployee(Employee employee) throws OperationNotAllowedException {
         try{
@@ -44,20 +45,20 @@ public class Activity {
         return startWeek;
     }
 
-    public void setStartWeek(int startWeek) {
-        this.startWeek = startWeek;
-    }
-
     public int getEndWeek() {
         return endWeek;
     }
 
-    public void setEndWeek(int endWeek) {
+    public void setStartAndEndWeek(int startWeek, int endWeek) throws OperationNotAllowedException {
+        if (endWeek < startWeek)
+            throw new OperationNotAllowedException("The start week cannot be after the end week");
+
+        this.startWeek = startWeek;
         this.endWeek = endWeek;
     }
 
     public boolean equals( Object other) {
-        Activity act= (Activity) other;
+        Activity act = (Activity) other;
         return ((this.activityNum == act.activityNum) && (this.activityName.equals(act.activityName)) );
     }
 

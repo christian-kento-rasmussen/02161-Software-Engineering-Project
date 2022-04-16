@@ -5,7 +5,7 @@ import dtu.projectmanagement.domain.Employee;
 
 public class EmployeeHelper {
 
-    private Employee employee;
+    private String username;
     private ManagementApp managementApp;
 
     public EmployeeHelper(ManagementApp managementApp) {
@@ -14,17 +14,19 @@ public class EmployeeHelper {
 
 
 
-    public void addEmployee() {
-        managementApp.addEmployee(getEmployee().getUsername());
-    }
-
-    public Employee createTestEmployee() {
-        return new Employee("test");
-    }
-
     public Employee getEmployee() {
-        if (employee == null)
-            employee = createTestEmployee();
-        return employee;
+        if (username == null)
+            addEmployee();
+        return managementApp.getEmployee(username);
+    }
+
+    public void addEmployee() {
+        username = "test";
+        managementApp.addEmployee(username);
+    }
+
+    public void login() {
+        addEmployee();
+        managementApp.login(username);
     }
 }

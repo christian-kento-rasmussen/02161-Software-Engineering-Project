@@ -1,6 +1,6 @@
-package dtu.projectmanagement.acceptance_tests.steps;
+package dtu.projectmanagement.acceptance_tests;
 
-import dtu.projectmanagement.acceptance_tests.helpersAndHolders.ErrorMessageHolder;
+import dtu.projectmanagement.acceptance_tests.ErrorMessageHolder;
 import dtu.projectmanagement.app.ManagementApp;
 
 import dtu.projectmanagement.app.OperationNotAllowedException;
@@ -19,21 +19,37 @@ import static org.junit.Assert.assertEquals;
 
 import static org.junit.Assert.assertNotNull;
 
-
-
-
 public class ActivitySteps {
+
     ManagementApp managementApp;
     Activity activity;
     Project selectedProject;
+
+    private ProjectHelper projectHelper;
     private ErrorMessageHolder errorMessage;
 
-
-    public ActivitySteps(ManagementApp managementApp, ErrorMessageHolder errorMessage){
+    public ActivitySteps(ManagementApp managementApp, ProjectHelper projectHelper, ErrorMessageHolder errorMessage){
         this.managementApp = managementApp;
+        this.projectHelper = projectHelper;
         this.errorMessage = errorMessage;
     }
 
+
+
+    @When("the current employee using the system sets the start and end time of the activity to {int} and {int}, respectively")
+    public void theCurrentEmployeeUsingTheSystemSetsTheStartAndEndTimeOfTheActivityToAndRespectively(Integer startWeek, Integer endWeek) {
+        try {
+            managementApp.setActivityStartAndEndWeek(projectHelper.getProject(), projectHelper.getActivity(), startWeek, endWeek);
+        } catch (OperationNotAllowedException e) {
+            errorMessage.setErrorMessage(e.getMessage());
+        }
+    }
+
+    @Then("the start and end time of the activity is {int} and {int}, respectively")
+    public void theStartAndEndTimeOfTheActivityIsAndRespectively(Integer startWeek, Integer endWeek) {
+        assertEquals(projectHelper.getActivity().getStartWeek(), (int) startWeek);
+        assertEquals(projectHelper.getActivity().getEndWeek(), (int) endWeek);
+    }
 
     @And("there is an employee with username {string}")
     public void thereIsAnEmployeeWithUsername(String username) {
@@ -121,11 +137,6 @@ public class ActivitySteps {
     public void theOtherEmployeeWithInitialsIsAssignedToTheActivity(String username) {
         assertTrue(activity.getAssignedEmployees().contains(managementApp.getEmployee(username)));
         assertTrue(managementApp.getEmployee(username).getActivities().contains(activity));
-    }
-
-    @Then("the error message {string} is given")
-    public void theErrorMessageIsGiven(String errorMessage) {
-        assertEquals(errorMessage, this.errorMessage.getErrorMessage());
     }
 
     @And("the other employee with initials {string} is already assigned to the activity")

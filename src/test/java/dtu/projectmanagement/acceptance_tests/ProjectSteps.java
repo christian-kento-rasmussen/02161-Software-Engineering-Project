@@ -59,4 +59,20 @@ public class ProjectSteps {
         assertNotNull(managementApp.getProject(projectNum));
     }
 
+    @Given("the project has an activity in it")
+    public void theProjectHasAnActivityInIt() {
+        projectHelper.addActivity();
+    }
+
+    @Given("the employee using the system is the project leader of the project")
+    public void theCurrentEmployeeUsingTheSystemIsTheProjectLeaderOfTheProject() {
+        projectHelper.setUserToProjectLeader();
+        assertEquals(projectHelper.getProject().getProjectLeader(), managementApp.getUser());
+    }
+
+    @Given("the employee using the system is not the project leader of the project")
+    public void theCurrentEmployeeUsingTheSystemIsNotTheProjectLeaderOfTheProject() {
+        assertNull(projectHelper.getProject().getProjectLeader());
+    }
+
 }
