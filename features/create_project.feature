@@ -4,9 +4,9 @@ Feature: Create new project
 
 Scenario: create new project
 	Given a project is created
-	Then There exist a project with number "220001"
+	Then There exist a project with the project number in format yy-0001 where yy is the last two digits of the current year
 
 Scenario: create two new project
-	Given a project is created
-	And a project is created
-	Then There exist a project with number "220002"
+	Given two projects are created
+	Then There exist a project with the project number in format yy-0002 where yy is the last two digits of the current year
+

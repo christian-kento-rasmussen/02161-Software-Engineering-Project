@@ -1,4 +1,4 @@
-package dtu.projectmanagement.acceptance_tests.steps;
+package dtu.projectmanagement.acceptance_tests;
 
 import dtu.projectmanagement.app.ManagementApp;
 import io.cucumber.java.en.*;
