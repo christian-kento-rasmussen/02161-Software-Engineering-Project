@@ -1,9 +1,9 @@
-Feature: Assign a project leader
-    Description: The user assigns a project leader to a project
-    Actor: User
+Feature: Assign a project leader to a project
+    Description: An employee assigns a given employee as project leader for a given project
+    Actor: Employee
 
-#Scenario: Assign a project leader to a project
-#  Given a project exists
-#  And there is an employee in the system
-#  When the user assings the employee to project leader of the project
-#  Then the employee is the project leader of the project
+Scenario: Assign a project leader to a project
+  Given there is a project
+  And there is a given employee in the system
+  When the employee assigns the given employee to be project leader of the given project
+  Then the given employee is the project leader of the given project
