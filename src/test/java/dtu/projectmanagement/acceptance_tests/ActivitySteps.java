@@ -1,5 +1,6 @@
-package dtu.projectmanagement;
+package dtu.projectmanagement.acceptance_tests.steps;
 
+import dtu.projectmanagement.acceptance_tests.helpersAndHolders.ErrorMessageHolder;
 import dtu.projectmanagement.app.ManagementApp;
 
 import dtu.projectmanagement.app.OperationNotAllowedException;
@@ -7,14 +8,9 @@ import dtu.projectmanagement.domain.Activity;
 import dtu.projectmanagement.domain.Project;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Then;
-import io.cucumber.java.en_old.Ac;
 
 import io.cucumber.java.en.Given;
-import io.cucumber.java.en.Then;
-import dtu.projectmanagement.domain.Activity;
-import dtu.projectmanagement.domain.Project;
 import io.cucumber.java.en.When;
-import jdk.dynalink.Operation;
 
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
@@ -49,8 +45,8 @@ public class ActivitySteps {
         Project project = managementApp.getProject("220001");
         project.addNewActivity(activityName);
         Activity activity = project.getActivity(activityName);
-        activity.setStartWeek(startWeek);
-        activity.setEndWeek(endWeek);
+        //activity.setStartWeek(startWeek);
+        //activity.setEndWeek(endWeek);
     }
 
     @And("employee {string} is attached to activity {string}")

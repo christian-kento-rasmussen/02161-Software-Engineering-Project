@@ -1,4 +1,4 @@
-package dtu.projectmanagement;
+package dtu.projectmanagement.acceptance_tests.helpersAndHolders;
 
 public class ErrorMessage {
 	private String errorMessage = "";

@@ -1,4 +1,4 @@
-package dtu.projectmanagement;
+package dtu.projectmanagement.acceptance_tests.steps;
 
 import dtu.projectmanagement.app.ManagementApp;
 import dtu.projectmanagement.domain.Activity;
