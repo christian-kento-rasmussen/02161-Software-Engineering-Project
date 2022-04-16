@@ -13,7 +13,7 @@ public class Project {
     private String projectName;
     private int startWeek;
     private int endWeek;
-    private int activityCnt = 0; //Have changed it to zero, because I think it makes more sense - Christian
+    private int activityCnt = 0;
 
     private Employee projectLeader;
 
@@ -36,11 +36,12 @@ public class Project {
             throw new OperationNotAllowedException("employee(s) attached to activity. Please remove activity from employee");
         }
 
-
             activities.remove(new Activity(getActivity(activityName).getActivityNum(), activityName));
             activityCnt--;
+    }
 
-
+    public void setActivityStartAndEndWeek(Activity activity, int startWeek, int endWeek) throws OperationNotAllowedException {
+        activity.setStartAndEndWeek(startWeek, endWeek);
     }
 
     public Activity getActivity(String activityName){
@@ -54,13 +55,15 @@ public class Project {
         return projectNum;
     }
 
+    public Employee getProjectLeader() {
+        return projectLeader;
+    }
 
     public void setProjectLeader(Employee employee) {
         projectLeader = employee;
     }
 
     public List getActivityList() {
-
         return this.activities;
     }
 

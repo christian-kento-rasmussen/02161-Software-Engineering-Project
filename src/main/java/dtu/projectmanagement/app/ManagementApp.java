@@ -15,6 +15,10 @@ public class ManagementApp {
 
     private Map<Integer, Integer> serialNum = new HashMap<>();
 
+
+
+    // Project
+
     /**
      * This function creates a new project, with correct project number
      */
@@ -37,10 +41,6 @@ public class ManagementApp {
                 .orElse(null);
     }
 
-    public void login(String username) {
-        user = getEmployee(username);
-    }
-
     public Employee getEmployee(String username) {
         return employeeRepo.stream()
                 .filter(emp -> emp.getUsername().equals(username))
@@ -48,18 +48,12 @@ public class ManagementApp {
                 .orElse(null);
     }
 
-    public void addEmployee(String username) {
-        employeeRepo.add(new Employee(username));
-    }
-
-    public void removeEmployee(Employee employee) {
-        employeeRepo.remove(employee);
-    }
-
     public void assignProjectLeader(Project project, Employee employee) {
         project.setProjectLeader(employee);
     }
 
+
+    // Activity
 
     public void addNewActivity(Project project, String activityName) {
         project.addNewActivity(activityName);
@@ -76,6 +70,27 @@ public class ManagementApp {
 
     }
 
+    public void setActivityStartAndEndWeek(Project project, Activity activity, int startWeek, int endWeek) throws OperationNotAllowedException {
+        if (!user.equals(project.getProjectLeader()))
+            throw new OperationNotAllowedException("Only the project leader can set the start and end week of an activity");
+
+        project.setActivityStartAndEndWeek(activity, startWeek, endWeek);
+    }
+
+
+    // Employee
+
+    public void login(String username) {
+        user = getEmployee(username);
+    }
+
+    public void addEmployee(String username) {
+        employeeRepo.add(new Employee(username));
+    }
+
+    public void removeEmployee(Employee employee) {
+        employeeRepo.remove(employee);
+    }
 
     public List<Employee> ListAvailableEmployeesForActivity(String projectNum, String activityName) {
         List<Employee> employeesAvailable = new ArrayList<>();
@@ -94,6 +109,9 @@ public class ManagementApp {
     }
 
     public Employee getUser() { return user; }
+
+
+
 
 }
 

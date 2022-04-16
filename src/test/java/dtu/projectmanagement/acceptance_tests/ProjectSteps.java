@@ -5,18 +5,41 @@ import io.cucumber.java.en.*;
 
 import java.util.Calendar;
 
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 public class ProjectSteps {
 
     private ManagementApp managementApp;
+    private ProjectHelper projectHelper;
+    private EmployeeHelper employeeHelper;
 
-    public ProjectSteps(ManagementApp managementApp){
+    public ProjectSteps(ManagementApp managementApp, ProjectHelper projectHelper, EmployeeHelper employeeHelper){
         this.managementApp = managementApp;
+        this.projectHelper = projectHelper;
+        this.employeeHelper = employeeHelper;
     }
 
 
+
+    @Given("there is a project")
+    public void thereIsAProject() {
+        projectHelper.addProject();
+    }
+
+    @Given("there is a given employee in the system")
+    public void thereIsAGivenEmployeeInTheSystem() {
+        employeeHelper.addEmployee();
+    }
+
+    @When("the employee assigns the given employee to be project leader of the given project")
+    public void theEmployeeAssignsTheGivenEmployeeToBeProjectLeaderOfTheGivenProject() {
+        managementApp.assignProjectLeader(projectHelper.getProject(), employeeHelper.getEmployee());
+    }
+
+    @Then("the given employee is the project leader of the given project")
+    public void theGivenEmployeeIsTheProjectLeaderOfTheGivenProject() {
+        assertEquals(projectHelper.getProject().getProjectLeader(), employeeHelper.getEmployee());
+    }
 
     @Given("a project is created")
     public void aProjectIsCreated() {
