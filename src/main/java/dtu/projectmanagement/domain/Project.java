@@ -10,6 +10,8 @@ public class Project {
 
     private String projectNum;
     private String projectName;
+
+
     private int startWeek;
     private int endWeek;
     private int activityCnt = 0;
@@ -68,6 +70,28 @@ public class Project {
 
     public float getSpendHoursOnActivity(Activity activity) {
         return activity.getSpendHours();
+    }
+
+    public int getStartWeek() {
+        return startWeek;
+    }
+
+    public void setStartWeek(int startWeek) throws OperationNotAllowedException {
+        if (endWeek != 0 && endWeek < startWeek)
+            throw new OperationNotAllowedException("The start week cannot be after the end week");
+        else
+            this.startWeek = startWeek;
+    }
+
+    public int getEndWeek() {
+        return endWeek;
+    }
+
+    public void setEndWeek(int endWeek) throws OperationNotAllowedException {
+        if (startWeek != 0 && startWeek > endWeek)
+            throw new OperationNotAllowedException("The start week cannot be after the end week");
+        else
+            this.endWeek = endWeek;
     }
 
     public float getRemainingHoursOnActivity(Activity activity) {
