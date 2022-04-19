@@ -17,7 +17,6 @@ import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.assertEquals;
 
-import static org.junit.Assert.assertNotNull;
 
 public class ActivitySteps {
 
@@ -25,12 +24,17 @@ public class ActivitySteps {
     Activity activity;
     Project selectedProject;
 
+    private float hoursRegistered;
+    private float totalHoursSpend;
+
     private ProjectHelper projectHelper;
+    private EmployeeHelper employeeHelper;
     private ErrorMessageHolder errorMessage;
 
-    public ActivitySteps(ManagementApp managementApp, ProjectHelper projectHelper, ErrorMessageHolder errorMessage){
+    public ActivitySteps(ManagementApp managementApp, ProjectHelper projectHelper, EmployeeHelper employeeHelper, ErrorMessageHolder errorMessage){
         this.managementApp = managementApp;
         this.projectHelper = projectHelper;
+        this.employeeHelper = employeeHelper;
         this.errorMessage = errorMessage;
     }
 
@@ -156,6 +160,41 @@ public class ActivitySteps {
         } catch (OperationNotAllowedException e) {
             errorMessage.setErrorMessage(e.getMessage());
         }
+    }
+
+    @Given("an employee registers {float} hours spend on the activity")
+    public void anEmployeeRegistersHoursSpendOnTheActivity(float hours) throws OperationNotAllowedException {
+        hoursRegistered += hours;
+        employeeHelper.login();
+        // Todo : how does this work in the final app?
+        try {
+            projectHelper.getActivity().registerWorkHours(managementApp.getUser(), hours);
+        } catch (OperationNotAllowedException e) {
+            errorMessage.setErrorMessage(e.getMessage());
+        }
+    }
+
+    @When("the employee queries for the total spend hours on the activity")
+    public void theEmployeeQueriesForTheTotalSpendHoursOnTheActivity() throws OperationNotAllowedException {
+        try {
+            totalHoursSpend = managementApp.getSpendHoursOnActivity(projectHelper.getProject(), projectHelper.getActivity());
+        } catch (OperationNotAllowedException e) {
+            errorMessage.setErrorMessage(e.getMessage());
+        }
+    }
+
+    @When("the employee queries for the total spend hours on the project")
+    public void theEmployeeQueriesForTheTotalSpendHoursOnTheProject() {
+        try {
+            totalHoursSpend = managementApp.getSpendHoursOnProject(projectHelper.getProject());
+        } catch (OperationNotAllowedException e) {
+            errorMessage.setErrorMessage(e.getMessage());
+        }
+    }
+
+    @Then("the total spend hours on the activity matches the registered hours")
+    public void theTotalSpendHoursOnTheProjectIsHours() {
+        assertEquals(totalHoursSpend, hoursRegistered, 0f);
     }
 
     @Then("the employees work hours on the activity is {float} hours")

@@ -18,7 +18,7 @@ Scenario: Set start and end time of activity as someone else than project leader
   And there is an employee logged in to the system
   And the employee using the system is not the project leader of the project
   When the current employee using the system sets the start and end time of the activity to 202207 and 202305, respectively
-  Then the error message "Only the project leader can set the start and end week of an activity" is given
+  Then the error message "Only the project leader is allow to perform that action" is given
 
 Scenario: Set start and end time of activity where end time is before start time
   Given there is a project

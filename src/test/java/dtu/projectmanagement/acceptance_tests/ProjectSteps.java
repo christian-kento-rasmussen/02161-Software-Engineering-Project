@@ -1,6 +1,7 @@
 package dtu.projectmanagement.acceptance_tests;
 
 import dtu.projectmanagement.app.ManagementApp;
+import dtu.projectmanagement.app.OperationNotAllowedException;
 import io.cucumber.java.en.*;
 
 import java.util.Calendar;
@@ -9,14 +10,20 @@ import static org.junit.Assert.*;
 
 public class ProjectSteps {
 
+    private float totalHoursSpend;
+    private float hoursRegistered;
+
     private ManagementApp managementApp;
     private ProjectHelper projectHelper;
     private EmployeeHelper employeeHelper;
+    private ErrorMessageHolder errorMessage;
 
-    public ProjectSteps(ManagementApp managementApp, ProjectHelper projectHelper, EmployeeHelper employeeHelper){
+    public ProjectSteps(ManagementApp managementApp, ProjectHelper projectHelper, EmployeeHelper employeeHelper,
+                        ErrorMessageHolder errorMessage){
         this.managementApp = managementApp;
         this.projectHelper = projectHelper;
         this.employeeHelper = employeeHelper;
+        this.errorMessage = errorMessage;
     }
 
 
@@ -74,5 +81,4 @@ public class ProjectSteps {
     public void theCurrentEmployeeUsingTheSystemIsNotTheProjectLeaderOfTheProject() {
         assertNull(projectHelper.getProject().getProjectLeader());
     }
-
 }

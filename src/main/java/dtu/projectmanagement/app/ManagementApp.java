@@ -17,6 +17,12 @@ public class ManagementApp {
 
 
 
+    public void checkIsProjectLeader(Project project) throws OperationNotAllowedException {
+        if (!user.equals(project.getProjectLeader()))
+            throw new OperationNotAllowedException("Only the project leader is allow to perform that action");
+    }
+
+
     // Project
 
     /**
@@ -52,6 +58,16 @@ public class ManagementApp {
         project.setProjectLeader(employee);
     }
 
+    public float getSpendHoursOnProject(Project project) throws OperationNotAllowedException {
+        checkIsProjectLeader(project);
+        return project.getSpendHours();
+    }
+
+    public void generateReport(Project project) throws OperationNotAllowedException {
+        checkIsProjectLeader(project);
+        project.generateReport();
+    }
+
 
     // Activity
 
@@ -71,10 +87,19 @@ public class ManagementApp {
     }
 
     public void setActivityStartAndEndWeek(Project project, Activity activity, int startWeek, int endWeek) throws OperationNotAllowedException {
-        if (!user.equals(project.getProjectLeader()))
-            throw new OperationNotAllowedException("Only the project leader can set the start and end week of an activity");
+        checkIsProjectLeader(project);
 
         project.setActivityStartAndEndWeek(activity, startWeek, endWeek);
+    }
+
+    public float getSpendHoursOnActivity(Project project, Activity activity) throws OperationNotAllowedException {
+        checkIsProjectLeader(project);
+        return project.getSpendHoursOnActivity(activity);
+    }
+
+    public float getRemainingHoursOnActivity(Project project, Activity activity) throws OperationNotAllowedException {
+        checkIsProjectLeader(project);
+        return project.getRemainingHoursOnActivity(activity);
     }
 
 

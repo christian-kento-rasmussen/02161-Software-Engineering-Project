@@ -3,7 +3,6 @@ package dtu.projectmanagement.domain;
 import dtu.projectmanagement.app.OperationNotAllowedException;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 
@@ -19,13 +18,13 @@ public class Project {
 
     private List<Activity> activities = new ArrayList<>();
 
-
-
     public Project(String projectNum) {
         this.projectNum = projectNum;
         this.projectName="Unnamed project";
     }
 
+
+    
     public void addNewActivity(String activityName) {
         activities.add(new Activity(activityCnt, activityName));
         activityCnt++;
@@ -67,11 +66,25 @@ public class Project {
         return this.activities;
     }
 
+    public float getSpendHoursOnActivity(Activity activity) {
+        return activity.getSpendHours();
+    }
 
+    public float getRemainingHoursOnActivity(Activity activity) {
+        return activity.getSpendHours();
+    }
 
+    public float getSpendHours() {
+        return activities.stream().reduce(0f, (acc, val) -> acc + val.getSpendHours(), Float::sum);
+    }
 
+    public float getExpectedHours() {
+        return activities.stream().reduce(0f, (acc, val) -> acc + val.getExpectedWorkHours(), Float::sum);
+    }
 
-
-
-
+    public void generateReport() {
+        float spendHours = getSpendHours();
+        float expectedHours = getExpectedHours();
+        //float remainingHours = getRemainingHours();
+    }
 }

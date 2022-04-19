@@ -9,7 +9,9 @@ import java.util.Calendar;
 public class ProjectHelper {
 
     private String projectNum;
-    private String actName = "testActivity";
+    private String lastAct;
+    private String actNameBase = "testActivity";
+    private int actCnt;
     private ManagementApp managementApp;
 
     public ProjectHelper(ManagementApp managementApp) {
@@ -31,7 +33,8 @@ public class ProjectHelper {
     }
 
     public void addActivity() {
-        managementApp.addNewActivity(getProject(), actName);
+        lastAct = actNameBase + actCnt++;
+        managementApp.addNewActivity(getProject(), lastAct);
     }
 
     public void setUserToProjectLeader() {
@@ -39,6 +42,6 @@ public class ProjectHelper {
     }
 
     public Activity getActivity() {
-        return getProject().getActivity(actName);
+        return getProject().getActivity(lastAct);
     }
 }

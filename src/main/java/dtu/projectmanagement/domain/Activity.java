@@ -1,5 +1,4 @@
 package dtu.projectmanagement.domain;
-import dtu.projectmanagement.domain.Project;
 import dtu.projectmanagement.app.OperationNotAllowedException;
 
 import java.util.ArrayList;
@@ -9,10 +8,10 @@ import java.util.HashMap;
 public class Activity {
 
     private int activityNum;
-    String activityName;
-    int startWeek;
-    int endWeek;
-    double expectedWorkHours;
+    private String activityName;
+    private int startWeek;
+    private int endWeek;
+    private float expectedWorkHours;
     private List<Employee> assignedEmployees = new ArrayList<>();
     private HashMap<Employee, Float> employeeWorkHoursMap = new HashMap<>();
 
@@ -47,6 +46,14 @@ public class Activity {
 
     public int getEndWeek() {
         return endWeek;
+    }
+
+    public float getExpectedWorkHours() {
+        return expectedWorkHours;
+    }
+
+    public HashMap<Employee, Float> getEmployeeWorkHoursMap() {
+        return employeeWorkHoursMap;
     }
 
     public void setStartAndEndWeek(int startWeek, int endWeek) throws OperationNotAllowedException {
@@ -85,4 +92,7 @@ public class Activity {
         return employeeWorkHoursMap.get(employee);
     }
 
+    public float getSpendHours() {
+        return employeeWorkHoursMap.values().stream().reduce(0f , Float::sum);
+    }
 }
