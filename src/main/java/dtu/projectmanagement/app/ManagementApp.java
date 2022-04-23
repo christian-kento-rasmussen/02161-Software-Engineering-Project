@@ -136,6 +136,11 @@ public class ManagementApp {
     public Employee getUser() {
         return user;
     }
+
+    public float getExpectedRemainingWorkHoursOnProject(Project project) throws OperationNotAllowedException {
+        checkIsProjectLeader(project);
+        return project.getExpectedRemainingWorkHours();
+    }
 }
 
 

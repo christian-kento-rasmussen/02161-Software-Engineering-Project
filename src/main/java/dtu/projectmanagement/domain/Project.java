@@ -111,4 +111,8 @@ public class Project {
         float expectedHours = getExpectedHours();
         //float remainingHours = getRemainingHours();
     }
+
+    public float getExpectedRemainingWorkHours() {
+        return getExpectedHours() - getSpendHours();
+    }
 }

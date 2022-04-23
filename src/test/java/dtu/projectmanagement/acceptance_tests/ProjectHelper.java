@@ -37,6 +37,10 @@ public class ProjectHelper {
         managementApp.addNewActivity(getProject(), lastAct);
     }
 
+    public void setActivityExpectedWorkHours(int hours){
+        getActivity().setExpectedWorkHours(hours);
+    }
+
     public void setUserToProjectLeader() {
         managementApp.assignProjectLeader(getProject(), managementApp.getUser());
     }

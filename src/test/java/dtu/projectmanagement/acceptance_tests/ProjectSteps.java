@@ -13,6 +13,7 @@ public class ProjectSteps {
     private float totalHoursSpend;
     private float hoursRegistered;
 
+
     private ManagementApp managementApp;
     private ProjectHelper projectHelper;
     private EmployeeHelper employeeHelper;
@@ -70,6 +71,7 @@ public class ProjectSteps {
     public void theProjectHasAnActivityInIt() {
         projectHelper.addActivity();
     }
+
 
     @Given("the employee using the system is the project leader of the project")
     public void theCurrentEmployeeUsingTheSystemIsTheProjectLeaderOfTheProject() {

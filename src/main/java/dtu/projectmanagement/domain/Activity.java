@@ -51,6 +51,9 @@ public class Activity {
     public float getExpectedWorkHours() {
         return expectedWorkHours;
     }
+    public void setExpectedWorkHours(int expectedWorkHours) {
+        this.expectedWorkHours = expectedWorkHours;
+    }
 
     public HashMap<Employee, Float> getEmployeeWorkHoursMap() {
         return employeeWorkHoursMap;

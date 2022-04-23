@@ -1,6 +1,5 @@
 package dtu.projectmanagement.acceptance_tests;
 
-import dtu.projectmanagement.acceptance_tests.ErrorMessageHolder;
 import dtu.projectmanagement.app.ManagementApp;
 
 import dtu.projectmanagement.app.OperationNotAllowedException;
@@ -26,6 +25,8 @@ public class ActivitySteps {
 
     private float hoursRegistered;
     private float totalHoursSpend;
+    private float remainingWorkHours;
+    private float totalExpectedWorkHours;
 
     private ProjectHelper projectHelper;
     private EmployeeHelper employeeHelper;
@@ -174,6 +175,12 @@ public class ActivitySteps {
         }
     }
 
+    @Given("the activity gets {int} hours allocated to it")
+    public void theActivityGetsHoursAllocatedToIt(int hours) {
+        projectHelper.setActivityExpectedWorkHours(hours);
+        totalExpectedWorkHours = totalExpectedWorkHours + hours;
+    }
+
     @When("the employee queries for the total spend hours on the activity")
     public void theEmployeeQueriesForTheTotalSpendHoursOnTheActivity() throws OperationNotAllowedException {
         try {
@@ -200,5 +207,19 @@ public class ActivitySteps {
     @Then("the employees work hours on the activity is {float} hours")
     public void theEmployeesWorkHoursOnTheActivityIsHours(float hours) {
         assertEquals(hours, activity.getWorkHours(managementApp.getUser()), 0.001f);
+    }
+
+    @When("the employee queries for the total remaining work hours on the project")
+    public void theEmployeeQueriesForTheTotalRemainingWorkHoursOnTheProject() {
+        try {
+            remainingWorkHours = managementApp.getExpectedRemainingWorkHoursOnProject(projectHelper.getProject());
+        } catch (OperationNotAllowedException e) {
+            errorMessage.setErrorMessage(e.getMessage());
+        }
+    }
+
+    @Then("the total remaining work hours on the project matches the missing registered hours")
+    public void theTotalRemainingWorkHoursOnTheProjectMatchesTheMissingRegisteredHours() {
+        assertEquals(remainingWorkHours, totalExpectedWorkHours-hoursRegistered, 0f);
     }
 }
