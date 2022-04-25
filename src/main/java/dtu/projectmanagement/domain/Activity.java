@@ -52,7 +52,6 @@ public class Activity {
         return expectedWorkHours;
     }
     public void setExpectedWorkHours(int expectedWorkHours) throws OperationNotAllowedException {
-
         this.expectedWorkHours = expectedWorkHours;
     }
 
