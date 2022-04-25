@@ -148,6 +148,16 @@ public class ManagementApp {
         project.getActivity(activity.getActivityName()).setExpectedWorkHours(hours);
     }
 
+    public float seeRemainingWorkHoursOnActivity(Project project, Activity activity) throws OperationNotAllowedException {
+
+        float expectedHours = activity.getExpectedWorkHours();
+        float spendHours = getSpendHoursOnActivity(project, activity);
+        float remaininghours = expectedHours - spendHours;
+        return remaininghours;
+
+
+    }
+
 
 
 }

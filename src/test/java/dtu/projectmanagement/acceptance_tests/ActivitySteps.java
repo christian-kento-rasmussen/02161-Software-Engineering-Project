@@ -250,6 +250,9 @@ public class ActivitySteps {
         }
     }
 
+
+
+
     @And("the the activity has expected work hours set to {int}")
     public void theTheActivityHasExpectedWorkHoursSetTo(int hours)   throws OperationNotAllowedException {
         projectHelper.getActivity().setExpectedWorkHours(hours);
@@ -263,5 +266,11 @@ public class ActivitySteps {
     @Then("the result of the query is {float} work hours")
     public void theResultOfTheQueryIsWorkHours(float hours) {
         assertEquals(hours, employeeTotalHours, 0f);
+    }
+
+    @Then("the remaining work remaining hours on the activity is {int} hours")
+    public void theRemainingWorkRemainingHoursOnTheActivityIsHours(int hours) throws OperationNotAllowedException {
+        assertEquals(managementApp.seeRemainingWorkHoursOnActivity(projectHelper.getProject(),projectHelper.getActivity()),hours,0f);
+
     }
 }
