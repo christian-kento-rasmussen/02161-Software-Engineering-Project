@@ -231,4 +231,15 @@ public class ActivitySteps {
             errorMessage.setErrorMessage(e.getMessage());
         }
     }
+
+    @When("the user sets the expected work hours of the activity to {int} hours")
+    public void theUserSetsTheExpectedWorkHoursOfTheActivityToHours(int hours) {
+        activity.setExpectedWorkHours(hours);
+//        System.out.print("hey");
+    }
+
+    @Then("the expected work hours on the activity is {int}")
+    public void theExpectedWorkHoursOnTheActivityIs(int hours) {
+        assertTrue(activity.getExpectedWorkHours()==hours);
+    }
 }

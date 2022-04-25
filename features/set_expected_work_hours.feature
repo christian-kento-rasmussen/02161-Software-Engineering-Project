@@ -2,13 +2,16 @@ Feature: Set expected work hours of activity
   Description: The project leader sets expected work hours of activity
   Actors: User
 
-#Scenario: Set expected work hours of activity with no expected work hours on it
-#  Given a project exists
-#  And the project has an activity in it
+Scenario: Set expected work hours of activity with no expected work hours on it
+  Given there is a project
+  And there is an activity with activityName "save the world"
+  And there is a given employee in the system
+  And the employee assigns the given employee to be project leader of the given project
 #  And the current user is the project leader of the project
-#  When the user sets the expected work hours of the activity to 22 hours
-#  Then the expected work hours on the activity is 22
-#
+  When the user sets the expected work hours of the activity to 22 hours
+  Then the expected work hours on the activity is 22
+
+
 #Scenario: Set expected work hours of activity with existing expected work hours on it
 #  Given a project exists
 #  And the project has an activity in it
