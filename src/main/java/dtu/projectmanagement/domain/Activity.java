@@ -51,7 +51,8 @@ public class Activity {
     public float getExpectedWorkHours() {
         return expectedWorkHours;
     }
-    public void setExpectedWorkHours(int expectedWorkHours) {
+    public void setExpectedWorkHours(int expectedWorkHours) throws OperationNotAllowedException {
+
         this.expectedWorkHours = expectedWorkHours;
     }
 

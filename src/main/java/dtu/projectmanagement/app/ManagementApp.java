@@ -4,6 +4,7 @@ import dtu.projectmanagement.domain.Activity;
 import dtu.projectmanagement.domain.Employee;
 import dtu.projectmanagement.domain.Project;
 
+
 import java.util.*;
 
 public class ManagementApp {
@@ -141,6 +142,14 @@ public class ManagementApp {
         checkIsProjectLeader(project);
         return project.getExpectedRemainingWorkHours();
     }
+
+    public void setExpectedWorkHoursOnActivity(Project project, Activity activity, int hours) throws OperationNotAllowedException {
+        checkIsProjectLeader(project);
+        project.getActivity(activity.getActivityName()).setExpectedWorkHours(hours);
+    }
+
+
+
 }
 
 

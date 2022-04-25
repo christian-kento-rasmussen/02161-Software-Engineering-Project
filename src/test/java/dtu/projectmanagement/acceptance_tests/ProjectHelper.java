@@ -1,6 +1,7 @@
 package dtu.projectmanagement.acceptance_tests;
 
 import dtu.projectmanagement.app.ManagementApp;
+import dtu.projectmanagement.app.OperationNotAllowedException;
 import dtu.projectmanagement.domain.Activity;
 import dtu.projectmanagement.domain.Project;
 
@@ -37,7 +38,7 @@ public class ProjectHelper {
         managementApp.addNewActivity(getProject(), lastAct);
     }
 
-    public void setActivityExpectedWorkHours(int hours){
+    public void setActivityExpectedWorkHours(int hours)  throws OperationNotAllowedException {
         getActivity().setExpectedWorkHours(hours);
     }
 

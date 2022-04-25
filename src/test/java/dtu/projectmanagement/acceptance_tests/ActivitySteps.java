@@ -177,7 +177,7 @@ public class ActivitySteps {
     }
 
     @Given("the activity gets {int} hours allocated to it")
-    public void theActivityGetsHoursAllocatedToIt(int hours) {
+    public void theActivityGetsHoursAllocatedToIt(int hours)  throws OperationNotAllowedException {
         projectHelper.setActivityExpectedWorkHours(hours);
         totalExpectedWorkHours = totalExpectedWorkHours + hours;
     }
@@ -241,12 +241,17 @@ public class ActivitySteps {
     }
 
     @When("the user sets the expected work hours of the activity to {int} hours")
-    public void theUserSetsTheExpectedWorkHoursOfTheActivityToHours(int hours) {
-        projectHelper.getActivity().setExpectedWorkHours(hours);
+    public void theUserSetsTheExpectedWorkHoursOfTheActivityToHours(int hours)  throws OperationNotAllowedException {
+        try {
+            managementApp.setExpectedWorkHoursOnActivity(projectHelper.getProject(), projectHelper.getActivity(), hours);
+//            projectHelper.getActivity().setExpectedWorkHours(hours);}
+        } catch (OperationNotAllowedException e) {
+            errorMessage.setErrorMessage(e.getMessage());
+        }
     }
 
     @And("the the activity has expected work hours set to {int}")
-    public void theTheActivityHasExpectedWorkHoursSetTo(int hours) {
+    public void theTheActivityHasExpectedWorkHoursSetTo(int hours)   throws OperationNotAllowedException {
         projectHelper.getActivity().setExpectedWorkHours(hours);
     }
 
