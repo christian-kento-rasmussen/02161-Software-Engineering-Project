@@ -21,7 +21,6 @@ public class Activity {
     }
 
 
-
     public void assignEmployee(Employee employee) throws OperationNotAllowedException {
         try{
             assignedEmployees.add(employee);

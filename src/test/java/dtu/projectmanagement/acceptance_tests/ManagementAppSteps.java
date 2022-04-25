@@ -48,10 +48,14 @@ public class ManagementAppSteps {
         employeeHelper.login();
     }
 
-//    @And("the the activity has expected work hours set to {int}")
-//    public void theTheActivityHasExpectedWorkHoursSetTo(int hours) {
-//
-//
-//    }
+
+
+
+    @Then("test projectnum {string} and activity name {string}")
+    public void test_projectnum_and_activity_name(String string1, String string2) {
+        // Write code here that turns the phrase above into concrete actions
+        managementApp.ListAvailableEmployeesForActivity(string1,string2);
+
+    }
 
 }

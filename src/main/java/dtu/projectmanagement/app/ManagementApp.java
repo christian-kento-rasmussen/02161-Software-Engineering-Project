@@ -41,12 +41,26 @@ public class ManagementApp {
         projectRepo.add(project);
     }
 
-    public Project getProject(String project_number){
-        return projectRepo.stream()
-                .filter(project -> project.getProjectNum().equals(project_number))
-                .findAny()
-                .orElse(null);
+    public Project getProject(String project_number) {
+
+        for (Project project : projectRepo) {
+            if (project.getProjectNum().equals(project_number)) {
+                return project;}
+            }
+        return null;
     }
+
+//                return projectRepo.stream()
+//                .filter(project -> project.getProjectNum().equals(project_number))
+//                .findAny()
+//                .orElse(null);
+
+
+
+
+
+
+
 
     public Employee getEmployee(String username) {
         return employeeRepo.stream()
@@ -54,6 +68,10 @@ public class ManagementApp {
                 .findAny()
                 .orElse(null);
     }
+
+
+
+
 
     public void assignProjectLeader(Project project, Employee employee) {
         project.setProjectLeader(employee);
@@ -120,6 +138,7 @@ public class ManagementApp {
 
     public List<Employee> ListAvailableEmployeesForActivity(String projectNum, String activityName) {
         List<Employee> employeesAvailable = new ArrayList<>();
+
         Project project = getProject(projectNum);
         Activity activity = project.getActivity(activityName);
         int startWeek = activity.getStartWeek();
@@ -151,7 +170,7 @@ public class ManagementApp {
     public float seeRemainingWorkHoursOnActivity(Project project, Activity activity) throws OperationNotAllowedException {
 
         float expectedHours = activity.getExpectedWorkHours();
-        float spendHours = getSpendHoursOnActivity(project, activity);
+        float spendHours = getRemainingHoursOnActivity(project, activity);
         float remainingHours = expectedHours - spendHours;
         return remainingHours;
 
