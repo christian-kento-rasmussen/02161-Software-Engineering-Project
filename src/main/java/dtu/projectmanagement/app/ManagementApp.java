@@ -152,8 +152,8 @@ public class ManagementApp {
 
         float expectedHours = activity.getExpectedWorkHours();
         float spendHours = getSpendHoursOnActivity(project, activity);
-        float remaininghours = expectedHours - spendHours;
-        return remaininghours;
+        float remainingHours = expectedHours - spendHours;
+        return remainingHours;
 
 
     }

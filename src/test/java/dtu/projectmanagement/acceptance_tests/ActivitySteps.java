@@ -272,5 +272,17 @@ public class ActivitySteps {
     public void theRemainingWorkRemainingHoursOnTheActivityIsHours(int hours) throws OperationNotAllowedException {
         assertEquals(managementApp.seeRemainingWorkHoursOnActivity(projectHelper.getProject(),projectHelper.getActivity()),hours,0f);
 
+
+
+    }
+
+
+    @When("get the remaining workhours on the activity")
+    public void theRemainingWorkhoursOnTheActivity() throws OperationNotAllowedException {
+        try {
+            System.out.print(managementApp.seeRemainingWorkHoursOnActivity(projectHelper.getProject(), projectHelper.getActivity()));
+    } catch (OperationNotAllowedException e) {
+        errorMessage.setErrorMessage(e.getMessage());
+    }
     }
 }
