@@ -91,6 +91,19 @@ public class Activity {
         this.employeeWorkHoursMap.put(employee, currentHours);
     }
 
+    public void modifyWorkHours(Employee employee, float hours) throws OperationNotAllowedException {
+        if (hours < 0f){
+            throw new OperationNotAllowedException("Time must be positive or 0");
+        }
+        if (hours % 0.5f != 0f){
+            throw new OperationNotAllowedException("Time must be given in half hours");
+        }
+        if (!this.employeeWorkHoursMap.containsKey(employee)){
+            this.employeeWorkHoursMap.put(employee, 0f);
+        }
+        this.employeeWorkHoursMap.put(employee, hours);
+    }
+
     public float getWorkHours(Employee employee){
         return employeeWorkHoursMap.get(employee);
     }

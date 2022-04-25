@@ -222,4 +222,13 @@ public class ActivitySteps {
     public void theTotalRemainingWorkHoursOnTheProjectMatchesTheMissingRegisteredHours() {
         assertEquals(remainingWorkHours, totalExpectedWorkHours-hoursRegistered, 0f);
     }
+
+    @When("the employee modifies their work hours on the activity to {float} hours")
+    public void theEmployeeModifiesTheirWorkHoursOnTheActivityToHours(float hours) throws OperationNotAllowedException {
+        try {
+            activity.modifyWorkHours(managementApp.getUser(), hours);
+        } catch (OperationNotAllowedException e) {
+            errorMessage.setErrorMessage(e.getMessage());
+        }
+    }
 }
