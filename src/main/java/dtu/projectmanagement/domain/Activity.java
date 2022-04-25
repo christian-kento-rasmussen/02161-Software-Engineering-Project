@@ -105,7 +105,12 @@ public class Activity {
     }
 
     public float getWorkHours(Employee employee){
-        return employeeWorkHoursMap.get(employee);
+        if (employeeWorkHoursMap.get(employee) != null) {
+            return employeeWorkHoursMap.get(employee);
+        }
+        else {
+            return 0;
+        }
     }
 
     public float getSpendHours() {

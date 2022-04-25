@@ -27,6 +27,7 @@ public class ActivitySteps {
     private float totalHoursSpend;
     private float remainingWorkHours;
     private float totalExpectedWorkHours;
+    private float employeeTotalHours;
 
     private ProjectHelper projectHelper;
     private EmployeeHelper employeeHelper;
@@ -247,5 +248,15 @@ public class ActivitySteps {
     @And("the the activity has expected work hours set to {int}")
     public void theTheActivityHasExpectedWorkHoursSetTo(int hours) {
         projectHelper.getActivity().setExpectedWorkHours(hours);
+    }
+
+    @When("the employee queries their registered work hours on an activity")
+    public void theEmployeeQueriesTheirRegisteredWorkHoursOnAnActivity() {
+        employeeTotalHours = activity.getWorkHours(managementApp.getUser());
+    }
+
+    @Then("the result of the query is {float} work hours")
+    public void theResultOfTheQueryIsWorkHours(float hours) {
+        assertEquals(hours, employeeTotalHours, 0f);
     }
 }
