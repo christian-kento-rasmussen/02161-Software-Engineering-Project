@@ -232,14 +232,20 @@ public class ActivitySteps {
         }
     }
 
-    @When("the user sets the expected work hours of the activity to {int} hours")
-    public void theUserSetsTheExpectedWorkHoursOfTheActivityToHours(int hours) {
-        activity.setExpectedWorkHours(hours);
-//        System.out.print("hey");
-    }
+
 
     @Then("the expected work hours on the activity is {int}")
     public void theExpectedWorkHoursOnTheActivityIs(int hours) {
-        assertTrue(activity.getExpectedWorkHours()==hours);
+        assertTrue(projectHelper.getActivity().getExpectedWorkHours()==hours);
+    }
+
+    @When("the user sets the expected work hours of the activity to {int} hours")
+    public void theUserSetsTheExpectedWorkHoursOfTheActivityToHours(int hours) {
+        projectHelper.getActivity().setExpectedWorkHours(hours);
+    }
+
+    @And("the the activity has expected work hours set to {int}")
+    public void theTheActivityHasExpectedWorkHoursSetTo(int hours) {
+        projectHelper.getActivity().setExpectedWorkHours(hours);
     }
 }

@@ -121,4 +121,11 @@ public class ProjectSteps {
         int week = Calendar.getInstance().get(Calendar.WEEK_OF_YEAR);
         assertEquals(projectHelper.getProject().getEndWeek(), week + weeks);
     }
+
+    @And("the current user is the project leader of the project")
+    public void theCurrentUserIsTheProjectLeaderOfTheProject() {
+        employeeHelper.addEmployee();
+        managementApp.assignProjectLeader(projectHelper.getProject(), employeeHelper.getEmployee());
+
+    }
 }

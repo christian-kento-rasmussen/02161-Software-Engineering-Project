@@ -47,4 +47,11 @@ public class ManagementAppSteps {
         employeeHelper.addEmployee();
         employeeHelper.login();
     }
+
+//    @And("the the activity has expected work hours set to {int}")
+//    public void theTheActivityHasExpectedWorkHoursSetTo(int hours) {
+//
+//
+//    }
+
 }
