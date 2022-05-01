@@ -47,4 +47,15 @@ public class ManagementAppSteps {
         employeeHelper.addEmployee();
         employeeHelper.login();
     }
+
+
+
+
+    @Then("test projectnum {string} and activity name {string}")
+    public void test_projectnum_and_activity_name(String string1, String string2) {
+        // Write code here that turns the phrase above into concrete actions
+        managementApp.ListAvailableEmployeesForActivity(string1,string2);
+
+    }
+
 }

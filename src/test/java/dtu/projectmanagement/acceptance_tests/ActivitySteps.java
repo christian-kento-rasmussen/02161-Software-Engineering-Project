@@ -1,6 +1,5 @@
 package dtu.projectmanagement.acceptance_tests;
 
-import dtu.projectmanagement.acceptance_tests.ErrorMessageHolder;
 import dtu.projectmanagement.app.ManagementApp;
 
 import dtu.projectmanagement.app.OperationNotAllowedException;
@@ -26,6 +25,9 @@ public class ActivitySteps {
 
     private float hoursRegistered;
     private float totalHoursSpend;
+    private float remainingWorkHours;
+    private float totalExpectedWorkHours;
+    private float employeeTotalHours;
 
     private ProjectHelper projectHelper;
     private EmployeeHelper employeeHelper;
@@ -174,6 +176,12 @@ public class ActivitySteps {
         }
     }
 
+    @Given("the activity gets {int} hours allocated to it")
+    public void theActivityGetsHoursAllocatedToIt(int hours)  throws OperationNotAllowedException {
+        projectHelper.setActivityExpectedWorkHours(hours);
+        totalExpectedWorkHours = totalExpectedWorkHours + hours;
+    }
+
     @When("the employee queries for the total spend hours on the activity")
     public void theEmployeeQueriesForTheTotalSpendHoursOnTheActivity() throws OperationNotAllowedException {
         try {
@@ -200,5 +208,81 @@ public class ActivitySteps {
     @Then("the employees work hours on the activity is {float} hours")
     public void theEmployeesWorkHoursOnTheActivityIsHours(float hours) {
         assertEquals(hours, activity.getWorkHours(managementApp.getUser()), 0.001f);
+    }
+
+    @When("the employee queries for the total remaining work hours on the project")
+    public void theEmployeeQueriesForTheTotalRemainingWorkHoursOnTheProject() {
+        try {
+            remainingWorkHours = managementApp.getExpectedRemainingWorkHoursOnProject(projectHelper.getProject());
+        } catch (OperationNotAllowedException e) {
+            errorMessage.setErrorMessage(e.getMessage());
+        }
+    }
+
+    @Then("the total remaining work hours on the project matches the missing registered hours")
+    public void theTotalRemainingWorkHoursOnTheProjectMatchesTheMissingRegisteredHours() {
+        assertEquals(remainingWorkHours, totalExpectedWorkHours-hoursRegistered, 0f);
+    }
+
+    @When("the employee modifies their work hours on the activity to {float} hours")
+    public void theEmployeeModifiesTheirWorkHoursOnTheActivityToHours(float hours) throws OperationNotAllowedException {
+        try {
+            activity.modifyWorkHours(managementApp.getUser(), hours);
+        } catch (OperationNotAllowedException e) {
+            errorMessage.setErrorMessage(e.getMessage());
+        }
+    }
+
+
+
+    @Then("the expected work hours on the activity is {int}")
+    public void theExpectedWorkHoursOnTheActivityIs(int hours) {
+        assertTrue(projectHelper.getActivity().getExpectedWorkHours()==hours);
+    }
+
+    @When("the user sets the expected work hours of the activity to {int} hours")
+    public void theUserSetsTheExpectedWorkHoursOfTheActivityToHours(int hours)  throws OperationNotAllowedException {
+        try {
+            managementApp.setExpectedWorkHoursOnActivity(projectHelper.getProject(), projectHelper.getActivity(), hours);
+//            projectHelper.getActivity().setExpectedWorkHours(hours);}
+        } catch (OperationNotAllowedException e) {
+            errorMessage.setErrorMessage(e.getMessage());
+        }
+    }
+
+
+
+
+    @And("the the activity has expected work hours set to {int}")
+    public void theTheActivityHasExpectedWorkHoursSetTo(int hours)   throws OperationNotAllowedException {
+        projectHelper.getActivity().setExpectedWorkHours(hours);
+    }
+
+    @When("the employee queries their registered work hours on an activity")
+    public void theEmployeeQueriesTheirRegisteredWorkHoursOnAnActivity() {
+        employeeTotalHours = activity.getWorkHours(managementApp.getUser());
+    }
+
+    @Then("the result of the query is {float} work hours")
+    public void theResultOfTheQueryIsWorkHours(float hours) {
+        assertEquals(hours, employeeTotalHours, 0f);
+    }
+
+    @Then("the remaining work remaining hours on the activity is {int} hours")
+    public void theRemainingWorkRemainingHoursOnTheActivityIsHours(int hours) throws OperationNotAllowedException {
+        assertEquals(managementApp.seeRemainingWorkHoursOnActivity(projectHelper.getProject(),projectHelper.getActivity()),hours,0f);
+
+
+
+    }
+
+
+    @When("get the remaining workhours on the activity")
+    public void theRemainingWorkhoursOnTheActivity() throws OperationNotAllowedException {
+        try {
+            System.out.print(managementApp.seeRemainingWorkHoursOnActivity(projectHelper.getProject(), projectHelper.getActivity()));
+    } catch (OperationNotAllowedException e) {
+        errorMessage.setErrorMessage(e.getMessage());
+    }
     }
 }

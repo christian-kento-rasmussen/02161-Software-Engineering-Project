@@ -13,6 +13,7 @@ public class ProjectSteps {
     private float totalHoursSpend;
     private float hoursRegistered;
 
+
     private ManagementApp managementApp;
     private ProjectHelper projectHelper;
     private EmployeeHelper employeeHelper;
@@ -71,6 +72,7 @@ public class ProjectSteps {
         projectHelper.addActivity();
     }
 
+
     @Given("the employee using the system is the project leader of the project")
     public void theCurrentEmployeeUsingTheSystemIsTheProjectLeaderOfTheProject() {
         projectHelper.setUserToProjectLeader();
@@ -119,4 +121,6 @@ public class ProjectSteps {
         int week = Calendar.getInstance().get(Calendar.WEEK_OF_YEAR);
         assertEquals(projectHelper.getProject().getEndWeek(), week + weeks);
     }
+
+
 }

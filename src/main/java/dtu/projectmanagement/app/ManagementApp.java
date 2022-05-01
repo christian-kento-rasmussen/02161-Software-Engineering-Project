@@ -4,6 +4,7 @@ import dtu.projectmanagement.domain.Activity;
 import dtu.projectmanagement.domain.Employee;
 import dtu.projectmanagement.domain.Project;
 
+
 import java.util.*;
 
 public class ManagementApp {
@@ -40,12 +41,26 @@ public class ManagementApp {
         projectRepo.add(project);
     }
 
-    public Project getProject(String project_number){
-        return projectRepo.stream()
-                .filter(project -> project.getProjectNum().equals(project_number))
-                .findAny()
-                .orElse(null);
+    public Project getProject(String project_number) {
+
+        for (Project project : projectRepo) {
+            if (project.getProjectNum().equals(project_number)) {
+                return project;}
+            }
+        return null;
     }
+
+//                return projectRepo.stream()
+//                .filter(project -> project.getProjectNum().equals(project_number))
+//                .findAny()
+//                .orElse(null);
+
+
+
+
+
+
+
 
     public Employee getEmployee(String username) {
         return employeeRepo.stream()
@@ -53,6 +68,10 @@ public class ManagementApp {
                 .findAny()
                 .orElse(null);
     }
+
+
+
+
 
     public void assignProjectLeader(Project project, Employee employee) {
         project.setProjectLeader(employee);
@@ -119,6 +138,7 @@ public class ManagementApp {
 
     public List<Employee> ListAvailableEmployeesForActivity(String projectNum, String activityName) {
         List<Employee> employeesAvailable = new ArrayList<>();
+
         Project project = getProject(projectNum);
         Activity activity = project.getActivity(activityName);
         int startWeek = activity.getStartWeek();
@@ -136,6 +156,29 @@ public class ManagementApp {
     public Employee getUser() {
         return user;
     }
+
+    public float getExpectedRemainingWorkHoursOnProject(Project project) throws OperationNotAllowedException {
+        checkIsProjectLeader(project);
+        return project.getExpectedRemainingWorkHours();
+    }
+
+    public void setExpectedWorkHoursOnActivity(Project project, Activity activity, int hours) throws OperationNotAllowedException {
+        checkIsProjectLeader(project);
+        project.getActivity(activity.getActivityName()).setExpectedWorkHours(hours);
+    }
+
+    public float seeRemainingWorkHoursOnActivity(Project project, Activity activity) throws OperationNotAllowedException {
+
+        float expectedHours = activity.getExpectedWorkHours();
+        float spendHours = getRemainingHoursOnActivity(project, activity);
+        float remainingHours = expectedHours - spendHours;
+        return remainingHours;
+
+
+    }
+
+
+
 }
 
 
