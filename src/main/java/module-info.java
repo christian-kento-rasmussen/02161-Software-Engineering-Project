@@ -7,4 +7,6 @@ module dtu.projectmanagement {
 
     opens dtu.projectmanagement.gui.controllers to javafx.fxml;
     exports dtu.projectmanagement.gui.controllers to javafx.fxml;
+    exports dtu.projectmanagement.app;
+    exports dtu.projectmanagement.domain;
 }
