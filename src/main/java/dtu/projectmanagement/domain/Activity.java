@@ -1,23 +1,33 @@
 package dtu.projectmanagement.domain;
-import dtu.projectmanagement.app.OperationNotAllowedException;
 
-import java.util.ArrayList;
-import java.util.List;
+import dtu.projectmanagement.app.OperationNotAllowedException;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+
 import java.util.HashMap;
+import java.util.List;
 
 public class Activity {
 
     private int activityNum;
     private String activityName;
+    private Project parentProject;
+
     private int startWeek;
     private int endWeek;
     private float expectedWorkHours;
-    private List<Employee> assignedEmployees = new ArrayList<>();
+    private ObservableList<Employee> assignedEmployees = FXCollections.observableArrayList();
     private HashMap<Employee, Float> employeeWorkHoursMap = new HashMap<>();
 
     public Activity(int activityNum, String activityName) {
-        this.activityName = activityName;
         this.activityNum = activityNum;
+        this.activityName = activityName;
+    }
+
+    public Activity(int activityNum, String activityName, Project parentProject) {
+        this.activityNum = activityNum;
+        this.activityName = activityName;
+        this.parentProject = parentProject;
     }
 
 
@@ -28,7 +38,6 @@ public class Activity {
         } catch (OperationNotAllowedException e) {
             throw new OperationNotAllowedException(e.getMessage());
         }
-
     }
 
     public String getActivityName() {
@@ -66,14 +75,15 @@ public class Activity {
         this.endWeek = endWeek;
     }
 
-    public boolean equals( Object other) {
+    // TODO: What is this?
+    /*public boolean equals( Object other) {
         Activity act = (Activity) other;
         return ((this.activityNum == act.activityNum) && (this.activityName.equals(act.activityName)) );
-    }
+    }*/
 
-    public List<Employee> getAssignedEmployees() {
+    public ObservableList<Employee> getAssignedEmployees() {
         return assignedEmployees;
-        }
+    }
 
     public void registerWorkHours(Employee employee, float hours) throws OperationNotAllowedException {
         if (hours < 0f){

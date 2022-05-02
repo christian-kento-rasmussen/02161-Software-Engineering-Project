@@ -1,0 +1,65 @@
+AnchorPane {
+    -fx-background-color: #313335;
+}
+
+.scroll-pane {
+    -fx-background-color: #313335;
+}
+
+Button {
+    -fx-background-color: #1180f0;
+}
+
+Button:hover {
+    -fx-background-color: #3297fd;
+
+}
+
+Button:pressed {
+    -fx-background-color: #2574c4;
+}
+
+.btnNavBar {
+    -fx-background-color: #3c3f41;
+}
+
+.btnNavBar:hover {
+    -fx-background-color: #555;
+}
+
+.btnNavBar:pressed {
+    -fx-background-color: #1180f0;
+}
+
+.btnReport {
+    -fx-background-color: #00B000;
+}
+
+.btnReport:hover {
+    -fx-background-color: #00cf00;
+}
+
+.btnReport:pressed {
+    -fx-background-color: #009e00;
+}
+
+.btnBack {
+    -fx-background-color: #8a8a8a;
+}
+
+.btnBack:hover {
+    -fx-background-color: #8c8c8c;
+}
+
+.btnBack:pressed {
+    -fx-background-color: #6e6e6e;
+}
+
+/*.tab-pane {
+    -fx-tab-max-height: 0;
+}
+
+.tab-pane .tab-header-area {
+    visibility: hidden;
+    -fx-padding: -20 0 0 0;
+}*/

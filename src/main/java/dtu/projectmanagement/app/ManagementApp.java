@@ -3,7 +3,8 @@ package dtu.projectmanagement.app;
 import dtu.projectmanagement.domain.Activity;
 import dtu.projectmanagement.domain.Employee;
 import dtu.projectmanagement.domain.Project;
-
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 
 import java.util.*;
 
@@ -11,8 +12,8 @@ public class ManagementApp {
 
     private Employee user;
 
-    private List<Project> projectRepo = new ArrayList<>();
-    private List<Employee> employeeRepo = new ArrayList<>();
+    private ObservableList<Project> projectRepo = FXCollections.observableArrayList();
+    private ObservableList<Employee> employeeRepo = FXCollections.observableArrayList();
 
     private Map<Integer, Integer> serialNum = new HashMap<>();
 
@@ -50,28 +51,10 @@ public class ManagementApp {
         return null;
     }
 
-//                return projectRepo.stream()
-//                .filter(project -> project.getProjectNum().equals(project_number))
-//                .findAny()
-//                .orElse(null);
-
-
-
-
-
-
-
-
-    public Employee getEmployee(String username) {
-        return employeeRepo.stream()
-                .filter(emp -> emp.getUsername().equals(username))
-                .findAny()
-                .orElse(null);
-    }
-
-
-
-
+// return projectRepo.stream()
+// .filter(project -> project.getProjectNum().equals(project_number))
+// .findAny()
+// .orElse(null);
 
     public void assignProjectLeader(Project project, Employee employee) {
         project.setProjectLeader(employee);
@@ -82,15 +65,44 @@ public class ManagementApp {
         return project.getSpendHours();
     }
 
+    public String getProjectLeaderUsername(Project project) {
+        return project.getProjectLeader().getUsername();
+    }
+
+    public String getProjectNum(Project project) {
+        return project.getProjectNum();
+    }
+
+    public String getProjectName(Project project) {
+        return project.getProjectName();
+    }
+
+    public Employee getProjectLeader(Project project) {
+        return project.getProjectLeader();
+    }
+
+    public ObservableList<Project> getProjectRepo() {
+        return projectRepo;
+    }
+
+    public void setProjectName(Project project, String projectName) {
+        project.setProjectName(projectName);
+    }
+
     public void generateReport(Project project) throws OperationNotAllowedException {
         checkIsProjectLeader(project);
         project.generateReport();
     }
 
+    public float getExpectedRemainingWorkHoursOnProject(Project project) throws OperationNotAllowedException {
+        checkIsProjectLeader(project);
+        return project.getExpectedRemainingWorkHours();
+    }
+
 
     // Activity
 
-    public void addNewActivity(Project project, String activityName) {
+    public void addNewProjectActivity(Project project, String activityName) {
         project.addNewActivity(activityName);
     }
 
@@ -103,6 +115,10 @@ public class ManagementApp {
             throw new OperationNotAllowedException(e.getMessage());
         }
 
+    }
+
+    public void assignEmployeeToActivity(Project project, Activity activity, Employee employee) throws OperationNotAllowedException {
+        project.assignEmployeeToActivity(activity, employee);
     }
 
     public void setActivityStartAndEndWeek(Project project, Activity activity, int startWeek, int endWeek) throws OperationNotAllowedException {
@@ -121,6 +137,33 @@ public class ManagementApp {
         return project.getRemainingHoursOnActivity(activity);
     }
 
+    public ObservableList<Activity> getProjectActivityRepo(Project project) {
+        return project.getActivityRepo();
+    }
+
+    public void setExpectedWorkHoursOnActivity(Project project, Activity activity, int hours) throws OperationNotAllowedException {
+        checkIsProjectLeader(project);
+        project.getActivity(activity.getActivityName()).setExpectedWorkHours(hours);
+    }
+
+    // TODO: what is this? see getRemaining func
+    public float seeRemainingWorkHoursOnActivity(Project project, Activity activity) throws OperationNotAllowedException {
+
+        float expectedHours = activity.getExpectedWorkHours();
+        float spendHours = getRemainingHoursOnActivity(project, activity);
+        float remainingHours = expectedHours - spendHours;
+        return remainingHours;
+
+
+    }
+
+    public ObservableList<Employee> getAssignedEmployees(Project project, Activity activity) {
+        return project.getAssignedEmployees(activity);
+    }
+
+    public String getActivityNum(Project project, Activity activity) {
+        return project.getActivityNum(activity);
+    }
 
     // Employee
 
@@ -157,28 +200,28 @@ public class ManagementApp {
         return user;
     }
 
-    public float getExpectedRemainingWorkHoursOnProject(Project project) throws OperationNotAllowedException {
-        checkIsProjectLeader(project);
-        return project.getExpectedRemainingWorkHours();
+    public Employee getEmployee(String username) {
+        return employeeRepo.stream()
+                .filter(emp -> emp.getUsername().equals(username))
+                .findAny()
+                .orElse(null);
     }
 
-    public void setExpectedWorkHoursOnActivity(Project project, Activity activity, int hours) throws OperationNotAllowedException {
-        checkIsProjectLeader(project);
-        project.getActivity(activity.getActivityName()).setExpectedWorkHours(hours);
+    public ObservableList<Employee> getEmployeeRepo() {
+        return employeeRepo;
     }
 
-    public float seeRemainingWorkHoursOnActivity(Project project, Activity activity) throws OperationNotAllowedException {
-
-        float expectedHours = activity.getExpectedWorkHours();
-        float spendHours = getRemainingHoursOnActivity(project, activity);
-        float remainingHours = expectedHours - spendHours;
-        return remainingHours;
-
-
+    public String getUserUsername() {
+        return user.getUsername();
     }
 
+    public void addNewUserActivity(String activityName) {
+        user.addNewActivity(activityName);
+    }
 
-
+    public ObservableList<Activity> getUserActivities() {
+        return user.getActivities();
+    }
 }
 
 

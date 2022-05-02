@@ -1,0 +1,627 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1062.0" prefWidth="1524.0" stylesheets="@../css/style.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dtu.projectmanagement.gui.controllers.HomeController">
+   <left>
+      <VBox alignment="TOP_CENTER" prefHeight="876.0" prefWidth="200.0" style="-fx-background-color: #3c3f41;" BorderPane.alignment="CENTER">
+         <children>
+            <Pane prefHeight="188.0" prefWidth="200.0">
+               <children>
+                  <Label alignment="CENTER" layoutX="21.0" layoutY="42.0" prefHeight="28.0" prefWidth="159.0" text="Logged In As:" textFill="#ededed">
+                     <font>
+                        <Font size="19.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="lblCurrentUser" alignment="CENTER" layoutX="-1.0" layoutY="59.0" prefHeight="66.0" prefWidth="202.0" text="user" textFill="#eeeeee">
+                     <font>
+                        <Font size="45.0" />
+                     </font>
+                  </Label>
+               </children>
+            </Pane>
+            <Button alignment="BASELINE_LEFT" mnemonicParsing="false" onAction="#onBtnProjects" prefHeight="46.0" prefWidth="200.0" styleClass="btnNavBar" text="Projects" textFill="#eeeeee">
+               <font>
+                  <Font size="22.0" />
+               </font>
+               <padding>
+                  <Insets left="56.0" />
+               </padding>
+            </Button>
+            <Button alignment="BASELINE_LEFT" mnemonicParsing="false" onAction="#onBtnActivities" prefHeight="46.0" prefWidth="200.0" styleClass="btnNavBar" text="Activities" textFill="#eeeeee">
+               <font>
+                  <Font size="22.0" />
+               </font>
+               <padding>
+                  <Insets left="56.0" />
+               </padding>
+            </Button>
+            <Button alignment="BASELINE_LEFT" mnemonicParsing="false" onAction="#onBtnEmployees" prefHeight="46.0" prefWidth="219.0" styleClass="btnNavBar" text="Employees" textFill="#eeeeee">
+               <font>
+                  <Font size="22.0" />
+               </font>
+               <padding>
+                  <Insets left="56.0" />
+               </padding>
+            </Button>
+            <Separator>
+               <VBox.margin>
+                  <Insets bottom="22.0" left="22.0" right="22.0" top="22.0" />
+               </VBox.margin>
+            </Separator>
+            <Button fx:id="btnLogOut" alignment="BASELINE_LEFT" mnemonicParsing="false" onAction="#onBtnLogOut" prefHeight="46.0" prefWidth="219.0" styleClass="btnNavBar" text="Log out" textFill="#eeeeee">
+               <font>
+                  <Font size="22.0" />
+               </font>
+               <padding>
+                  <Insets left="56.0" />
+               </padding>
+            </Button>
+         </children>
+      </VBox>
+   </left>
+   <center>
+      <TabPane fx:id="tabPane" prefHeight="200.0" prefWidth="200.0" tabClosingPolicy="UNAVAILABLE" BorderPane.alignment="CENTER">
+        <tabs>
+          <Tab text="Projects">
+               <content>
+                  <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" style="-fx-background-color: #313335;">
+                     <children>
+                        <HBox alignment="CENTER_LEFT" nodeOrientation="LEFT_TO_RIGHT">
+                           <children>
+                              <Label maxWidth="1.7976931348623157E308" text="Projects" textFill="#eeeeee" HBox.hgrow="ALWAYS">
+                                 <font>
+                                    <Font size="44.0" />
+                                 </font>
+                                 <HBox.margin>
+                                    <Insets right="22.0" />
+                                 </HBox.margin>
+                              </Label>
+                              <Button mnemonicParsing="false" onAction="#onBtnAddNewProject" prefHeight="46.0" prefWidth="244.0" text="+ Add New Project" textFill="#eeeeee">
+                                 <font>
+                                    <Font size="22.0" />
+                                 </font>
+                              </Button>
+                           </children>
+                           <VBox.margin>
+                              <Insets bottom="11.0" left="22.0" right="22.0" top="22.0" />
+                           </VBox.margin>
+                        </HBox>
+                        <ListView fx:id="lvProjects" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" VBox.vgrow="SOMETIMES">
+                           <VBox.margin>
+                              <Insets left="22.0" right="22.0" />
+                           </VBox.margin>
+                        </ListView>
+                        <HBox alignment="CENTER_RIGHT">
+                           <children>
+                              <Button fx:id="btnEditProject" disable="true" mnemonicParsing="false" onAction="#onBtnEditProject" prefHeight="46.0" prefWidth="161.0" text="Edit Project" textFill="#eeeeee">
+                                 <font>
+                                    <Font size="22.0" />
+                                 </font>
+                              </Button>
+                           </children>
+                           <VBox.margin>
+                              <Insets bottom="22.0" left="22.0" right="22.0" top="22.0" />
+                           </VBox.margin>
+                        </HBox>
+                     </children>
+                  </VBox>
+               </content>
+          </Tab>
+            <Tab text="ProjectEdit">
+               <content>
+                  <ScrollPane fitToHeight="true" fitToWidth="true" hbarPolicy="NEVER">
+                     <content>
+                        <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" style="-fx-background-color: #313335;">
+                           <children>
+                              <HBox alignment="CENTER_LEFT" nodeOrientation="LEFT_TO_RIGHT" spacing="22.0">
+                                 <children>
+                                    <Button mnemonicParsing="false" onAction="#onBtnProjectBack" styleClass="btnBack" text="Back" textFill="#eeeeee">
+                                       <font>
+                                          <Font size="22.0" />
+                                       </font>
+                                       <HBox.margin>
+                                          <Insets />
+                                       </HBox.margin>
+                                    </Button>
+                                 </children>
+                                 <VBox.margin>
+                                    <Insets left="22.0" right="22.0" top="22.0" />
+                                 </VBox.margin>
+                              </HBox>
+                              <HBox alignment="CENTER_LEFT" nodeOrientation="LEFT_TO_RIGHT" spacing="22.0">
+                                 <children>
+                                    <Label text="Project -" textFill="#eeeeee">
+                                       <font>
+                                          <Font size="44.0" />
+                                       </font>
+                                       <HBox.margin>
+                                          <Insets right="-10.0" />
+                                       </HBox.margin>
+                                    </Label>
+                                    <Label fx:id="lblProjectNum" text="projectNum" textFill="#eeeeee">
+                                       <font>
+                                          <Font size="44.0" />
+                                       </font>
+                                    </Label>
+                                    <Button mnemonicParsing="false" onAction="#onBtnGenerateReport" prefHeight="46.0" prefWidth="206.0" styleClass="btnReport" text="Generate Report" textFill="#eeeeee">
+                                       <font>
+                                          <Font size="22.0" />
+                                       </font>
+                                    </Button>
+                                 </children>
+                                 <VBox.margin>
+                                    <Insets bottom="11.0" left="22.0" right="22.0" top="22.0" />
+                                 </VBox.margin>
+                              </HBox>
+                              <Separator>
+                                 <padding>
+                                    <Insets left="22.0" right="22.0" />
+                                 </padding>
+                              </Separator>
+                              <VBox prefWidth="100.0">
+                                 <children>
+                                    <HBox alignment="CENTER_LEFT" prefHeight="24.0" prefWidth="1142.0" spacing="22.0">
+                                       <children>
+                                          <Label text="Project Name:" textFill="#eeeeee">
+                                             <font>
+                                                <Font size="22.0" />
+                                             </font>
+                                             <HBox.margin>
+                                                <Insets />
+                                             </HBox.margin>
+                                             <padding>
+                                                <Insets right="-10.0" />
+                                             </padding>
+                                          </Label>
+                                          <Label fx:id="lblProjectName" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="projectName" textFill="#eeeeee" HBox.hgrow="ALWAYS">
+                                             <font>
+                                                <Font size="22.0" />
+                                             </font>
+                                          </Label>
+                                          <Label fx:id="lblProjectNameError" textFill="RED" />
+                                          <TextField fx:id="tfChangeProjectName" />
+                                          <Button mnemonicParsing="false" onAction="#onBtnChangeProjectName" prefHeight="30.0" prefWidth="163.0" text="Change Project Name" textFill="#eeeeee">
+                                             <font>
+                                                <Font size="14.0" />
+                                             </font>
+                                          </Button>
+                                       </children>
+                                       <padding>
+                                          <Insets bottom="11.0" />
+                                       </padding>
+                                    </HBox>
+                                    <HBox alignment="CENTER_LEFT" prefHeight="24.0" prefWidth="1142.0" spacing="22.0">
+                                       <children>
+                                          <Label text="Project Leader:" textFill="#eeeeee">
+                                             <font>
+                                                <Font size="22.0" />
+                                             </font>
+                                             <HBox.margin>
+                                                <Insets />
+                                             </HBox.margin>
+                                             <padding>
+                                                <Insets right="-10.0" />
+                                             </padding>
+                                          </Label>
+                                          <Label fx:id="lblProjectLeaderUsername" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="projectLeader" textFill="#eeeeee" HBox.hgrow="ALWAYS">
+                                             <font>
+                                                <Font size="22.0" />
+                                             </font>
+                                          </Label>
+                                          <ComboBox fx:id="cbPickProjectLeader" prefWidth="150.0" promptText="select employee" />
+                                          <Button fx:id="btnChangeProjectLeader" disable="true" mnemonicParsing="false" onAction="#onBtnChangeProjectLeader" prefHeight="0.0" prefWidth="163.0" text="Change Project Leader" textFill="#eeeeee">
+                                             <font>
+                                                <Font size="14.0" />
+                                             </font>
+                                          </Button>
+                                       </children>
+                                       <padding>
+                                          <Insets bottom="11.0" />
+                                       </padding>
+                                    </HBox>
+                                    <HBox alignment="CENTER_LEFT" prefHeight="24.0" prefWidth="1142.0" spacing="22.0">
+                                       <children>
+                                          <Label text="Start Week:" textFill="#eeeeee">
+                                             <font>
+                                                <Font size="22.0" />
+                                             </font>
+                                             <HBox.margin>
+                                                <Insets />
+                                             </HBox.margin>
+                                             <padding>
+                                                <Insets right="-10.0" />
+                                             </padding>
+                                          </Label>
+                                          <Label fx:id="lblProjectLeaderUsername1" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="startWeek" textFill="#eeeeee" HBox.hgrow="ALWAYS">
+                                             <font>
+                                                <Font size="22.0" />
+                                             </font>
+                                          </Label>
+                                          <Button mnemonicParsing="false" onAction="#onBtnChangeProjectLeader" prefHeight="0.0" prefWidth="163.0" text="Set Start Week" textFill="#eeeeee">
+                                             <font>
+                                                <Font size="14.0" />
+                                             </font>
+                                          </Button>
+                                       </children>
+                                       <padding>
+                                          <Insets bottom="11.0" />
+                                       </padding>
+                                    </HBox>
+                                    <HBox alignment="CENTER_LEFT" prefHeight="24.0" prefWidth="1142.0" spacing="22.0">
+                                       <children>
+                                          <Label text="End Week:" textFill="#eeeeee">
+                                             <font>
+                                                <Font size="22.0" />
+                                             </font>
+                                             <HBox.margin>
+                                                <Insets />
+                                             </HBox.margin>
+                                             <padding>
+                                                <Insets right="-10.0" />
+                                             </padding>
+                                          </Label>
+                                          <Label fx:id="lblProjectLeaderUsername11" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="endWeek" textFill="#eeeeee" HBox.hgrow="ALWAYS">
+                                             <font>
+                                                <Font size="22.0" />
+                                             </font>
+                                          </Label>
+                                          <Button mnemonicParsing="false" onAction="#onBtnChangeProjectLeader" prefHeight="0.0" prefWidth="163.0" text="Set End Week" textFill="#eeeeee">
+                                             <font>
+                                                <Font size="14.0" />
+                                             </font>
+                                          </Button>
+                                       </children>
+                                       <padding>
+                                          <Insets bottom="11.0" />
+                                       </padding>
+                                    </HBox>
+                                 </children>
+                                 <VBox.margin>
+                                    <Insets bottom="22.0" left="22.0" right="22.0" top="22.0" />
+                                 </VBox.margin>
+                              </VBox>
+                              <Separator prefWidth="200.0">
+                                 <VBox.margin>
+                                    <Insets left="22.0" right="22.0" />
+                                 </VBox.margin>
+                              </Separator>
+                              <HBox alignment="CENTER_LEFT" nodeOrientation="LEFT_TO_RIGHT" spacing="11.0">
+                                 <children>
+                                    <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="39.0" prefWidth="892.0" text="Project Activities" textFill="#eeeeee" HBox.hgrow="ALWAYS">
+                                       <font>
+                                          <Font size="26.0" />
+                                       </font>
+                                       <HBox.margin>
+                                          <Insets />
+                                       </HBox.margin>
+                                    </Label>
+                                    <Label fx:id="lblProjectActivityNameError" textFill="RED" />
+                                    <TextField fx:id="tfProjectActivityName" />
+                                    <Button mnemonicParsing="false" onAction="#onBtnAddNewProjectActivity" prefHeight="29.0" prefWidth="189.0" text="+ Add New Activity" textFill="#eeeeee">
+                                       <font>
+                                          <Font size="14.0" />
+                                       </font>
+                                    </Button>
+                                 </children>
+                                 <VBox.margin>
+                                    <Insets bottom="11.0" left="22.0" right="22.0" top="22.0" />
+                                 </VBox.margin>
+                              </HBox>
+                              <ListView fx:id="lvProjectActivities" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="314.0" prefWidth="1071.0">
+                                 <VBox.margin>
+                                    <Insets left="22.0" right="22.0" />
+                                 </VBox.margin>
+                              </ListView>
+                              <HBox alignment="CENTER_RIGHT">
+                                 <children>
+                                    <Button fx:id="btnEditProjectActivity" disable="true" mnemonicParsing="false" onAction="#onBtnEditProjectActivity" prefHeight="46.0" prefWidth="161.0" text="Edit Activity" textFill="#eeeeee">
+                                       <font>
+                                          <Font size="22.0" />
+                                       </font>
+                                    </Button>
+                                 </children>
+                                 <VBox.margin>
+                                    <Insets bottom="22.0" left="22.0" right="22.0" top="22.0" />
+                                 </VBox.margin>
+                              </HBox>
+                           </children>
+                        </VBox>
+                     </content>
+                  </ScrollPane>
+               </content></Tab>
+            <Tab text="ActivityEdit">
+               <content>
+                  <ScrollPane fitToHeight="true" fitToWidth="true" hbarPolicy="NEVER">
+                     <content>
+                        <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" style="-fx-background-color: #313335;">
+                           <children>
+                              <HBox alignment="CENTER_LEFT" nodeOrientation="LEFT_TO_RIGHT" spacing="22.0">
+                                 <children>
+                                    <Button mnemonicParsing="false" onAction="#onBtnActivityBack" styleClass="btnBack" text="Back" textFill="#eeeeee">
+                                       <font>
+                                          <Font size="22.0" />
+                                       </font>
+                                       <HBox.margin>
+                                          <Insets />
+                                       </HBox.margin>
+                                    </Button>
+                                 </children>
+                                 <VBox.margin>
+                                    <Insets left="22.0" right="22.0" top="22.0" />
+                                 </VBox.margin>
+                              </HBox>
+                              <HBox alignment="CENTER_LEFT" nodeOrientation="LEFT_TO_RIGHT" spacing="22.0">
+                                 <children>
+                                    <Label text="Activity -" textFill="#eeeeee">
+                                       <font>
+                                          <Font size="44.0" />
+                                       </font>
+                                       <HBox.margin>
+                                          <Insets right="-10.0" />
+                                       </HBox.margin>
+                                    </Label>
+                                    <Label fx:id="lblActivityProjectNum" text="projectNum" textFill="#eeeeee">
+                                       <font>
+                                          <Font size="44.0" />
+                                       </font>
+                                    </Label>
+                                    <Label text="-" textFill="#eeeeee">
+                                       <font>
+                                          <Font size="44.0" />
+                                       </font>
+                                    </Label>
+                                    <Label fx:id="lblActivityNum" text="activityNum" textFill="#eeeeee">
+                                       <font>
+                                          <Font size="44.0" />
+                                       </font>
+                                    </Label>
+                                 </children>
+                                 <VBox.margin>
+                                    <Insets bottom="11.0" left="22.0" right="22.0" top="22.0" />
+                                 </VBox.margin>
+                              </HBox>
+                              <Separator>
+                                 <padding>
+                                    <Insets left="22.0" right="22.0" />
+                                 </padding>
+                              </Separator>
+                              <VBox prefWidth="100.0">
+                                 <children>
+                                    <HBox alignment="CENTER_LEFT" prefHeight="24.0" prefWidth="1142.0" spacing="22.0">
+                                       <children>
+                                          <Label text="Activity Name:" textFill="#eeeeee">
+                                             <font>
+                                                <Font size="22.0" />
+                                             </font>
+                                             <HBox.margin>
+                                                <Insets />
+                                             </HBox.margin>
+                                             <padding>
+                                                <Insets right="-10.0" />
+                                             </padding>
+                                          </Label>
+                                          <Label fx:id="lblProjectName1" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="projectName" textFill="#eeeeee" HBox.hgrow="ALWAYS">
+                                             <font>
+                                                <Font size="22.0" />
+                                             </font>
+                                          </Label>
+                                          <Label fx:id="lblProjectNameError1" textFill="RED" />
+                                          <TextField fx:id="tfChangeProjectName1" />
+                                          <Button mnemonicParsing="false" onAction="#onBtnChangeProjectName" prefHeight="30.0" prefWidth="163.0" text="Change Activity Name" textFill="#eeeeee">
+                                             <font>
+                                                <Font size="14.0" />
+                                             </font>
+                                          </Button>
+                                       </children>
+                                       <padding>
+                                          <Insets bottom="11.0" />
+                                       </padding>
+                                    </HBox>
+                                    <HBox alignment="CENTER_LEFT" prefHeight="24.0" prefWidth="1142.0" spacing="22.0">
+                                       <children>
+                                          <Label text="Start Week:" textFill="#eeeeee">
+                                             <font>
+                                                <Font size="22.0" />
+                                             </font>
+                                             <HBox.margin>
+                                                <Insets />
+                                             </HBox.margin>
+                                             <padding>
+                                                <Insets right="-10.0" />
+                                             </padding>
+                                          </Label>
+                                          <Label fx:id="lblProjectLeaderUsername11" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="startWeek" textFill="#eeeeee" HBox.hgrow="ALWAYS">
+                                             <font>
+                                                <Font size="22.0" />
+                                             </font>
+                                          </Label>
+                                          <Button mnemonicParsing="false" onAction="#onBtnChangeProjectLeader" prefHeight="0.0" prefWidth="163.0" text="Set Start Week" textFill="#eeeeee">
+                                             <font>
+                                                <Font size="14.0" />
+                                             </font>
+                                          </Button>
+                                       </children>
+                                       <padding>
+                                          <Insets bottom="11.0" />
+                                       </padding>
+                                    </HBox>
+                                    <HBox alignment="CENTER_LEFT" prefHeight="24.0" prefWidth="1142.0" spacing="22.0">
+                                       <children>
+                                          <Label text="End Week:" textFill="#eeeeee">
+                                             <font>
+                                                <Font size="22.0" />
+                                             </font>
+                                             <HBox.margin>
+                                                <Insets />
+                                             </HBox.margin>
+                                             <padding>
+                                                <Insets right="-10.0" />
+                                             </padding>
+                                          </Label>
+                                          <Label fx:id="lblProjectLeaderUsername111" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="endWeek" textFill="#eeeeee" HBox.hgrow="ALWAYS">
+                                             <font>
+                                                <Font size="22.0" />
+                                             </font>
+                                          </Label>
+                                          <Button mnemonicParsing="false" onAction="#onBtnChangeProjectLeader" prefHeight="0.0" prefWidth="163.0" text="Set End Week" textFill="#eeeeee">
+                                             <font>
+                                                <Font size="14.0" />
+                                             </font>
+                                          </Button>
+                                       </children>
+                                       <padding>
+                                          <Insets bottom="11.0" />
+                                       </padding>
+                                    </HBox>
+                                 </children>
+                                 <VBox.margin>
+                                    <Insets bottom="22.0" left="22.0" right="22.0" top="22.0" />
+                                 </VBox.margin>
+                              </VBox>
+                              <Separator prefWidth="200.0">
+                                 <VBox.margin>
+                                    <Insets left="22.0" right="22.0" />
+                                 </VBox.margin>
+                              </Separator>
+                              <HBox alignment="CENTER_LEFT" nodeOrientation="LEFT_TO_RIGHT" spacing="11.0">
+                                 <children>
+                                    <Label maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="39.0" prefWidth="892.0" text="Assigned Employees" textFill="#eeeeee" HBox.hgrow="ALWAYS">
+                                       <font>
+                                          <Font size="26.0" />
+                                       </font>
+                                       <HBox.margin>
+                                          <Insets />
+                                       </HBox.margin>
+                                    </Label>
+                                    <ComboBox fx:id="cbAssignEmployee" prefWidth="150.0" promptText="select employee" />
+                                    <Label fx:id="lblProjectActivityNameError1" textFill="RED" />
+                                    <Button fx:id="btnAssignEmployee" disable="true" mnemonicParsing="false" onAction="#onBtnAssignEmployee" prefHeight="29.0" prefWidth="189.0" text="+ Assign Employee" textFill="#eeeeee">
+                                       <font>
+                                          <Font size="14.0" />
+                                       </font>
+                                    </Button>
+                                 </children>
+                                 <VBox.margin>
+                                    <Insets bottom="11.0" left="22.0" right="22.0" top="22.0" />
+                                 </VBox.margin>
+                              </HBox>
+                              <ListView fx:id="lvAssignedEmployees" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="314.0" prefWidth="1071.0">
+                                 <VBox.margin>
+                                    <Insets left="22.0" right="22.0" />
+                                 </VBox.margin>
+                              </ListView>
+                              <HBox alignment="CENTER_RIGHT">
+                                 <children>
+                                    <Button disable="true" mnemonicParsing="false" prefHeight="46.0" prefWidth="161.0" text="Edit Activity" textFill="#eeeeee">
+                                       <font>
+                                          <Font size="22.0" />
+                                       </font>
+                                    </Button>
+                                 </children>
+                                 <VBox.margin>
+                                    <Insets bottom="22.0" left="22.0" right="22.0" top="22.0" />
+                                 </VBox.margin>
+                              </HBox>
+                           </children>
+                        </VBox>
+                     </content>
+                  </ScrollPane>
+               </content></Tab>
+          <Tab text="Activities">
+               <content>
+                  <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" style="-fx-background-color: #313335;">
+                     <children>
+                        <HBox alignment="CENTER_LEFT" nodeOrientation="LEFT_TO_RIGHT" spacing="22.0">
+                           <children>
+                              <Label maxWidth="1.7976931348623157E308" text="Activites" textFill="#eeeeee" HBox.hgrow="ALWAYS">
+                                 <font>
+                                    <Font size="44.0" />
+                                 </font>
+                                 <HBox.margin>
+                                    <Insets />
+                                 </HBox.margin>
+                              </Label>
+                              <Label fx:id="lblActivityNameError" textFill="RED" />
+                              <TextField fx:id="tfActivityName" prefHeight="25.0" prefWidth="222.0" />
+                              <Button mnemonicParsing="false" onAction="#onBtnAddNewNonProjectActivity" prefHeight="46.0" prefWidth="331.0" text="+ Add New Personal Activity" textFill="#eeeeee">
+                                 <font>
+                                    <Font size="22.0" />
+                                 </font>
+                              </Button>
+                           </children>
+                           <VBox.margin>
+                              <Insets bottom="11.0" left="22.0" right="22.0" top="22.0" />
+                           </VBox.margin>
+                        </HBox>
+                        <ListView fx:id="lvActivities" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" VBox.vgrow="SOMETIMES">
+                           <VBox.margin>
+                              <Insets left="22.0" right="22.0" />
+                           </VBox.margin>
+                        </ListView>
+                        <HBox alignment="CENTER_RIGHT">
+                           <children>
+                              <Button fx:id="btnEditActivity" disable="true" mnemonicParsing="false" onAction="#onBtnEditActivity" prefHeight="46.0" prefWidth="161.0" text="Edit Activity" textFill="#eeeeee">
+                                 <font>
+                                    <Font size="22.0" />
+                                 </font>
+                              </Button>
+                           </children>
+                           <VBox.margin>
+                              <Insets bottom="22.0" left="22.0" right="22.0" top="22.0" />
+                           </VBox.margin>
+                        </HBox>
+                     </children>
+                  </VBox>
+               </content></Tab>
+            <Tab text="Employees">
+               <content>
+                  <VBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" style="-fx-background-color: #313335;">
+                     <children>
+                        <HBox alignment="CENTER_LEFT" nodeOrientation="LEFT_TO_RIGHT">
+                           <children>
+                              <Label maxWidth="1.7976931348623157E308" text="Employees" textFill="#eeeeee" HBox.hgrow="ALWAYS">
+                                 <font>
+                                    <Font size="44.0" />
+                                 </font>
+                                 <HBox.margin>
+                                    <Insets right="22.0" />
+                                 </HBox.margin>
+                              </Label>
+                              <Button mnemonicParsing="false" onAction="#onBtnAddNewEmployee" prefHeight="46.0" prefWidth="244.0" text="+ Add New Employee" textFill="#eeeeee">
+                                 <font>
+                                    <Font size="22.0" />
+                                 </font>
+                              </Button>
+                           </children>
+                           <VBox.margin>
+                              <Insets bottom="11.0" left="22.0" right="22.0" top="22.0" />
+                           </VBox.margin>
+                        </HBox>
+                        <ListView fx:id="lvEmp" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" VBox.vgrow="SOMETIMES">
+                           <VBox.margin>
+                              <Insets bottom="22.0" left="22.0" right="22.0" />
+                           </VBox.margin>
+                        </ListView>
+                     </children>
+                  </VBox>
+               </content>
+            </Tab>
+        </tabs>
+      </TabPane>
+   </center>
+</BorderPane>

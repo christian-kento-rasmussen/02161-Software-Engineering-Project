@@ -35,7 +35,7 @@ public class ProjectHelper {
 
     public void addActivity() {
         lastAct = actNameBase + actCnt++;
-        managementApp.addNewActivity(getProject(), lastAct);
+        managementApp.addNewProjectActivity(getProject(), lastAct);
     }
 
     public void setActivityExpectedWorkHours(int hours)  throws OperationNotAllowedException {

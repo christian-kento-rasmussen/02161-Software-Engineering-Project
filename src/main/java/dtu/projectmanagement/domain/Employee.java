@@ -1,14 +1,15 @@
 package dtu.projectmanagement.domain;
 
 import dtu.projectmanagement.app.OperationNotAllowedException;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class Employee {
 
     private String username;
-    private List<Activity> activities = new ArrayList<>();
+    private ObservableList<Activity> activities = FXCollections.observableArrayList();
 
     public Employee(String username) {
         this.username = username;
@@ -25,6 +26,10 @@ public class Employee {
         activities.add(activity);
     }
 
+    public void addNewActivity(String activityName) {
+        activities.add(new Activity(-1, activityName));
+    }
+
     public Boolean availableInPeriod(int startWeek, int endWeek){
         for (Activity activity : activities) {
             if (startWeek <= activity.getEndWeek() && endWeek >= activity.getStartWeek()){
@@ -35,6 +40,7 @@ public class Employee {
         return true;
     }
 
-    public List<Activity> getActivities() { return activities; }
-
+    public ObservableList<Activity> getActivities() {
+        return activities;
+    }
 }

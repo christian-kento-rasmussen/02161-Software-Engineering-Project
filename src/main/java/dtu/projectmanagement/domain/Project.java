@@ -1,9 +1,8 @@
 package dtu.projectmanagement.domain;
 
 import dtu.projectmanagement.app.OperationNotAllowedException;
-
-import java.util.ArrayList;
-import java.util.List;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 
 
 public class Project {
@@ -11,14 +10,13 @@ public class Project {
     private String projectNum;
     private String projectName;
 
-
     private int startWeek;
     private int endWeek;
     private int activityCnt = 0;
 
     private Employee projectLeader;
 
-    private List<Activity> activities = new ArrayList<>();
+    private ObservableList<Activity> activities = FXCollections.observableArrayList();
 
     public Project(String projectNum) {
         this.projectNum = projectNum;
@@ -28,7 +26,7 @@ public class Project {
 
     
     public void addNewActivity(String activityName) {
-        activities.add(new Activity(activityCnt, activityName));
+        activities.add(new Activity(activityCnt, activityName, this));
         activityCnt++;
     }
 
@@ -64,8 +62,16 @@ public class Project {
         projectLeader = employee;
     }
 
-    public List getActivityList() {
-        return this.activities;
+    public String getProjectName() {
+        return projectName;
+    }
+
+    public void setProjectName(String projectName) {
+        this.projectName = projectName;
+    }
+
+    public ObservableList<Activity> getActivityRepo() {
+        return activities;
     }
 
     public float getSpendHoursOnActivity(Activity activity) {
@@ -74,6 +80,10 @@ public class Project {
 
     public int getStartWeek() {
         return startWeek;
+    }
+
+    public ObservableList<Employee> getAssignedEmployees(Activity activity) {
+        return activity.getAssignedEmployees();
     }
 
     public void setStartWeek(int startWeek) throws OperationNotAllowedException {
@@ -114,5 +124,13 @@ public class Project {
 
     public float getExpectedRemainingWorkHours() {
         return getExpectedHours() - getSpendHours();
+    }
+
+    public void assignEmployeeToActivity(Activity activity, Employee employee) throws OperationNotAllowedException {
+        activity.assignEmployee(employee);
+    }
+
+    public String getActivityNum(Activity activity) {
+        return String.valueOf(activity.getActivityNum());
     }
 }

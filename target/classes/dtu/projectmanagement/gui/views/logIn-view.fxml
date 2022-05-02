@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane prefHeight="556.0" prefWidth="460.0" style="-fx-background-color: #3c3f41;" stylesheets="@../css/style.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dtu.projectmanagement.gui.controllers.LogInController">
+   <children>
+      <ListView fx:id="lvEmp" layoutX="16.0" layoutY="64.0" prefHeight="407.0" prefWidth="428.0" style="-fx-background-color: #5a6166;" />
+      <Button fx:id="btnContinue" disable="true" layoutX="203.0" layoutY="503.0" mnemonicParsing="false" onAction="#onBtnContinue" prefHeight="32.0" prefWidth="75.0" text="Continue" textFill="#eeeeee" />
+      <Button layoutX="293.0" layoutY="503.0" mnemonicParsing="false" onAction="#onBtnAddNewEmp" prefHeight="32.0" prefWidth="151.0" text="Add New Employee" textFill="#eeeeee" />
+      <Label layoutX="16.0" layoutY="22.0" text="Select an employee account to continue" textFill="#eeeeee">
+         <font>
+            <Font size="22.0" />
+         </font>
+      </Label>
+   </children>
+</AnchorPane>

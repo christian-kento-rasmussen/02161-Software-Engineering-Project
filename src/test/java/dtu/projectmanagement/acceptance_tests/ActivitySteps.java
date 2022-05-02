@@ -110,7 +110,7 @@ public class ActivitySteps {
     @Given("there is an activity with activityName {string} contained in the project")
     public void there_is_an_activity_with_activity_name_contained_in_the_project(String string) {
         selectedProject=managementApp.getProject("220001"); //Temporary solution.
-        managementApp.addNewActivity(selectedProject,string);
+        managementApp.addNewProjectActivity(selectedProject,string);
         activity=selectedProject.getActivity(string);
     }
 
