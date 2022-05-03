@@ -9,6 +9,9 @@ import java.util.List;
 
 public class Activity {
 
+    private static final int PROJECT_ACTIVITY = 0;
+    private static final int EMPLOYEE_ACTIVITY = 1;
+
     private int activityNum;
     private String activityName;
     private Project parentProject;
@@ -31,13 +34,10 @@ public class Activity {
     }
 
 
+
     public void assignEmployee(Employee employee) throws OperationNotAllowedException {
-        try{
-            assignedEmployees.add(employee);
-            employee.assignActivity(this);
-        } catch (OperationNotAllowedException e) {
-            throw new OperationNotAllowedException(e.getMessage());
-        }
+        assignedEmployees.add(employee);
+        employee.assignActivity(this);
     }
 
     public String getActivityName() {
@@ -59,7 +59,7 @@ public class Activity {
     public float getExpectedWorkHours() {
         return expectedWorkHours;
     }
-    public void setExpectedWorkHours(int expectedWorkHours) throws OperationNotAllowedException {
+    public void setExpectedWorkHours(float expectedWorkHours) throws OperationNotAllowedException {
         this.expectedWorkHours = expectedWorkHours;
     }
 
@@ -95,11 +95,16 @@ public class Activity {
         if (!this.employeeWorkHoursMap.containsKey(employee)){
             this.employeeWorkHoursMap.put(employee, 0f);
         }
-        float currentHours = this.employeeWorkHoursMap.get(employee);
+
+        employeeWorkHoursMap.put(employee, hours);
+
+        // TODO: see gui functionality for correction
+        /*float currentHours = this.employeeWorkHoursMap.get(employee);
         currentHours = currentHours + hours;
-        this.employeeWorkHoursMap.put(employee, currentHours);
+        this.employeeWorkHoursMap.put(employee, currentHours);*/
     }
 
+    // TODO: don't need this; the registerWorkHours func does this
     public void modifyWorkHours(Employee employee, float hours) throws OperationNotAllowedException {
         if (hours < 0f){
             throw new OperationNotAllowedException("Time must be positive or 0");
@@ -122,7 +127,19 @@ public class Activity {
         }
     }
 
+    public void setActivityName(String activityName) {
+        this.activityName = activityName;
+    }
+
     public float getSpendHours() {
         return employeeWorkHoursMap.values().stream().reduce(0f , Float::sum);
+    }
+
+    public float getRemainingHours() {
+        return getExpectedWorkHours() - getSpendHours();
+    }
+
+    public void unassignAllEmployees() {
+        assignedEmployees.forEach(employee -> employee.unassignActivity(this));
     }
 }

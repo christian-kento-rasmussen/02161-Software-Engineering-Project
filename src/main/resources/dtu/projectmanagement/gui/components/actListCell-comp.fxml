@@ -3,17 +3,22 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<HBox fx:id="cell" alignment="CENTER_LEFT" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" style="-fx-background-color: #5a6166;" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1">
+<VBox fx:id="cell" style="-fx-background-color: #ff0000;" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1">
    <children>
-      <Label fx:id="lblCellActivityName" text="Label" textFill="WHITE">
-         <font>
-            <Font size="14.0" />
-         </font>
-      </Label>
+      <HBox fx:id="cell1" alignment="CENTER_LEFT" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" style="-fx-background-color: #5a6166;">
+         <children>
+            <Label fx:id="lblCellActivityName" text="Label" textFill="WHITE">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </Label>
+         </children>
+         <padding>
+            <Insets bottom="11.0" left="11.0" right="11.0" top="11.0" />
+         </padding>
+      </HBox>
    </children>
-   <padding>
-      <Insets bottom="11.0" left="11.0" right="11.0" top="11.0" />
-   </padding>
-</HBox>
+</VBox>

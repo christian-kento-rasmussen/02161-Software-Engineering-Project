@@ -12,11 +12,17 @@ Button {
 
 Button:hover {
     -fx-background-color: #3297fd;
-
+    -fx-cursor: hand;
 }
 
 Button:pressed {
     -fx-background-color: #2574c4;
+}
+
+Button:focused {
+    -fx-border-radius: 3;
+    -fx-border-width: 2;
+    -fx-border-color: #21bcff;
 }
 
 .btnNavBar {
@@ -31,16 +37,16 @@ Button:pressed {
     -fx-background-color: #1180f0;
 }
 
-.btnReport {
-    -fx-background-color: #00B000;
+.btnLeader {
+    -fx-background-color: #7422c7;
 }
 
-.btnReport:hover {
-    -fx-background-color: #00cf00;
+.btnLeader:hover {
+    -fx-background-color: #8926ed;
 }
 
-.btnReport:pressed {
-    -fx-background-color: #009e00;
+.btnLeader:pressed {
+    -fx-background-color: #581799;
 }
 
 .btnBack {
@@ -53,6 +59,18 @@ Button:pressed {
 
 .btnBack:pressed {
     -fx-background-color: #6e6e6e;
+}
+
+.btnRed {
+    -fx-background-color: #ff0000;
+}
+
+.btnRed:hover {
+    -fx-background-color: #ff5757;
+}
+
+.btnRed:pressed {
+    -fx-background-color: #c20404;
 }
 
 /*.tab-pane {

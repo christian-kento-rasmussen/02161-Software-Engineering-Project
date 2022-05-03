@@ -26,6 +26,10 @@ public class Employee {
         activities.add(activity);
     }
 
+    public void unassignActivity(Activity activity) {
+        activities.remove(activity);
+    }
+
     public void addNewActivity(String activityName) {
         activities.add(new Activity(-1, activityName));
     }

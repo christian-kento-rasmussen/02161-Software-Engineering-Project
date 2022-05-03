@@ -10,6 +10,8 @@ import java.util.*;
 
 public class ManagementApp {
 
+    private Project selectedProject;
+    private Activity selectedActivity;
     private Employee user;
 
     private ObservableList<Project> projectRepo = FXCollections.observableArrayList();
@@ -30,7 +32,7 @@ public class ManagementApp {
     /**
      * This function creates a new project, with correct project number
      */
-    public void createNewProject()  {
+    public void createNewProject() {
         int year = Calendar.getInstance().get(Calendar.YEAR);
         int yearCounter = serialNum.getOrDefault(year,0);
 
@@ -40,6 +42,11 @@ public class ManagementApp {
         Project project = new Project(projectNum);
 
         projectRepo.add(project);
+    }
+
+    public void deleteProject(Project project) {
+        project.getActivityRepo().forEach(Activity::unassignAllEmployees);
+        projectRepo.remove(project);
     }
 
     public Project getProject(String project_number) {
@@ -94,9 +101,24 @@ public class ManagementApp {
         project.generateReport();
     }
 
-    public float getExpectedRemainingWorkHoursOnProject(Project project) throws OperationNotAllowedException {
+    public void setProjectStartWeek(Project project, int startWeek) throws OperationNotAllowedException {
         checkIsProjectLeader(project);
-        return project.getExpectedRemainingWorkHours();
+        project.setStartWeek(startWeek);
+    }
+
+    public void setProjectEndWeek(Project project, int endWeek) throws OperationNotAllowedException {
+        checkIsProjectLeader(project);
+        project.setEndWeek(endWeek);
+    }
+
+    public float getRemainingHoursOnProject(Project project) throws OperationNotAllowedException {
+        checkIsProjectLeader(project);
+        return project.getRemainingWorkHours();
+    }
+
+    public float getExpectedHoursOnProject(Project project) throws OperationNotAllowedException {
+        checkIsProjectLeader(project);
+        return project.getExpectedHours();
     }
 
 
@@ -106,14 +128,14 @@ public class ManagementApp {
         project.addNewActivity(activityName);
     }
 
-    public void removeActivity(Project project, String activityName) throws OperationNotAllowedException {
-
-        try {
-        project.removeActivity(activityName);
+    public void deleteProjectActivity(Project project, Activity activity) {
+        project.deleteActivity(activity);
+        /*try {
+        project.removeActivity(activity);
         }
         catch (OperationNotAllowedException e) {
             throw new OperationNotAllowedException(e.getMessage());
-        }
+        }*/
 
     }
 
@@ -137,11 +159,19 @@ public class ManagementApp {
         return project.getRemainingHoursOnActivity(activity);
     }
 
+    public String getActivityName(Project project, Activity activity) {
+        return project.getActivityName(activity);
+    }
+
+    public void setProjectActivityName(Project project, Activity activity, String activityName) {
+        project.setActivityName(activity, activityName);
+    }
+
     public ObservableList<Activity> getProjectActivityRepo(Project project) {
         return project.getActivityRepo();
     }
 
-    public void setExpectedWorkHoursOnActivity(Project project, Activity activity, int hours) throws OperationNotAllowedException {
+    public void setExpectedWorkHoursOnActivity(Project project, Activity activity, float hours) throws OperationNotAllowedException {
         checkIsProjectLeader(project);
         project.getActivity(activity.getActivityName()).setExpectedWorkHours(hours);
     }
@@ -221,6 +251,34 @@ public class ManagementApp {
 
     public ObservableList<Activity> getUserActivities() {
         return user.getActivities();
+    }
+
+    public void registerWorkHoursOnProjectActivity(Project project, Activity activity, float hours) throws OperationNotAllowedException {
+        project.registerWorkHoursOnActivity(user, activity, hours);
+    }
+
+    public float getWorkHoursOnActivity(Project project, Activity activity) {
+        return project.getWorkHoursOnActivity(user, activity);
+    }
+
+    public float getActivityExpectedHours(Project project, Activity activity) {
+        return project.getExpectedHoursOnActivity(activity);
+    }
+
+    public int getProjectStartWeek(Project project) {
+        return project.getStartWeek();
+    }
+
+    public int getProjectEndWeek(Project project) {
+        return project.getEndWeek();
+    }
+
+    public int getActivityStartWeek(Project project, Activity activity) {
+        return project.getActivityStartWeek(activity);
+    }
+
+    public int getActivityEndWeek(Project project, Activity activity) {
+        return project.getActivityEndWeek(activity);
     }
 }
 

@@ -115,13 +115,9 @@ public class ActivitySteps {
     }
 
     @When("the activity is deleted from project")
-    public void the_activity_is_deleted_from_project() throws OperationNotAllowedException {
-        try {
-        managementApp.removeActivity(selectedProject,activity.getActivityName());}
-        catch (OperationNotAllowedException e) {
-            errorMessage.setErrorMessage(e.getMessage());
-        }
-//        selectedProject.removeActivity("save the world");
+    public void the_activity_is_deleted_from_project() {
+        managementApp.deleteProjectActivity(selectedProject, activity);
+        //selectedProject.removeActivity("save the world");
     }
 
     @Then("the activity with activityName {string} is not contained in the project")
@@ -213,7 +209,7 @@ public class ActivitySteps {
     @When("the employee queries for the total remaining work hours on the project")
     public void theEmployeeQueriesForTheTotalRemainingWorkHoursOnTheProject() {
         try {
-            remainingWorkHours = managementApp.getExpectedRemainingWorkHoursOnProject(projectHelper.getProject());
+            remainingWorkHours = managementApp.getRemainingHoursOnProject(projectHelper.getProject());
         } catch (OperationNotAllowedException e) {
             errorMessage.setErrorMessage(e.getMessage());
         }

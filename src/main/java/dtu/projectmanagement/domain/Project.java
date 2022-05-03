@@ -30,13 +30,14 @@ public class Project {
         activityCnt++;
     }
 
-    public void removeActivity(String activityName) throws OperationNotAllowedException {
-            if (this.getActivity(activityName).getAssignedEmployees().size()>0) {
+    // TODO: decide on this
+    public void deleteActivity(Activity activity) {
+        /*if (activity.getAssignedEmployees().size()>0) {
             throw new OperationNotAllowedException("employee(s) attached to activity. Please remove activity from employee");
-        }
+        }*/
 
-            activities.remove(new Activity(getActivity(activityName).getActivityNum(), activityName));
-            activityCnt--;
+        activity.unassignAllEmployees();
+        activities.remove(activity);
     }
 
     public void setActivityStartAndEndWeek(Activity activity, int startWeek, int endWeek) throws OperationNotAllowedException {
@@ -105,7 +106,7 @@ public class Project {
     }
 
     public float getRemainingHoursOnActivity(Activity activity) {
-        return activity.getSpendHours();
+        return activity.getRemainingHours();
     }
 
     public float getSpendHours() {
@@ -122,7 +123,7 @@ public class Project {
         //float remainingHours = getRemainingHours();
     }
 
-    public float getExpectedRemainingWorkHours() {
+    public float getRemainingWorkHours() {
         return getExpectedHours() - getSpendHours();
     }
 
@@ -132,5 +133,33 @@ public class Project {
 
     public String getActivityNum(Activity activity) {
         return String.valueOf(activity.getActivityNum());
+    }
+
+    public void setActivityName(Activity activity, String activityName) {
+        activity.setActivityName(activityName);
+    }
+
+    public String getActivityName(Activity activity) {
+        return activity.getActivityName();
+    }
+
+    public void registerWorkHoursOnActivity(Employee employee, Activity activity, float hours) throws OperationNotAllowedException {
+        activity.registerWorkHours(employee, hours);
+    }
+
+    public float getWorkHoursOnActivity(Employee employee, Activity activity) {
+        return activity.getWorkHours(employee);
+    }
+
+    public float getExpectedHoursOnActivity(Activity activity) {
+        return activity.getExpectedWorkHours();
+    }
+
+    public int getActivityStartWeek(Activity activity) {
+        return activity.getStartWeek();
+    }
+
+    public int getActivityEndWeek(Activity activity) {
+        return activity.getEndWeek();
     }
 }

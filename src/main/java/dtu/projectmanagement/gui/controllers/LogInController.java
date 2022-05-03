@@ -3,19 +3,16 @@ package dtu.projectmanagement.gui.controllers;
 import dtu.projectmanagement.app.ManagementApp;
 import dtu.projectmanagement.domain.Employee;
 import dtu.projectmanagement.gui.ManagementAppGUI;
+import dtu.projectmanagement.gui.controllers.listviewcell.EmployeeListViewCell;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
-import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 
 import java.io.IOException;
-import java.util.Objects;
 
 
 public class LogInController {
@@ -41,44 +38,6 @@ public class LogInController {
         });
 
         lvEmp.setCellFactory(employeeListView -> new EmployeeListViewCell());
-
-    }
-
-    class EmployeeListViewCell extends ListCell<Employee> {
-
-         //@FXML private FontAwesomeIconView
-         @FXML private Label lblUsername;
-         @FXML private HBox cell;
-
-         public EmployeeListViewCell() {
-             super();
-         }
-
-         @Override
-         protected void updateItem(Employee emp, boolean empty) {
-             super.updateItem(emp, empty);
-
-             if (empty || emp == null) {
-                 setText(null);
-                 setGraphic(null);
-             } else {
-                 FXMLLoader fxmlLoader = new FXMLLoader(ManagementAppGUI.class.getResource("components/empListCell-comp.fxml"));
-                 fxmlLoader.setController(this);
-
-                 try {
-                     fxmlLoader.load();
-                 } catch (IOException e) {
-                     e.printStackTrace();
-                 }
-
-                 lblUsername.setText(emp.getUsername());
-
-                 cell.setPrefWidth(lvEmp.getWidth() - 16);
-
-                 setText(null);
-                 setGraphic(cell);
-             }
-         }
     }
 
 
@@ -88,7 +47,7 @@ public class LogInController {
         Employee selectedUser = lvEmp.getSelectionModel().getSelectedItem();
         managementApp.login(selectedUser.getUsername());
 
-        if (!Objects.isNull(stagePopUp))
+        if (stagePopUp != null)
             stagePopUp.close();
         switchToHomeScene();
     }
@@ -103,15 +62,15 @@ public class LogInController {
         homeStage.setScene(scene);
         homeStage.setOnCloseRequest(e -> Platform.exit());
         homeStage.centerOnScreen();
-        homeStage.show();
         homeStage.setMinWidth(1200);
         homeStage.setMinHeight(800);
+        homeStage.show();
     }
 
     @FXML
     public void onBtnAddNewEmp() throws IOException {
         // Close the pop-up if it's already open
-        if (!Objects.isNull(stagePopUp))
+        if (stagePopUp != null)
             stagePopUp.close();
 
         // Create and display popup

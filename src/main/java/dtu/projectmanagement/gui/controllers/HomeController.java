@@ -6,16 +6,17 @@ import dtu.projectmanagement.domain.Activity;
 import dtu.projectmanagement.domain.Employee;
 import dtu.projectmanagement.domain.Project;
 import dtu.projectmanagement.gui.ManagementAppGUI;
+import dtu.projectmanagement.gui.controllers.listviewcell.ActivityListViewCell;
+import dtu.projectmanagement.gui.controllers.listviewcell.EmployeeListViewCell;
+import dtu.projectmanagement.gui.controllers.listviewcell.ProjectListViewCell;
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 
 import java.io.IOException;
-import java.util.Objects;
 
 public class HomeController {
 
@@ -34,18 +35,19 @@ public class HomeController {
 
     // Projects Pane
     @FXML private ListView<Project> lvProjects;
-    @FXML private Button btnEditProject;
+    @FXML private Button btnViewProject;
+    @FXML private Button btnDeleteProject;
 
     // Activities Pane
     @FXML private ListView<Activity> lvActivities;
     @FXML private Label lblActivityNameError;
     @FXML private TextField tfActivityName;
-    @FXML private Button btnEditActivity;
+    @FXML private Button btnViewActivity;
 
     // Employees Pane
     @FXML private ListView<Employee> lvEmp;
 
-    // ProjectEdit Pane
+    // ProjectView Pane
     @FXML private Label lblProjectNum;
     @FXML private Label lblProjectName;
     @FXML private Label lblProjectNameError;
@@ -53,20 +55,48 @@ public class HomeController {
     @FXML private Label lblProjectLeaderUsername;
     @FXML private ComboBox<Employee> cbPickProjectLeader;
     @FXML private Button btnChangeProjectLeader;
+    @FXML private Label lblProjectStartWeek;
+    @FXML private Label lblProjectStartWeekError;
+    @FXML private TextField tfProjectStartWeek;
+    @FXML private Label lblProjectEndWeek;
+    @FXML private Label lblProjectEndWeekError;
+    @FXML private TextField tfProjectEndWeek;
+
+    @FXML private Label lblProjectStatsError;
+    @FXML private Label lblProjectSpendHours;
+    @FXML private Label lblProjectExpectedHours;
+    @FXML private Label lblProjectRemainingHours;
+
     @FXML private Label lblProjectActivityNameError;
     @FXML private TextField tfProjectActivityName;
     @FXML private ListView<Activity> lvProjectActivities;
-    @FXML private Button btnEditProjectActivity;
+    @FXML private Button btnViewProjectActivity;
+    @FXML private Button btnDeleteProjectActivity;
 
-    // ActivityEdit Pane
+    // ActivityView Pane
     @FXML private Label lblActivityProjectNum;
     @FXML private Label lblActivityNum;
 
+    @FXML private Label lblActivityName;
+    @FXML private Label lblChangeActivityNameError;
+    @FXML private TextField tfChangeActivityName;
+    @FXML private Label lblRegisteredHours;
+    @FXML private Label lblRegisterHoursError;
+    @FXML private TextField tfRegisterHours;
+    @FXML private Label lblActivityExpectedHours;
+    @FXML private Label lblActivityExpectedHoursError;
+    @FXML private TextField tfSetExpectedHours;
+    @FXML private Label lblActivityStartWeek;
+    @FXML private Label lblActivityStartWeekError;
+    @FXML private TextField tfActivityStartWeek;
+    @FXML private Label lblActivityEndWeek;
+    @FXML private Label lblActivityEndWeekError;
+    @FXML private TextField tfActivityEndWeek;
+
+    @FXML private Label lblProjectActivityAssignError;
     @FXML private ComboBox<Employee> cbAssignEmployee;
     @FXML private Button btnAssignEmployee;
     @FXML private ListView<Employee> lvAssignedEmployees;
-
-
 
     @FXML
     public void initialize() {
@@ -80,10 +110,12 @@ public class HomeController {
         lvProjects.setCellFactory(projectListView -> new ProjectListViewCell());
         lvProjects.getSelectionModel().selectedItemProperty().addListener(e -> {
             if (lvProjects.getSelectionModel().getSelectedItem() == null) {
-                btnEditProject.setDisable(true);
+                btnViewProject.setDisable(true);
+                btnDeleteProject.setDisable(true);
                 return;
             }
-            btnEditProject.setDisable(false);
+            btnViewProject.setDisable(false);
+            btnDeleteProject.setDisable(false);
         });
 
         // Activities Pane
@@ -91,17 +123,17 @@ public class HomeController {
         lvActivities.setCellFactory(activityListView -> new ActivityListViewCell());
         lvActivities.getSelectionModel().selectedItemProperty().addListener(e -> {
             if (lvActivities.getSelectionModel().getSelectedItem() == null) {
-                btnEditActivity.setDisable(true);
+                btnViewActivity.setDisable(true);
                 return;
             }
-            btnEditActivity.setDisable(false);
+            btnViewActivity.setDisable(false);
         });
 
         // Employee Pane
         lvEmp.setItems(managementApp.getEmployeeRepo());
         lvEmp.setCellFactory(employeeListView -> new EmployeeListViewCell());
 
-        // ProjectEdit Pane
+        // ProjectView Pane
         cbPickProjectLeader.setItems(managementApp.getEmployeeRepo());
         cbPickProjectLeader.setCellFactory(employeeListView -> new EmployeeListViewCell());
         cbPickProjectLeader.getSelectionModel().selectedItemProperty().addListener(e -> {
@@ -115,13 +147,15 @@ public class HomeController {
         lvProjectActivities.setCellFactory(activityListView -> new ActivityListViewCell());
         lvProjectActivities.getSelectionModel().selectedItemProperty().addListener(e -> {
             if (lvProjectActivities.getSelectionModel().getSelectedItem() == null) {
-                btnEditProjectActivity.setDisable(true);
+                btnViewProjectActivity.setDisable(true);
+                btnDeleteProjectActivity.setDisable(true);
                 return;
             }
-            btnEditProjectActivity.setDisable(false);
+            btnViewProjectActivity.setDisable(false);
+            btnDeleteProjectActivity.setDisable(false);
         });
 
-        // ActivityEdit Pane
+        // ActivityView Pane
         cbAssignEmployee.setItems(managementApp.getEmployeeRepo());
         cbAssignEmployee.setCellFactory(employeeListView -> new EmployeeListViewCell());
         cbAssignEmployee.getSelectionModel().selectedItemProperty().addListener(e -> {
@@ -135,118 +169,9 @@ public class HomeController {
         lvAssignedEmployees.setCellFactory(employeeListView -> new EmployeeListViewCell());
     }
 
-    class EmployeeListViewCell extends ListCell<Employee> {
-
-        //@FXML private FontAwesomeIconView
-        @FXML private Label lblUsername;
-        @FXML private HBox cell;
-
-        public EmployeeListViewCell() {
-            super();
-        }
-
-        @Override
-        protected void updateItem(Employee emp, boolean empty) {
-            super.updateItem(emp, empty);
-
-            if (empty || emp == null) {
-                setText(null);
-                setGraphic(null);
-            } else {
-                FXMLLoader fxmlLoader = new FXMLLoader(ManagementAppGUI.class.getResource("components/empListCell-comp.fxml"));
-                fxmlLoader.setController(this);
-
-                try {
-                    fxmlLoader.load();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-
-                lblUsername.setText(emp.getUsername());
-
-                cell.setPrefWidth(lvEmp.getWidth() - 16);
-
-                setText(null);
-                setGraphic(cell);
-            }
-        }
-    }
-
-    class ProjectListViewCell extends ListCell<Project> {
-
-        //@FXML private FontAwesomeIconView
-        @FXML private Label lblCellProjectName;
-        @FXML private HBox cell;
-
-        public ProjectListViewCell() {
-            super();
-        }
-
-        @Override
-        protected void updateItem(Project proj, boolean empty) {
-            super.updateItem(proj, empty);
-
-            if (empty || proj == null) {
-                setText(null);
-                setGraphic(null);
-            } else {
-                FXMLLoader fxmlLoader = new FXMLLoader(ManagementAppGUI.class.getResource("components/projListCell-comp.fxml"));
-                fxmlLoader.setController(this);
-
-                try {
-                    fxmlLoader.load();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-
-                lblCellProjectName.setText(proj.getProjectNum());
-
-                cell.setPrefWidth(lvEmp.getWidth() - 16);
-
-                setText(null);
-                setGraphic(cell);
-            }
-        }
-    }
-
-    class ActivityListViewCell extends ListCell<Activity> {
-
-        //@FXML private FontAwesomeIconView
-        @FXML private Label lblCellActivityName;
-        @FXML private HBox cell;
-
-        public ActivityListViewCell() {
-            super();
-        }
-
-        @Override
-        protected void updateItem(Activity act, boolean empty) {
-            super.updateItem(act, empty);
-
-            if (empty || act == null) {
-                setText(null);
-                setGraphic(null);
-            } else {
-                FXMLLoader fxmlLoader = new FXMLLoader(ManagementAppGUI.class.getResource("components/actListCell-comp.fxml"));
-                fxmlLoader.setController(this);
-
-                try {
-                    fxmlLoader.load();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-
-                lblCellActivityName.setText(act.getActivityName());
-
-                cell.setPrefWidth(lvEmp.getWidth() - 16);
-
-                setText(null);
-                setGraphic(cell);
-            }
-        }
-    }
 
 
+    // Utility Methods
 
     @FXML
     public void onBtnActivityBack() {
@@ -266,14 +191,51 @@ public class HomeController {
         else
             lblProjectLeaderUsername.setText(managementApp.getProjectLeaderUsername(selectedProject));
 
+        if (managementApp.getProjectStartWeek(selectedProject) == 0)
+            lblProjectStartWeek.setText("N/A");
+        else
+            lblProjectStartWeek.setText(String.valueOf(managementApp.getProjectStartWeek(selectedProject)));
+
+        if (managementApp.getProjectEndWeek(selectedProject) == 0)
+            lblProjectStartWeek.setText("N/A");
+        else
+            lblProjectStartWeek.setText(String.valueOf(managementApp.getProjectEndWeek(selectedProject)));
+
         lblProjectName.setText(managementApp.getProjectName(selectedProject));
         cbPickProjectLeader.getSelectionModel().clearSelection();
+
+        lblProjectSpendHours.setText("N/A");
+        lblProjectExpectedHours.setText("N/A");
+        lblProjectRemainingHours.setText("N/A");
+
         lvProjectActivities.setItems(managementApp.getProjectActivityRepo(selectedProject));
     }
 
     private void loadActivity() {
+
+        // TODO: DO TYPE BASED LOADING HERE AFTER REFACTOR
+
         lblActivityProjectNum.setText(managementApp.getProjectNum(selectedProject));
         lblActivityNum.setText(managementApp.getActivityNum(selectedProject, selectedActivity));
+
+        lblActivityName.setText(managementApp.getActivityName(selectedProject, selectedActivity));
+        lblRegisteredHours.setText(String.valueOf(managementApp.getWorkHoursOnActivity(selectedProject, selectedActivity)));
+
+        if (managementApp.getUser() != managementApp.getProjectLeader(selectedProject))
+            lblActivityExpectedHours.setText("N/A");
+        else
+            lblActivityExpectedHours.setText(String.valueOf(managementApp.getActivityExpectedHours(selectedProject, selectedActivity)));
+
+        if (managementApp.getActivityStartWeek(selectedProject, selectedActivity) == 0)
+            lblProjectStartWeek.setText("N/A");
+        else
+            lblProjectStartWeek.setText(String.valueOf(managementApp.getActivityStartWeek(selectedProject, selectedActivity)));
+
+        if (managementApp.getActivityEndWeek(selectedProject, selectedActivity) == 0)
+            lblProjectStartWeek.setText("N/A");
+        else
+            lblProjectStartWeek.setText(String.valueOf(managementApp.getActivityEndWeek(selectedProject, selectedActivity)));
+
 
         cbAssignEmployee.getSelectionModel().clearSelection();
         lvAssignedEmployees.setItems(managementApp.getAssignedEmployees(selectedProject, selectedActivity));
@@ -284,17 +246,14 @@ public class HomeController {
     public void onBtnProjects() {
         tabPane.getSelectionModel().select(0);
     }
-
     @FXML
     public void onBtnActivities() {
         tabPane.getSelectionModel().select(3);
     }
-
     @FXML
     public void onBtnEmployees() {
         tabPane.getSelectionModel().select(4);
     }
-
     @FXML
     public void onBtnLogOut() throws IOException {
         switchToLogInScene();
@@ -322,24 +281,28 @@ public class HomeController {
     }
 
     @FXML
-    public void onBtnEditProject() {
+    public void onBtnViewProject() {
         loadProject();
         tabPane.getSelectionModel().select(1);
     }
 
+    @FXML
+    public void onBtnDeleteProject() {
+        selectedProject = lvProjects.getSelectionModel().getSelectedItem();
+        managementApp.deleteProject(selectedProject);
+    }
 
 
-    // ProjectEdit Pane
+
+    // ProjectView Pane
     @FXML
     public void onBtnProjectBack() {
         tabPane.getSelectionModel().select(0);
     }
-
     @FXML
     public void onBtnGenerateReport() {
 
     }
-
     @FXML
     public void onBtnChangeProjectName() {
         if (!tfChangeProjectName.getText().matches("^[a-zA-Z0-9]+$")) {
@@ -359,14 +322,77 @@ public class HomeController {
 
         lblProjectNameError.setText("");
         tfChangeProjectName.setText("");
-    }
 
+        lvProjects.refresh();
+    }
     @FXML
     public void onBtnChangeProjectLeader() {
         Employee selectedEmployee = cbPickProjectLeader.getSelectionModel().getSelectedItem();
 
         managementApp.assignProjectLeader(selectedProject, selectedEmployee);
         lblProjectLeaderUsername.setText(managementApp.getProjectLeaderUsername(selectedProject));
+    }
+    @FXML
+    public void onBtnSetProjectStartWeek() {
+        if (!tfProjectStartWeek.getText().matches("^\\d{4}-\\d{2}$")) {
+            lblProjectStartWeekError.setText("Wrong format; the correct format is yyyy-ww");
+            return;
+        }
+
+        int startWeek = Integer.parseInt(tfProjectStartWeek.getText().replaceAll("-",""));
+
+        if (startWeek % 100 > 52) {
+            lblProjectStartWeekError.setText("the week number must be valid.");
+            return;
+        }
+
+        try {
+            managementApp.setProjectStartWeek(selectedProject, startWeek);
+        } catch (OperationNotAllowedException e) {
+            lblProjectStartWeekError.setText(e.getMessage());
+            return;
+        }
+
+        lblProjectStartWeek.setText(tfProjectStartWeek.getText());
+        lblProjectStartWeekError.setText("");
+    }
+    @FXML
+    public void onBtnSetProjectEndWeek() {
+        if (!tfProjectEndWeek.getText().matches("^\\d{4}-\\d{2}$")) {
+            lblProjectEndWeekError.setText("Wrong format; the correct format is yyyy-ww");
+            return;
+        }
+
+        int endWeek = Integer.parseInt(tfProjectEndWeek.getText().replaceAll("-",""));
+
+        if (endWeek % 100 > 52) {
+            lblProjectEndWeekError.setText("the week number must be valid.");
+            return;
+        }
+
+        try {
+            managementApp.setProjectEndWeek(selectedProject, endWeek);
+        } catch (OperationNotAllowedException e) {
+            lblProjectEndWeekError.setText(e.getMessage());
+            return;
+        }
+
+        lblProjectEndWeek.setText(tfProjectEndWeek.getText());
+        lblProjectEndWeekError.setText("");
+    }
+
+    @FXML
+    public void onBtnGetProjectStats() {
+        try {
+            lblProjectSpendHours.setText(String.valueOf(managementApp.getSpendHoursOnProject(selectedProject)));
+            lblProjectExpectedHours.setText(String.valueOf(managementApp.getExpectedHoursOnProject(selectedProject)));
+            lblProjectRemainingHours.setText(String.valueOf(managementApp.getRemainingHoursOnProject(selectedProject)));
+        } catch(OperationNotAllowedException e) {
+            lblProjectStatsError.setText(e.getMessage());
+            return;
+        }
+
+        lblProjectStatsError.setText("");
     }
 
     @FXML
@@ -388,28 +414,118 @@ public class HomeController {
         lblProjectActivityNameError.setText("");
         tfProjectActivityName.setText("");
     }
-
     @FXML
-    public void onBtnEditProjectActivity() {
+    public void onBtnViewProjectActivity() {
         back = tabPane.getSelectionModel().getSelectedIndex();
         selectedActivity = lvProjectActivities.getSelectionModel().getSelectedItem();
         loadActivity();
         tabPane.getSelectionModel().select(2);
     }
-
-
-    // ActivityEdit Pane
     @FXML
-    public void onBtnAssignEmployee() throws OperationNotAllowedException {
-        Employee selectedEmployee = cbAssignEmployee.getSelectionModel().getSelectedItem();
-        // add duplicate check
-        managementApp.assignEmployeeToActivity(selectedProject, selectedActivity, selectedEmployee);
+    public void onBtnDeleteProjectActivity() {
+        selectedActivity = lvProjectActivities.getSelectionModel().getSelectedItem();
+        managementApp.deleteProjectActivity(selectedProject, selectedActivity);
     }
+
+
+
+    // ActivityView Pane
+    @FXML
+    public void onBtnChangeActivityName() {
+        if (!tfChangeActivityName.getText().matches("^[a-zA-Z0-9]+$")) {
+            lblChangeActivityNameError.setText("Project names can only contain alphanumeric characters.");
+            tfChangeActivityName.requestFocus();
+            return;
+        }
+
+        if ((tfChangeActivityName.getLength() == 0) || tfChangeActivityName.getLength() > 20) {
+            lblChangeActivityNameError.setText("Project names need to be between 1 and 20 characters");
+            tfChangeActivityName.requestFocus();
+            return;
+        }
+
+        managementApp.setProjectActivityName(selectedProject, selectedActivity, tfChangeActivityName.getText());
+        lblActivityName.setText(tfChangeActivityName.getText());
+
+        lblChangeActivityNameError.setText("");
+        tfChangeActivityName.setText("");
+
+        lvProjectActivities.refresh();
+    }
+    @FXML
+    public void onBtnRegisterHours() {
+        if (!tfRegisterHours.getText().matches("^\\d+(.\\d+)?$")) {
+            lblRegisterHoursError.setText("The amount of hours must be a positive number.");
+            return;
+        }
+
+        float registeredHours = Float.parseFloat(tfRegisterHours.getText());
+
+        try {
+            managementApp.registerWorkHoursOnProjectActivity(selectedProject, selectedActivity, registeredHours);
+        } catch (OperationNotAllowedException e) {
+            lblRegisterHoursError.setText(e.getMessage());
+            return;
+        }
+
+        lblRegisteredHours.setText(tfRegisterHours.getText());
+
+        lblRegisterHoursError.setText("");
+        tfRegisterHours.setText("");
+    }
+    @FXML
+    public void onBtnSetActivityExpectedHours() {
+        if (!tfSetExpectedHours.getText().matches("^\\d+(.\\d+)?$")) {
+            lblActivityExpectedHoursError.setText("The amount of hours must be a positive number.");
+            return;
+        }
+
+        float expectedHours = Float.parseFloat(tfSetExpectedHours.getText());
+
+        try {
+            managementApp.setExpectedWorkHoursOnActivity(selectedProject, selectedActivity, expectedHours);
+        } catch (OperationNotAllowedException e) {
+            lblActivityExpectedHoursError.setText(e.getMessage());
+            return;
+        }
+    }
+    @FXML
+    public void onBtnSetActivityStartWeek() {
+
+    }
+    @FXML
+    public void onBtnSetActivityEndWeek() {
+
+    }
+
+    @FXML
+    public void onBtnGetActivityStats() {
+
+    }
+
+    @FXML
+    public void onBtnAssignEmployee() {
+        Employee selectedEmployee = cbAssignEmployee.getSelectionModel().getSelectedItem();
+        try {
+            managementApp.assignEmployeeToActivity(selectedProject, selectedActivity, selectedEmployee);
+        } catch(OperationNotAllowedException e) {
+            lblProjectActivityAssignError.setText(e.getMessage());
+        }
+    }
+    @FXML
+    public void onBtnUnassignEmployee() {
+
+    }
+    @FXML
+    public void onBtnFindAvailableEmployees() {
+
+    }
+
 
 
     // Activities Pane
     @FXML
-    public void onBtnEditActivity() {
+    public void onBtnViewActivity() throws OperationNotAllowedException {
         back = tabPane.getSelectionModel().getSelectedIndex();
         selectedActivity = lvActivities.getSelectionModel().getSelectedItem();
         loadActivity();
@@ -442,7 +558,7 @@ public class HomeController {
     @FXML
     public void onBtnAddNewEmployee() throws IOException {
         // Close the pop-up if it's already open
-        if (!Objects.isNull(stagePopUp))
+        if (stagePopUp != null)
             stagePopUp.close();
 
         // Create and display popup
