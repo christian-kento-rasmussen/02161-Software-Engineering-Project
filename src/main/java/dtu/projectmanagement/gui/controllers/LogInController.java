@@ -17,8 +17,6 @@ import javafx.stage.Stage;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.io.IOException;
-import java.util.Objects;
-
 
 public class LogInController implements PropertyChangeListener {
 

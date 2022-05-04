@@ -245,14 +245,14 @@ public class HomeController implements PropertyChangeListener {
         lblRegisteredHours.setText(String.valueOf(managementApp.getWorkedHoursOnActivity()));
 
         if (managementApp.getActivityStartWeek() == 0)
-            lblProjectStartWeek.setText("N/A");
+            lblActivityStartWeek.setText("N/A");
         else
-            lblProjectStartWeek.setText(String.valueOf(managementApp.getActivityStartWeek()));
+            lblActivityStartWeek.setText(String.valueOf(managementApp.getActivityStartWeek()));
 
         if (managementApp.getActivityEndWeek() == 0)
-            lblProjectStartWeek.setText("N/A");
+            lblActivityEndWeek.setText("N/A");
         else
-            lblProjectStartWeek.setText(String.valueOf(managementApp.getActivityEndWeek()));
+            lblActivityEndWeek.setText(String.valueOf(managementApp.getActivityEndWeek()));
 
         lblActivityExpectedHours.setText("N/A");
 
