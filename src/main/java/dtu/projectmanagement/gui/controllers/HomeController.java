@@ -35,12 +35,12 @@ public class HomeController implements PropertyChangeListener {
     @FXML private Button btnLogOut;
     @FXML private Label lblCurrentUser;
 
-    // Projects Pane
+    // ProjectRepo Pane
     @FXML private ListView<Project> lvProjects;
     @FXML private Button btnViewProject;
     @FXML private Button btnDeleteProject;
 
-    // Activities Pane
+    // ActivityRepo Pane
     @FXML private ListView<Activity> lvActivities;
     @FXML private Label lblActivityNameError;
     @FXML private TextField tfActivityName;
@@ -48,7 +48,7 @@ public class HomeController implements PropertyChangeListener {
     @FXML private Button btnViewActivity;
     @FXML private Button btnUnassignActivity;
 
-    // Employees Pane
+    // EmployeeRepo Pane
     @FXML private ListView<Employee> lvEmp;
     @FXML private Button btnRemoveEmployee;
 
@@ -79,8 +79,8 @@ public class HomeController implements PropertyChangeListener {
     @FXML private Button btnDeleteProjectActivity;
 
     // ActivityView Pane
-    @FXML private Label lblActivityProjectNum;
-    @FXML private Label lblActivityNum;
+    @FXML private Label lblParent;
+    @FXML private Label lblActivityNameHeader;
 
     @FXML private Label lblActivityName;
     @FXML private Label lblChangeActivityNameError;
@@ -98,10 +98,19 @@ public class HomeController implements PropertyChangeListener {
     @FXML private Label lblActivityEndWeekError;
     @FXML private TextField tfActivityEndWeek;
 
+    @FXML private Label lblActivitySpendHours;
+    @FXML private Label lblActivityExpectedHoursStat;
+    @FXML private Label lblActivityRemainingHours;
+
+
     @FXML private Label lblProjectActivityAssignError;
     @FXML private ComboBox<Employee> cbAssignEmployee;
     @FXML private Button btnAssignEmployee;
     @FXML private ListView<Employee> lvAssignedEmployees;
+    @FXML private Button btnUnassignEmployee;
+
+    @FXML private Button btnFindAvailableEmployees;
+    @FXML private ListView<Employee> lvAvailableEmployees;
 
     @FXML
     public void initialize() {
@@ -113,86 +122,25 @@ public class HomeController implements PropertyChangeListener {
         // Navbar
         lblCurrentUser.setText(managementApp.getUserUsername());
 
-        // Project Pane
-        lvProjects.setItems(FXCollections.observableArrayList(managementApp.getProjectRepo()));
-        lvProjects.setCellFactory(projectListView -> new ProjectListViewCell());
-        lvProjects.getSelectionModel().selectedItemProperty().addListener(e -> {
-            if (lvProjects.getSelectionModel().getSelectedItem() == null) {
-                btnViewProject.setDisable(true);
-                btnDeleteProject.setDisable(true);
-                return;
-            }
-            btnViewProject.setDisable(false);
-            btnDeleteProject.setDisable(false);
-        });
+        // ProjectRepo Pane
+        loadProjectRepo();
 
-        // Activities Pane
-        lvActivities.setItems(FXCollections.observableArrayList(managementApp.getUserActivities()));
-        lvActivities.setCellFactory(activityListView -> new ActivityListViewCell());
-        lvActivities.getSelectionModel().selectedItemProperty().addListener(e -> {
-            if (lvActivities.getSelectionModel().getSelectedItem() == null) {
-                btnViewActivity.setDisable(true);
-                btnUnassignActivity.setDisable(true);
-                return;
-            }
-            btnViewActivity.setDisable(false);
-            btnUnassignActivity.setDisable(false);
-        });
+        // ActivityRepo Pane
+        loadActivityRepo();
 
-        // Employee Pane
-        lvEmp.setItems(FXCollections.observableArrayList(managementApp.getEmployeeRepo()));
-        lvEmp.setCellFactory(employeeListView -> new EmployeeListViewCell());
-        lvEmp.getSelectionModel().selectedItemProperty().addListener(e -> {
-            if (lvEmp.getSelectionModel().getSelectedItem() == null) {
-                btnRemoveEmployee.setDisable(true);
-                return;
-            }
-            btnRemoveEmployee.setDisable(false);
-        });
-
-        // ProjectView Pane
-        cbPickProjectLeader.setItems(FXCollections.observableArrayList(managementApp.getEmployeeRepo()));
-        cbPickProjectLeader.setCellFactory(employeeListView -> new EmployeeListViewCell());
-        cbPickProjectLeader.getSelectionModel().selectedItemProperty().addListener(e -> {
-            if (cbPickProjectLeader.getSelectionModel().getSelectedItem() == null) {
-                btnChangeProjectLeader.setDisable(true);
-                return;
-            }
-            btnChangeProjectLeader.setDisable(false);
-        });
-
-        lvProjectActivities.setCellFactory(activityListView -> new ActivityListViewCell());
-        lvProjectActivities.getSelectionModel().selectedItemProperty().addListener(e -> {
-            if (lvProjectActivities.getSelectionModel().getSelectedItem() == null) {
-                btnViewProjectActivity.setDisable(true);
-                btnDeleteProjectActivity.setDisable(true);
-                return;
-            }
-            btnViewProjectActivity.setDisable(false);
-            btnDeleteProjectActivity.setDisable(false);
-        });
-
-        // ActivityView Pane
-
-        cbAssignEmployee.setItems(FXCollections.observableArrayList(managementApp.getEmployeeRepo()));
-        cbAssignEmployee.setCellFactory(employeeListView -> new EmployeeListViewCell());
-        cbAssignEmployee.getSelectionModel().selectedItemProperty().addListener(e -> {
-            if (cbAssignEmployee.getSelectionModel().getSelectedItem() == null) {
-                btnAssignEmployee.setDisable(true);
-                return;
-            }
-            btnAssignEmployee.setDisable(false);
-        });
-
-        lvAssignedEmployees.setCellFactory(employeeListView -> new EmployeeListViewCell());
+        // EmployeeRepo Pane
+        loadEmployeeRepo();
     }
 
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
         String type = evt.getPropertyName();
-        System.out.println("changed");
         switch (type) {
             case NotificationType.UPDATE_PROJECT -> loadProject();
+            case NotificationType.UPDATE_PROJECT_REPO -> loadProjectRepo();
+            case NotificationType.UPDATE_ACTIVITY -> loadActivity();
+            case NotificationType.UPDATE_ACTIVITY_REPO -> loadActivityRepo();
+            case NotificationType.UPDATE_EMPLOYEE_REPO -> loadEmployeeRepo();
         }
     }
 
@@ -221,9 +169,9 @@ public class HomeController implements PropertyChangeListener {
             lblProjectStartWeek.setText(String.valueOf(managementApp.getProjectStartWeek()));
 
         if (managementApp.getProjectEndWeek() == 0)
-            lblProjectStartWeek.setText("N/A");
+            lblProjectEndWeek.setText("N/A");
         else
-            lblProjectStartWeek.setText(String.valueOf(managementApp.getProjectEndWeek()));
+            lblProjectEndWeek.setText(String.valueOf(managementApp.getProjectEndWeek()));
 
         lblProjectName.setText(managementApp.getProjectName());
         cbPickProjectLeader.getSelectionModel().clearSelection();
@@ -232,22 +180,69 @@ public class HomeController implements PropertyChangeListener {
         lblProjectExpectedHours.setText("N/A");
         lblProjectRemainingHours.setText("N/A");
 
-        //lvProjectActivities.setItems(managementApp.getProjectActivityRepo());
+
+        // ProjectView Pane
+        cbPickProjectLeader.setItems(FXCollections.observableArrayList(managementApp.getEmployeeRepo()));
+        cbPickProjectLeader.setCellFactory(employeeListView -> new EmployeeListViewCell());
+        cbPickProjectLeader.getSelectionModel().selectedItemProperty().addListener(e -> {
+            if (cbPickProjectLeader.getSelectionModel().getSelectedItem() == null) {
+                btnChangeProjectLeader.setDisable(true);
+                return;
+            }
+            btnChangeProjectLeader.setDisable(false);
+        });
+
+        lvProjectActivities.setItems(FXCollections.observableArrayList(managementApp.getProjectActivityRepo()));
+        lvProjectActivities.setCellFactory(activityListView -> new ActivityListViewCell());
+        lvProjectActivities.getSelectionModel().selectedItemProperty().addListener(e -> {
+            if (lvProjectActivities.getSelectionModel().getSelectedItem() == null) {
+                btnViewProjectActivity.setDisable(true);
+                btnDeleteProjectActivity.setDisable(true);
+                return;
+            }
+            btnViewProjectActivity.setDisable(false);
+            btnDeleteProjectActivity.setDisable(false);
+        });
+
+        loadProjectRepo();
     }
 
-    private void loadActivity() throws OperationNotAllowedException {
+    private void loadProjectRepo() {
+        lvProjects.setItems(FXCollections.observableArrayList(managementApp.getProjectRepo()));
+        lvProjects.setCellFactory(projectListView -> new ProjectListViewCell());
+        lvProjects.getSelectionModel().selectedItemProperty().addListener(e -> {
+            if (lvProjects.getSelectionModel().getSelectedItem() == null) {
+                btnViewProject.setDisable(true);
+                btnDeleteProject.setDisable(true);
+                return;
+            }
+            btnViewProject.setDisable(false);
+            btnDeleteProject.setDisable(false);
+        });
+    }
 
-        // TODO: DO TYPE BASED LOADING HERE AFTER REFACTOR
+    private void loadActivity() {
+        if (managementApp.getActivityType() == Activity.PROJECT_TYPE) {
+            lblParent.setText(managementApp.getProjectNum());
 
-        lblActivityProjectNum.setText(managementApp.getProjectNum());
+            cbAssignEmployee.setDisable(false);
+            lvAssignedEmployees.setDisable(false);
+            btnFindAvailableEmployees.setDisable(false);
+            lvAvailableEmployees.setDisable(false);
 
+            loadProject();
+        } else if (managementApp.getActivityType() == Activity.EMPLOYEE_TYPE) {
+            lblParent.setText(managementApp.getUserUsername());
+
+            cbAssignEmployee.setDisable(true);
+            lvAssignedEmployees.setDisable(true);
+            btnFindAvailableEmployees.setDisable(true);
+            lvAvailableEmployees.setDisable(true);
+        }
+
+        lblActivityNameHeader.setText(managementApp.getActivityName());
         lblActivityName.setText(managementApp.getActivityName());
         lblRegisteredHours.setText(String.valueOf(managementApp.getWorkedHoursOnActivity()));
-
-        if (managementApp.getUser() != managementApp.getProjectLeader())
-            lblActivityExpectedHours.setText("N/A");
-        else
-            lblActivityExpectedHours.setText(String.valueOf(managementApp.getExpectedWorkHoursOnActivity()));
 
         if (managementApp.getActivityStartWeek() == 0)
             lblProjectStartWeek.setText("N/A");
@@ -259,25 +254,83 @@ public class HomeController implements PropertyChangeListener {
         else
             lblProjectStartWeek.setText(String.valueOf(managementApp.getActivityEndWeek()));
 
+        lblActivityExpectedHours.setText("N/A");
+
+        try {
+            lblActivityExpectedHours.setText(String.valueOf(managementApp.getExpectedWorkHoursOnActivity()));
+        } catch (OperationNotAllowedException ignored) {}
 
         cbAssignEmployee.getSelectionModel().clearSelection();
-        //lvAssignedEmployees.setItems(managementApp.getAssignedEmployees());
+
+        cbAssignEmployee.setItems(FXCollections.observableArrayList(managementApp.getEmployeeRepo()));
+        cbAssignEmployee.setCellFactory(employeeListView -> new EmployeeListViewCell());
+        cbAssignEmployee.getSelectionModel().selectedItemProperty().addListener(e -> {
+            if (cbAssignEmployee.getSelectionModel().getSelectedItem() == null) {
+                btnAssignEmployee.setDisable(true);
+                return;
+            }
+            btnAssignEmployee.setDisable(false);
+        });
+
+        lvAssignedEmployees.setItems(FXCollections.observableArrayList(managementApp.getAssignedEmployees()));
+        lvAssignedEmployees.setCellFactory(employeeListView -> new EmployeeListViewCell());
+        lvAssignedEmployees.getSelectionModel().selectedItemProperty().addListener(e -> {
+            if (lvAssignedEmployees.getSelectionModel().getSelectedItem() == null) {
+                btnUnassignEmployee.setDisable(true);
+                return;
+            }
+            btnUnassignEmployee.setDisable(false);
+        });
+
+        lvAvailableEmployees.setCellFactory(employeeListView -> new EmployeeListViewCell());
+        lvAssignedEmployees.getSelectionModel().clearSelection();
+
+        loadActivityRepo();
+    }
+
+    private void loadActivityRepo() {
+        lvActivities.setItems(FXCollections.observableArrayList(managementApp.getUserActivities()));
+        lvActivities.setCellFactory(activityListView -> new ActivityListViewCell());
+        lvActivities.getSelectionModel().selectedItemProperty().addListener(e -> {
+            if (lvActivities.getSelectionModel().getSelectedItem() == null) {
+                btnViewActivity.setDisable(true);
+                btnUnassignActivity.setDisable(true);
+                return;
+            }
+            btnViewActivity.setDisable(false);
+            btnUnassignActivity.setDisable(false);
+        });
+    }
+
+    private void loadEmployeeRepo() {
+        lvEmp.setItems(FXCollections.observableArrayList(managementApp.getEmployeeRepo()));
+        lvEmp.setCellFactory(employeeListView -> new EmployeeListViewCell());
+        lvEmp.getSelectionModel().selectedItemProperty().addListener(e -> {
+            if (lvEmp.getSelectionModel().getSelectedItem() == null) {
+                btnRemoveEmployee.setDisable(true);
+                return;
+            }
+            btnRemoveEmployee.setDisable(false);
+        });
     }
 
     // Navbar
     @FXML
     public void onBtnProjects() {
         lvProjects.getSelectionModel().clearSelection();
+        loadProjectRepo();
         tabPane.getSelectionModel().select(0);
     }
     @FXML
     public void onBtnActivities() {
         lvActivities.getSelectionModel().clearSelection();
+        loadActivityRepo();
         tabPane.getSelectionModel().select(3);
     }
     @FXML
     public void onBtnEmployees() {
         lvEmp.getSelectionModel().clearSelection();
+        loadEmployeeRepo();
         tabPane.getSelectionModel().select(4);
     }
     @FXML
@@ -300,7 +353,7 @@ public class HomeController implements PropertyChangeListener {
 
 
 
-    // Projects Pane
+    // ProjectRepo Pane
     @FXML
     public void onBtnAddNewProject() {
         managementApp.createNewProject();
@@ -310,7 +363,6 @@ public class HomeController implements PropertyChangeListener {
     public void onBtnViewProject() {
         Project selectedProject = lvProjects.getSelectionModel().getSelectedItem();
         managementApp.selectProject(selectedProject);
-        loadProject();
         tabPane.getSelectionModel().select(1);
     }
     @FXML
@@ -328,10 +380,11 @@ public class HomeController implements PropertyChangeListener {
     }
     @FXML
     public void onBtnGenerateReport() {
-
+        // TODO
     }
     @FXML
     public void onBtnChangeProjectName() {
+        // TODO: Change to popup if you have the time?
         if (!tfChangeProjectName.getText().matches("^[a-zA-Z0-9]+$")) {
             lblProjectNameError.setText("Project names can only contain alphanumeric characters.");
             tfChangeProjectName.requestFocus();
@@ -345,35 +398,30 @@ public class HomeController implements PropertyChangeListener {
         }
 
         managementApp.setProjectName(tfChangeProjectName.getText());
-        lblProjectName.setText(tfChangeProjectName.getText());
 
         lblProjectNameError.setText("");
         tfChangeProjectName.setText("");
-
-        // TODO: implement changeListener
-        //lvProjects.refresh();
     }
     @FXML
     public void onBtnChangeProjectLeader() {
         Employee selectedEmployee = cbPickProjectLeader.getSelectionModel().getSelectedItem();
-
         managementApp.assignProjectLeader(selectedEmployee);
-        lblProjectLeaderUsername.setText(managementApp.getProjectLeaderUsername());
     }
     @FXML
     public void onBtnSetProjectStartWeek() {
-        if (!tfProjectStartWeek.getText().matches("^\\d{4}-\\d{2}$")) {
-            lblProjectStartWeekError.setText("Wrong format; the correct format is yyyy-ww");
+        if (!tfProjectStartWeek.getText().matches("^\\d{6}$")) {
+            lblProjectStartWeekError.setText("Wrong format; the correct format is yyyyww");
             return;
         }
 
-        int startWeek = Integer.parseInt(tfProjectStartWeek.getText().replaceAll("-",""));
+        int startWeek = Integer.parseInt(tfProjectStartWeek.getText());
 
         if (startWeek % 100 > 52) {
             lblProjectStartWeekError.setText("the week number must be valid.");
             return;
         }
 
+        // TODO: popup
         try {
             managementApp.setProjectStartWeek(startWeek);
         } catch (OperationNotAllowedException e) {
@@ -381,23 +429,24 @@ public class HomeController implements PropertyChangeListener {
             return;
         }
 
-        lblProjectStartWeek.setText(tfProjectStartWeek.getText());
         lblProjectStartWeekError.setText("");
+        tfProjectStartWeek.setText("");
     }
     @FXML
     public void onBtnSetProjectEndWeek() {
-        if (!tfProjectEndWeek.getText().matches("^\\d{4}-\\d{2}$")) {
-            lblProjectEndWeekError.setText("Wrong format; the correct format is yyyy-ww");
+        if (!tfProjectEndWeek.getText().matches("^\\d{6}$")) {
+            lblProjectEndWeekError.setText("Wrong format; the correct format is yyyyww");
             return;
         }
 
-        int endWeek = Integer.parseInt(tfProjectEndWeek.getText().replaceAll("-",""));
+        int endWeek = Integer.parseInt(tfProjectEndWeek.getText());
 
         if (endWeek % 100 > 52) {
             lblProjectEndWeekError.setText("the week number must be valid.");
             return;
         }
 
+        // TODO: popup
         try {
             managementApp.setProjectEndWeek(endWeek);
         } catch (OperationNotAllowedException e) {
@@ -405,8 +454,8 @@ public class HomeController implements PropertyChangeListener {
             return;
         }
 
-        lblProjectEndWeek.setText(tfProjectEndWeek.getText());
         lblProjectEndWeekError.setText("");
+        tfProjectEndWeek.setText("");
     }
 
     @FXML
@@ -417,10 +466,7 @@ public class HomeController implements PropertyChangeListener {
             lblProjectRemainingHours.setText(String.valueOf(managementApp.getRemainingHoursOnProject()));
         } catch(OperationNotAllowedException e) {
             lblProjectStatsError.setText(e.getMessage());
-            return;
         }
-
-        lblProjectStatsError.setText("");
     }
 
     @FXML
@@ -443,11 +489,10 @@ public class HomeController implements PropertyChangeListener {
         tfProjectActivityName.setText("");
     }
     @FXML
-    public void onBtnViewProjectActivity() throws OperationNotAllowedException {
+    public void onBtnViewProjectActivity() {
         back = tabPane.getSelectionModel().getSelectedIndex();
         Activity selectedActivity = lvProjectActivities.getSelectionModel().getSelectedItem();
         managementApp.selectActivity(selectedActivity);
-        loadActivity();
         tabPane.getSelectionModel().select(2);
     }
     @FXML
@@ -474,12 +519,9 @@ public class HomeController implements PropertyChangeListener {
         }
 
         managementApp.setActivityName(tfChangeActivityName.getText());
-        lblActivityName.setText(tfChangeActivityName.getText());
 
         lblChangeActivityNameError.setText("");
         tfChangeActivityName.setText("");
-
-        lvProjectActivities.refresh();
     }
     @FXML
     public void onBtnRegisterHours() {
@@ -515,21 +557,69 @@ public class HomeController implements PropertyChangeListener {
             managementApp.setExpectedWorkHoursOnActivity(expectedHours);
         } catch (OperationNotAllowedException e) {
             lblActivityExpectedHoursError.setText(e.getMessage());
-            return;
         }
     }
     @FXML
     public void onBtnSetActivityStartWeek() {
+        if (!tfActivityStartWeek.getText().matches("^\\d{6}$")) {
+            lblActivityStartWeekError.setText("Wrong format; the correct format is yyyyww");
+            return;
+        }
 
+        int startWeek = Integer.parseInt(tfActivityStartWeek.getText());
+
+        if (startWeek % 100 > 52) {
+            lblActivityStartWeekError.setText("the week number must be valid.");
+            return;
+        }
+
+        // TODO: popup
+        try {
+            managementApp.setActivityStartWeek(startWeek);
+        } catch (OperationNotAllowedException e) {
+            lblActivityStartWeekError.setText(e.getMessage());
+            return;
+        }
+
+        lblActivityStartWeekError.setText("");
+        tfActivityStartWeek.setText("");
     }
     @FXML
     public void onBtnSetActivityEndWeek() {
+        if (!tfActivityEndWeek.getText().matches("^\\d{6}$")) {
+            lblActivityEndWeekError.setText("Wrong format; the correct format is yyyyww");
+            return;
+        }
 
+        int endWeek = Integer.parseInt(tfActivityEndWeek.getText());
+
+        if (endWeek % 100 > 52) {
+            lblActivityEndWeekError.setText("the week number must be valid.");
+            return;
+        }
+
+        // TODO: popup
+        try {
+            managementApp.setActivityEndWeek(endWeek);
+        } catch (OperationNotAllowedException e) {
+            lblActivityEndWeekError.setText(e.getMessage());
+            return;
+        }
+
+        lblActivityEndWeekError.setText("");
+        tfActivityEndWeek.setText("");
     }
 
     @FXML
     public void onBtnGetActivityStats() {
-
+        try {
+            lblActivitySpendHours.setText(String.valueOf(managementApp.getSpendHoursOnProject()));
+            lblActivityExpectedHours.setText(String.valueOf(managementApp.getExpectedHoursOnProject()));
+            lblActivityExpectedHoursStat.setText(String.valueOf(managementApp.getExpectedHoursOnProject()));
+            lblActivityRemainingHours.setText(String.valueOf(managementApp.getRemainingHoursOnProject()));
+        } catch(OperationNotAllowedException e) {
+            lblProjectStatsError.setText(e.getMessage());
+        }
     }
 
     @FXML
@@ -543,16 +633,22 @@ public class HomeController implements PropertyChangeListener {
     }
     @FXML
     public void onBtnUnassignEmployee() {
-
+        Employee selectedEmployee = lvAssignedEmployees.getSelectionModel().getSelectedItem();
+        managementApp.unassignEmployeeFromActivity(selectedEmployee);
     }
     @FXML
     public void onBtnFindAvailableEmployees() {
+        // TODO: popup
+        try {
+            lvAvailableEmployees.setItems(FXCollections.observableArrayList(managementApp.listAvailableEmployeesForActivity()));
+        } catch (OperationNotAllowedException e) {
 
+        }
     }
 
 
 
-    // Activities Pane
+    // ActivityRepo Pane
     @FXML
     public void onBtnAddNewUserActivity() throws OperationNotAllowedException {
         if ((tfActivityName.getLength() == 0) || tfActivityName.getLength() > 20) {
@@ -574,11 +670,10 @@ public class HomeController implements PropertyChangeListener {
     }
 
     @FXML
-    public void onBtnViewActivity() throws OperationNotAllowedException {
+    public void onBtnViewActivity() {
         back = tabPane.getSelectionModel().getSelectedIndex();
         Activity selectedActivity = lvActivities.getSelectionModel().getSelectedItem();
         managementApp.selectActivity(selectedActivity);
-        loadActivity();
         tabPane.getSelectionModel().select(2);
     }
     @FXML
@@ -586,10 +681,9 @@ public class HomeController implements PropertyChangeListener {
         Activity selectedActivity = lvActivities.getSelectionModel().getSelectedItem();
         managementApp.selectActivity(selectedActivity);
         managementApp.unassignEmployeeFromActivity(managementApp.getUser());
-
     }
 
-    // Employees Pane
+    // EmployeeRepo Pane
     @FXML
     public void onBtnAddNewEmployee() throws IOException {
         // Close the pop-up if it's already open

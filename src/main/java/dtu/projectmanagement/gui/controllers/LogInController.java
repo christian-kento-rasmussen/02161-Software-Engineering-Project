@@ -48,7 +48,7 @@ public class LogInController implements PropertyChangeListener {
 
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
-        if (evt.getPropertyName().equals(NotificationType.UPDATE_EMPLOYEE)) {
+        if (evt.getPropertyName().equals(NotificationType.UPDATE_EMPLOYEE_REPO)) {
             lvEmp.setItems(FXCollections.observableArrayList(managementApp.getEmployeeRepo()));
         }
     }

@@ -16,7 +16,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1127.0" prefWidth="1770.0" stylesheets="@../css/style.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dtu.projectmanagement.gui.controllers.HomeController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1091.0" prefWidth="1578.0" stylesheets="@../css/style.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dtu.projectmanagement.gui.controllers.HomeController">
    <left>
       <VBox alignment="TOP_CENTER" prefHeight="876.0" prefWidth="200.0" style="-fx-background-color: #3c3f41;" BorderPane.alignment="CENTER">
          <children>
@@ -258,7 +258,7 @@
                                              </font>
                                           </Label>
                                           <Label fx:id="lblProjectStartWeekError" textFill="RED" />
-                                          <TextField fx:id="tfProjectStartWeek" promptText="yyyy-ww" />
+                                          <TextField fx:id="tfProjectStartWeek" promptText="yyyyww" />
                                           <Button mnemonicParsing="false" onAction="#onBtnSetProjectStartWeek" prefHeight="0.0" prefWidth="163.0" styleClass="btnLeader" text="Set Start Week" textFill="#eeeeee">
                                              <font>
                                                 <Font size="14.0" />
@@ -288,7 +288,7 @@
                                              </font>
                                           </Label>
                                           <Label fx:id="lblProjectEndWeekError" textFill="RED" />
-                                          <TextField fx:id="tfProjectEndWeek" promptText="yyyy-ww" />
+                                          <TextField fx:id="tfProjectEndWeek" promptText="yyyyww" />
                                           <Button mnemonicParsing="false" onAction="#onBtnSetProjectEndWeek" prefHeight="0.0" prefWidth="163.0" styleClass="btnLeader" text="Set End Week" textFill="#eeeeee">
                                              <font>
                                                 <Font size="14.0" />
@@ -438,7 +438,7 @@
                                     <Insets bottom="11.0" left="22.0" right="22.0" top="22.0" />
                                  </VBox.margin>
                               </HBox>
-                              <ListView fx:id="lvProjectActivities" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="314.0" prefWidth="1071.0">
+                              <ListView fx:id="lvProjectActivities" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="200.0">
                                  <VBox.margin>
                                     <Insets left="22.0" right="22.0" />
                                  </VBox.margin>
@@ -496,7 +496,7 @@
                                           <Insets right="-10.0" />
                                        </HBox.margin>
                                     </Label>
-                                    <Label fx:id="lblActivityProjectNum" text="projectNum" textFill="#eeeeee">
+                                    <Label fx:id="lblParent" text="parent" textFill="#eeeeee">
                                        <font>
                                           <Font size="44.0" />
                                        </font>
@@ -506,7 +506,7 @@
                                           <Font size="44.0" />
                                        </font>
                                     </Label>
-                                    <Label fx:id="lblActivityNum" text="activityNum" textFill="#eeeeee">
+                                    <Label fx:id="lblActivityNameHeader" text="activityName" textFill="#eeeeee">
                                        <font>
                                           <Font size="44.0" />
                                        </font>
@@ -632,7 +632,7 @@
                                              </font>
                                           </Label>
                                           <Label fx:id="lblActivityStartWeekError" textFill="RED" />
-                                          <TextField fx:id="tfActivityStartWeek" promptText="yyyy-ww" />
+                                          <TextField fx:id="tfActivityStartWeek" promptText="yyyyww" />
                                           <Button mnemonicParsing="false" onAction="#onBtnSetActivityStartWeek" prefHeight="0.0" prefWidth="163.0" styleClass="btnLeader" text="Set Start Week" textFill="#eeeeee">
                                              <font>
                                                 <Font size="14.0" />
@@ -662,7 +662,7 @@
                                              </font>
                                           </Label>
                                           <Label fx:id="lblActivityEndWeekError" textFill="RED" />
-                                          <TextField fx:id="tfActivityEndWeek" promptText="yyyy-ww" />
+                                          <TextField fx:id="tfActivityEndWeek" promptText="yyyyww" />
                                           <Button mnemonicParsing="false" onAction="#onBtnSetActivityEndWeek" prefHeight="0.0" prefWidth="163.0" styleClass="btnLeader" text="Set EndWeek" textFill="#eeeeee">
                                              <font>
                                                 <Font size="14.0" />
@@ -722,7 +722,7 @@
                                                 <Insets right="-10.0" />
                                              </padding>
                                           </Label>
-                                          <Label fx:id="lblProjectSpendHours1" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="N/A" textFill="#eeeeee" HBox.hgrow="ALWAYS">
+                                          <Label fx:id="lblActivitySpendHours" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="N/A" textFill="#eeeeee" HBox.hgrow="ALWAYS">
                                              <font>
                                                 <Font size="22.0" />
                                              </font>
@@ -746,7 +746,7 @@
                                                 <Insets right="-10.0" />
                                              </padding>
                                           </Label>
-                                          <Label fx:id="lblProjectExpectedHours1" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="N/A" textFill="#eeeeee" HBox.hgrow="ALWAYS">
+                                          <Label fx:id="lblActivityExpectedHoursStat" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="N/A" textFill="#eeeeee" HBox.hgrow="ALWAYS">
                                              <font>
                                                 <Font size="22.0" />
                                              </font>
@@ -770,7 +770,7 @@
                                                 <Insets right="-10.0" />
                                              </padding>
                                           </Label>
-                                          <Label fx:id="lblProjectRemainingHours1" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="N/A" textFill="#eeeeee" HBox.hgrow="ALWAYS">
+                                          <Label fx:id="lblActivityRemainingHours" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" text="N/A" textFill="#eeeeee" HBox.hgrow="ALWAYS">
                                              <font>
                                                 <Font size="22.0" />
                                              </font>
@@ -816,14 +816,14 @@
                                                 </Button>
                                              </children>
                                           </HBox>
-                                          <ListView fx:id="lvAssignedEmployees">
+                                          <ListView fx:id="lvAssignedEmployees" minHeight="200.0">
                                              <VBox.margin>
                                                 <Insets left="22.0" right="22.0" />
                                              </VBox.margin>
                                           </ListView>
                                           <HBox alignment="CENTER_RIGHT">
                                              <children>
-                                                <Button disable="true" mnemonicParsing="false" onAction="#onBtnUnassignEmployee" prefHeight="46.0" prefWidth="235.0" styleClass="btnRed" text="Unassign Employee" textFill="#eeeeee">
+                                                <Button fx:id="btnUnassignEmployee" disable="true" mnemonicParsing="false" onAction="#onBtnUnassignEmployee" prefHeight="46.0" prefWidth="235.0" styleClass="btnRed" text="Unassign Employee" textFill="#eeeeee">
                                                    <font>
                                                       <Font size="22.0" />
                                                    </font>
@@ -845,7 +845,7 @@
                                                    </font>
                                                 </Label>
                                                 <Label fx:id="lblProjectActivityAssignError1" textFill="RED" />
-                                                <Button mnemonicParsing="false" onAction="#onBtnFindAvailableEmployees" prefWidth="189.0" styleClass="btnLeader" text="Find Available Employees" textFill="#eeeeee">
+                                                <Button fx:id="btnFindAvailableEmployees" mnemonicParsing="false" onAction="#onBtnFindAvailableEmployees" prefWidth="189.0" styleClass="btnLeader" text="Find Available Employees" textFill="#eeeeee">
                                                    <font>
                                                       <Font size="14.0" />
                                                    </font>
@@ -855,7 +855,7 @@
                                                 <Insets bottom="11.0" left="22.0" right="22.0" top="22.0" />
                                              </VBox.margin>
                                           </HBox>
-                                          <ListView fx:id="lvAssignedEmployees1">
+                                          <ListView fx:id="lvAvailableEmployees" minHeight="200.0">
                                              <VBox.margin>
                                                 <Insets left="22.0" right="22.0" />
                                              </VBox.margin>

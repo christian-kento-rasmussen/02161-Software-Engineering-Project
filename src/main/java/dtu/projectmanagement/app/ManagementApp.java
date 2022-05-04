@@ -25,10 +25,13 @@ public class ManagementApp {
     // Selection
     public void selectProject(Project project) {
         selectedProject = project;
+
         support.firePropertyChange(NotificationType.UPDATE_PROJECT, null, null);
     }
     public void selectActivity(Activity activity) {
         selectedActivity = activity;
+
+        support.firePropertyChange(NotificationType.UPDATE_ACTIVITY, null, null);
     }
 
 
@@ -50,10 +53,14 @@ public class ManagementApp {
         Project project = new Project(projectNum);
 
         projectRepo.add(project);
+
+        support.firePropertyChange(NotificationType.UPDATE_PROJECT_REPO, null, null);
     }
     public void deleteProject(Project project) {
         project.getActivityRepo().forEach(Activity::unassignAllEmployees);
         projectRepo.remove(project);
+
+        support.firePropertyChange(NotificationType.UPDATE_PROJECT_REPO, null, null);
     }
     public Project getProject(String projectNum) {
         for (Project project : projectRepo) {
@@ -69,6 +76,8 @@ public class ManagementApp {
     // Project - project leader
     public void assignProjectLeader(Employee employee) {
         selectedProject.setProjectLeader(employee);
+
+        support.firePropertyChange(NotificationType.UPDATE_PROJECT, null, null);
     }
     public Employee getProjectLeader() {
         return selectedProject.getProjectLeader();
@@ -90,10 +99,14 @@ public class ManagementApp {
     }
     public void setProjectName(String projectName) {
         selectedProject.setProjectName(projectName);
+
+        support.firePropertyChange(NotificationType.UPDATE_PROJECT, null, null);
     }
     public void setProjectStartWeek(int startWeek) throws OperationNotAllowedException {
         checkIsProjectLeader();
         selectedProject.setStartWeek(startWeek);
+
+        support.firePropertyChange(NotificationType.UPDATE_PROJECT, null, null);
     }
     public int getProjectStartWeek() {
         return selectedProject.getStartWeek();
@@ -101,6 +114,8 @@ public class ManagementApp {
     public void setProjectEndWeek(int endWeek) throws OperationNotAllowedException {
         checkIsProjectLeader();
         selectedProject.setEndWeek(endWeek);
+
+        support.firePropertyChange(NotificationType.UPDATE_PROJECT, null, null);
     }
     public int getProjectEndWeek() {
         return selectedProject.getEndWeek();
@@ -109,14 +124,23 @@ public class ManagementApp {
     // Project - work-info
     public float getSpendHoursOnProject() throws OperationNotAllowedException {
         checkIsProjectLeader();
+
+        support.firePropertyChange(NotificationType.UPDATE_PROJECT, null, null);
+
         return selectedProject.getSpendHours();
     }
     public float getExpectedHoursOnProject() throws OperationNotAllowedException {
         checkIsProjectLeader();
+
+        support.firePropertyChange(NotificationType.UPDATE_PROJECT, null, null);
+
         return selectedProject.getExpectedHours();
     }
     public float getRemainingHoursOnProject() throws OperationNotAllowedException {
         checkIsProjectLeader();
+
+        support.firePropertyChange(NotificationType.UPDATE_PROJECT, null, null);
+
         return selectedProject.getRemainingHours();
     }
     public void generateProjectReport() throws OperationNotAllowedException {
@@ -132,16 +156,26 @@ public class ManagementApp {
     // Activity - creation, deletion, repo
     public void addNewProjectActivity(String activityName) {
         selectedProject.addNewActivity(activityName);
+
+        support.firePropertyChange(NotificationType.UPDATE_PROJECT, null, null);
+        support.firePropertyChange(NotificationType.UPDATE_ACTIVITY_REPO, null, null);
     }
     public void deleteProjectActivity(Activity activity) {
         selectedProject.deleteActivity(activity);
+
+        support.firePropertyChange(NotificationType.UPDATE_PROJECT, null, null);
+        support.firePropertyChange(NotificationType.UPDATE_ACTIVITY_REPO, null, null);
     }
     public void addNewUserActivity(String activityName) throws OperationNotAllowedException {
         user.addNewActivity(activityName);
+
+        support.firePropertyChange(NotificationType.UPDATE_ACTIVITY_REPO, null, null);
     }
     public void deleteUserActivity(Activity activity) {
         user.unassignActivity(activity);
         activity.unassignEmployee(user);
+
+        support.firePropertyChange(NotificationType.UPDATE_ACTIVITY_REPO, null, null);
     }
     public Activity getProjectActivity(String activityName) {
         return selectedProject.getActivity(activityName);
@@ -159,6 +193,8 @@ public class ManagementApp {
     // Activity - assigned employees
     public void assignEmployeeToActivity(Employee employee) throws OperationNotAllowedException {
         selectedActivity.assignEmployee(employee);
+
+        support.firePropertyChange(NotificationType.UPDATE_ACTIVITY, null, null);
     }
     public void unassignEmployeeFromActivity(Employee employee) {
         if (selectedActivity.getActivityType() == Activity.PROJECT_TYPE) {
@@ -166,6 +202,8 @@ public class ManagementApp {
             selectedActivity.unassignEmployee(employee);
         } else if (selectedActivity.getActivityType() == Activity.EMPLOYEE_TYPE)
             deleteUserActivity(selectedActivity);
+
+        support.firePropertyChange(NotificationType.UPDATE_ACTIVITY, null, null);
     }
     public List<Employee> getAssignedEmployees() {
         return selectedActivity.getAssignedEmployees();
@@ -177,38 +215,62 @@ public class ManagementApp {
     }
     public void setActivityName(String activityName) {
         selectedActivity.setActivityName(activityName);
+
+        support.firePropertyChange(NotificationType.UPDATE_ACTIVITY, null, null);
     }
     public void setActivityStartWeek(int startWeek) throws OperationNotAllowedException {
-        checkIsProjectLeader();
+        if (selectedActivity.getParentEmployee() != user) {
+            checkIsProjectLeader();
+        }
         selectedActivity.setStartWeek(startWeek);
+
+        support.firePropertyChange(NotificationType.UPDATE_ACTIVITY, null, null);
     }
     public int getActivityStartWeek() {
         return selectedActivity.getStartWeek();
     }
     public void setActivityEndWeek(int endWeek) throws OperationNotAllowedException {
-        checkIsProjectLeader();
+        // TODO: or parent to the activity
+        if (selectedActivity.getParentEmployee() != user) {
+            checkIsProjectLeader();
+        }
         selectedActivity.setEndWeek(endWeek);
+
+        support.firePropertyChange(NotificationType.UPDATE_ACTIVITY, null, null);
     }
     public int getActivityEndWeek() {
         return selectedActivity.getEndWeek();
     }
+    public int getActivityType() {
+        return selectedActivity.getActivityType();
+    }
 
     // Activity - work-info
     public float getSpendHoursOnActivity() throws OperationNotAllowedException {
-        checkIsProjectLeader();
+        if (selectedActivity.getParentEmployee() != user) {
+            checkIsProjectLeader();
+        }
         return selectedActivity.getSpendHours();
     }
     public float getExpectedWorkHoursOnActivity() throws OperationNotAllowedException {
         // TODO: test
-        checkIsProjectLeader();
+        if (selectedActivity.getParentEmployee() != user) {
+            checkIsProjectLeader();
+        }
         return selectedActivity.getExpectedWorkHours();
     }
     public void setExpectedWorkHoursOnActivity(float hours) throws OperationNotAllowedException {
-        checkIsProjectLeader();
+        if (selectedActivity.getParentEmployee() != user) {
+            checkIsProjectLeader();
+        }
         selectedActivity.setExpectedWorkHours(hours);
+
+        support.firePropertyChange(NotificationType.UPDATE_ACTIVITY, null, null);
     }
     public float getRemainingHoursOnActivity() throws OperationNotAllowedException {
-        checkIsProjectLeader();
+        if (selectedActivity.getParentEmployee() != user) {
+            checkIsProjectLeader();
+        }
         return selectedActivity.getRemainingHours();
     }
     public List<Employee> listAvailableEmployeesForActivity() throws OperationNotAllowedException {
@@ -244,7 +306,8 @@ public class ManagementApp {
         if (duplicate)
             throw new OperationNotAllowedException("An employee with that username already exists.");
         employeeRepo.add(new Employee(username));
-        support.firePropertyChange(NotificationType.UPDATE_EMPLOYEE, null, null);
+
+        support.firePropertyChange(NotificationType.UPDATE_EMPLOYEE_REPO, null, null);
     }
     public void removeEmployee(Employee employee) throws OperationNotAllowedException {
         if (employee.equals(user))
@@ -256,6 +319,8 @@ public class ManagementApp {
             project.getActivityRepo().forEach(activity -> activity.unassignEmployee(employee));
         });
         employeeRepo.remove(employee);
+
+        support.firePropertyChange(NotificationType.UPDATE_EMPLOYEE_REPO, null, null);
     }
     public Employee getEmployee(String username) {
         return employeeRepo.stream()
