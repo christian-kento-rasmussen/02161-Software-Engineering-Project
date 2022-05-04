@@ -18,7 +18,6 @@ public class ProjectListViewCell extends ListCell<Project> {
 
     public ProjectListViewCell() {
         super();
-
     }
 
     @Override
@@ -38,7 +37,7 @@ public class ProjectListViewCell extends ListCell<Project> {
                 e.printStackTrace();
             }
 
-            lblCellProjectName.setText(proj.getProjectNum());
+            lblCellProjectName.setText(proj.getProjectName());
 
             setText(null);
             setGraphic(cell);

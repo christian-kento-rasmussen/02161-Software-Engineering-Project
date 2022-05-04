@@ -1,9 +1,9 @@
 package dtu.projectmanagement.domain;
 
 import dtu.projectmanagement.app.OperationNotAllowedException;
-import javafx.beans.property.StringProperty;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class Project {
 
@@ -15,7 +15,7 @@ public class Project {
     private int startWeek;
     private int endWeek;
 
-    private ObservableList<Activity> activities = FXCollections.observableArrayList();
+    private final List<Activity> activities = new ArrayList<>();
 
     public Project(String projectNum) {
         this.projectNum = projectNum;
@@ -77,7 +77,7 @@ public class Project {
                 .findAny()
                 .orElse(null);
     }
-    public ObservableList<Activity> getActivityRepo() {
+    public List<Activity> getActivityRepo() {
         return activities;
     }
 

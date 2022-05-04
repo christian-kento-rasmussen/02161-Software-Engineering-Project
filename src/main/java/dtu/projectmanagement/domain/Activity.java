@@ -1,10 +1,10 @@
 package dtu.projectmanagement.domain;
 
 import dtu.projectmanagement.app.OperationNotAllowedException;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 public class Activity {
 
@@ -21,7 +21,7 @@ public class Activity {
     private int endWeek;
 
     private HashMap<Employee, Float> employeeWorkHoursMap = new HashMap<>();
-    private ObservableList<Employee> assignedEmployees = FXCollections.observableArrayList();
+    private List<Employee> assignedEmployees = new ArrayList<>();
 
     public Activity(String activityName, Project parentProject) {
         this.activityName = activityName;
@@ -117,9 +117,9 @@ public class Activity {
     }
     public void unassignAllEmployees() {
         assignedEmployees.forEach(employee -> employee.unassignActivity(this));
-        assignedEmployees.removeAll();
+        assignedEmployees.clear();
     }
-    public ObservableList<Employee> getAssignedEmployees() {
+    public List<Employee> getAssignedEmployees() {
         return assignedEmployees;
     }
     public HashMap<Employee, Float> getEmployeeWorkHoursMap() {

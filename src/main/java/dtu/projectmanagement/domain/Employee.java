@@ -1,13 +1,14 @@
 package dtu.projectmanagement.domain;
 
 import dtu.projectmanagement.app.OperationNotAllowedException;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class Employee {
 
     private String username;
-    private ObservableList<Activity> assignedActivities = FXCollections.observableArrayList();
+    private List<Activity> assignedActivities = new ArrayList<>();
 
     public Employee(String username) {
         this.username = username;
@@ -50,7 +51,7 @@ public class Employee {
                 .findAny()
                 .orElse(null);
     }
-    public ObservableList<Activity> getAssignedActivities() {
+    public List<Activity> getAssignedActivities() {
         return assignedActivities;
     }
 }

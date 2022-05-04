@@ -1,10 +1,9 @@
 package dtu.projectmanagement.app;
 
 import dtu.projectmanagement.domain.*;
-import javafx.beans.property.StringProperty;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
 import java.util.*;
 
 public class ManagementApp {
@@ -13,16 +12,20 @@ public class ManagementApp {
     private Activity selectedActivity;
     private Employee user;
 
-    private final ObservableList<Project> projectRepo = FXCollections.observableArrayList();
-    private final ObservableList<Employee> employeeRepo = FXCollections.observableArrayList();
+    private final List<Project> projectRepo = new ArrayList<>();
+    private final List<Employee> employeeRepo = new ArrayList<>();
 
     private final Map<Integer, Integer> serialNum = new HashMap<>();
 
-
+    PropertyChangeSupport support = new PropertyChangeSupport(this);
+    public void addObserver(PropertyChangeListener l) {
+        support.addPropertyChangeListener(l);
+    }
 
     // Selection
     public void selectProject(Project project) {
         selectedProject = project;
+        support.firePropertyChange(NotificationType.UPDATE_PROJECT, null, null);
     }
     public void selectActivity(Activity activity) {
         selectedActivity = activity;
@@ -59,7 +62,7 @@ public class ManagementApp {
         }
         return null;
     }
-    public ObservableList<Project> getProjectRepo() {
+    public List<Project> getProjectRepo() {
         return projectRepo;
     }
 
@@ -143,13 +146,13 @@ public class ManagementApp {
     public Activity getProjectActivity(String activityName) {
         return selectedProject.getActivity(activityName);
     }
-    public ObservableList<Activity> getProjectActivityRepo() {
+    public List<Activity> getProjectActivityRepo() {
         return selectedProject.getActivityRepo();
     }
     public Activity getUserActivity(String activityName) {
         return user.getActivity(activityName);
     }
-    public ObservableList<Activity> getUserActivities() {
+    public List<Activity> getUserActivities() {
         return user.getAssignedActivities();
     }
 
@@ -164,7 +167,7 @@ public class ManagementApp {
         } else if (selectedActivity.getActivityType() == Activity.EMPLOYEE_TYPE)
             deleteUserActivity(selectedActivity);
     }
-    public ObservableList<Employee> getAssignedEmployees() {
+    public List<Employee> getAssignedEmployees() {
         return selectedActivity.getAssignedEmployees();
     }
 
@@ -241,6 +244,7 @@ public class ManagementApp {
         if (duplicate)
             throw new OperationNotAllowedException("An employee with that username already exists.");
         employeeRepo.add(new Employee(username));
+        support.firePropertyChange(NotificationType.UPDATE_EMPLOYEE, null, null);
     }
     public void removeEmployee(Employee employee) throws OperationNotAllowedException {
         if (employee.equals(user))
@@ -259,7 +263,7 @@ public class ManagementApp {
                 .findAny()
                 .orElse(null);
     }
-    public ObservableList<Employee> getEmployeeRepo() {
+    public List<Employee> getEmployeeRepo() {
         return employeeRepo;
     }
 

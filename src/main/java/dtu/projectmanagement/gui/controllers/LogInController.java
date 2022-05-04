@@ -1,10 +1,12 @@
 package dtu.projectmanagement.gui.controllers;
 
 import dtu.projectmanagement.app.ManagementApp;
+import dtu.projectmanagement.app.NotificationType;
 import dtu.projectmanagement.domain.Employee;
 import dtu.projectmanagement.gui.ManagementAppGUI;
 import dtu.projectmanagement.gui.controllers.listviewcell.EmployeeListViewCell;
 import javafx.application.Platform;
+import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -12,10 +14,13 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
 import javafx.stage.Stage;
 
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.io.IOException;
+import java.util.Objects;
 
 
-public class LogInController {
+public class LogInController implements PropertyChangeListener {
 
     ManagementApp managementApp;
 
@@ -27,8 +32,9 @@ public class LogInController {
     @FXML
     public void initialize() {
         managementApp = ManagementAppGUI.managementApp;
+        managementApp.addObserver(this);
 
-        lvEmp.setItems(managementApp.getEmployeeRepo());
+        lvEmp.setItems(FXCollections.observableArrayList(managementApp.getEmployeeRepo()));
         lvEmp.getSelectionModel().selectedItemProperty().addListener(e -> {
             if (lvEmp.getSelectionModel().getSelectedItem() == null) {
                 btnContinue.setDisable(true);
@@ -38,6 +44,13 @@ public class LogInController {
         });
 
         lvEmp.setCellFactory(employeeListView -> new EmployeeListViewCell());
+    }
+
+    @Override
+    public void propertyChange(PropertyChangeEvent evt) {
+        if (evt.getPropertyName().equals(NotificationType.UPDATE_EMPLOYEE)) {
+            lvEmp.setItems(FXCollections.observableArrayList(managementApp.getEmployeeRepo()));
+        }
     }
 
 

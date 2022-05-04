@@ -1,6 +1,7 @@
 module dtu.projectmanagement {
     requires javafx.controls;
     requires javafx.fxml;
+    requires java.desktop;
 
     opens dtu.projectmanagement.gui to javafx.fxml;
     exports dtu.projectmanagement.gui to javafx.fxml, javafx.graphics;

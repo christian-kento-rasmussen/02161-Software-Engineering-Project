@@ -1,6 +1,7 @@
 package dtu.projectmanagement.gui.controllers;
 
 import dtu.projectmanagement.app.ManagementApp;
+import dtu.projectmanagement.app.NotificationType;
 import dtu.projectmanagement.app.OperationNotAllowedException;
 import dtu.projectmanagement.domain.Activity;
 import dtu.projectmanagement.domain.Employee;
@@ -10,15 +11,18 @@ import dtu.projectmanagement.gui.controllers.listviewcell.ActivityListViewCell;
 import dtu.projectmanagement.gui.controllers.listviewcell.EmployeeListViewCell;
 import dtu.projectmanagement.gui.controllers.listviewcell.ProjectListViewCell;
 import javafx.application.Platform;
+import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
 
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
 import java.io.IOException;
 
-public class HomeController {
+public class HomeController implements PropertyChangeListener {
 
     ManagementApp managementApp;
 
@@ -102,12 +106,15 @@ public class HomeController {
     @FXML
     public void initialize() {
         managementApp = ManagementAppGUI.managementApp;
+        managementApp.addObserver(this);
+
+        // TODO: do the thing with textformat
 
         // Navbar
         lblCurrentUser.setText(managementApp.getUserUsername());
 
         // Project Pane
-        lvProjects.setItems(managementApp.getProjectRepo());
+        lvProjects.setItems(FXCollections.observableArrayList(managementApp.getProjectRepo()));
         lvProjects.setCellFactory(projectListView -> new ProjectListViewCell());
         lvProjects.getSelectionModel().selectedItemProperty().addListener(e -> {
             if (lvProjects.getSelectionModel().getSelectedItem() == null) {
@@ -120,7 +127,7 @@ public class HomeController {
         });
 
         // Activities Pane
-        lvActivities.setItems(managementApp.getUserActivities());
+        lvActivities.setItems(FXCollections.observableArrayList(managementApp.getUserActivities()));
         lvActivities.setCellFactory(activityListView -> new ActivityListViewCell());
         lvActivities.getSelectionModel().selectedItemProperty().addListener(e -> {
             if (lvActivities.getSelectionModel().getSelectedItem() == null) {
@@ -133,7 +140,7 @@ public class HomeController {
         });
 
         // Employee Pane
-        lvEmp.setItems(managementApp.getEmployeeRepo());
+        lvEmp.setItems(FXCollections.observableArrayList(managementApp.getEmployeeRepo()));
         lvEmp.setCellFactory(employeeListView -> new EmployeeListViewCell());
         lvEmp.getSelectionModel().selectedItemProperty().addListener(e -> {
             if (lvEmp.getSelectionModel().getSelectedItem() == null) {
@@ -144,7 +151,7 @@ public class HomeController {
         });
 
         // ProjectView Pane
-        cbPickProjectLeader.setItems(managementApp.getEmployeeRepo());
+        cbPickProjectLeader.setItems(FXCollections.observableArrayList(managementApp.getEmployeeRepo()));
         cbPickProjectLeader.setCellFactory(employeeListView -> new EmployeeListViewCell());
         cbPickProjectLeader.getSelectionModel().selectedItemProperty().addListener(e -> {
             if (cbPickProjectLeader.getSelectionModel().getSelectedItem() == null) {
@@ -166,7 +173,8 @@ public class HomeController {
         });
 
         // ActivityView Pane
-        cbAssignEmployee.setItems(managementApp.getEmployeeRepo());
+
+        cbAssignEmployee.setItems(FXCollections.observableArrayList(managementApp.getEmployeeRepo()));
         cbAssignEmployee.setCellFactory(employeeListView -> new EmployeeListViewCell());
         cbAssignEmployee.getSelectionModel().selectedItemProperty().addListener(e -> {
             if (cbAssignEmployee.getSelectionModel().getSelectedItem() == null) {
@@ -177,6 +185,15 @@ public class HomeController {
         });
 
         lvAssignedEmployees.setCellFactory(employeeListView -> new EmployeeListViewCell());
+    }
+
+    @Override
+    public void propertyChange(PropertyChangeEvent evt) {
+        String type = evt.getPropertyName();
+        System.out.println("changed");
+        switch (type) {
+            case NotificationType.UPDATE_PROJECT -> loadProject();
+        }
     }
 
 
@@ -215,7 +232,7 @@ public class HomeController {
         lblProjectExpectedHours.setText("N/A");
         lblProjectRemainingHours.setText("N/A");
 
-        lvProjectActivities.setItems(managementApp.getProjectActivityRepo());
+        //lvProjectActivities.setItems(managementApp.getProjectActivityRepo());
     }
 
     private void loadActivity() throws OperationNotAllowedException {
@@ -244,7 +261,7 @@ public class HomeController {
 
 
         cbAssignEmployee.getSelectionModel().clearSelection();
-        lvAssignedEmployees.setItems(managementApp.getAssignedEmployees());
+        //lvAssignedEmployees.setItems(managementApp.getAssignedEmployees());
     }
 
     // Navbar
@@ -333,7 +350,8 @@ public class HomeController {
         lblProjectNameError.setText("");
         tfChangeProjectName.setText("");
 
-        lvProjects.refresh();
+        // TODO: implement changeListener
+        //lvProjects.refresh();
     }
     @FXML
     public void onBtnChangeProjectLeader() {
