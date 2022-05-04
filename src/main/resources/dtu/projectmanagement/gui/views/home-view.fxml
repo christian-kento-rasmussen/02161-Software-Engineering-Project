@@ -897,7 +897,7 @@
                               </Label>
                               <Label fx:id="lblActivityNameError" textFill="RED" />
                               <TextField fx:id="tfActivityName" prefHeight="25.0" prefWidth="222.0" />
-                              <Button mnemonicParsing="false" onAction="#onBtnAddNewNonProjectActivity" prefHeight="46.0" prefWidth="331.0" text="+ Add New Personal Activity" textFill="#eeeeee">
+                              <Button mnemonicParsing="false" onAction="#onBtnAddNewUserActivity" prefHeight="46.0" prefWidth="331.0" text="+ Add New Personal Activity" textFill="#eeeeee">
                                  <font>
                                     <Font size="22.0" />
                                  </font>

@@ -17,8 +17,8 @@ class ActivityTest {
     @BeforeEach
     void setUp() {
         managementApp.createNewProject();
-        activity = new Activity(123,"save the world");
-        managementApp.addEmployee("BLIB");
+        /*activity = new Activity("save the world");
+        managementApp.addEmployee("BLIB");*/
     }
 
     @Test

@@ -5,86 +5,65 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
 import java.util.HashMap;
-import java.util.List;
 
 public class Activity {
 
-    private static final int PROJECT_ACTIVITY = 0;
-    private static final int EMPLOYEE_ACTIVITY = 1;
-
-    private int activityNum;
     private String activityName;
     private Project parentProject;
+    private Employee parentEmployee;
 
+    private float expectedWorkHours;
     private int startWeek;
     private int endWeek;
-    private float expectedWorkHours;
-    private ObservableList<Employee> assignedEmployees = FXCollections.observableArrayList();
+
     private HashMap<Employee, Float> employeeWorkHoursMap = new HashMap<>();
+    private ObservableList<Employee> assignedEmployees = FXCollections.observableArrayList();
 
-    public Activity(int activityNum, String activityName) {
-        this.activityNum = activityNum;
-        this.activityName = activityName;
-    }
-
-    public Activity(int activityNum, String activityName, Project parentProject) {
-        this.activityNum = activityNum;
+    public Activity(String activityName, Project parentProject) {
         this.activityName = activityName;
         this.parentProject = parentProject;
     }
-
-
-
-    public void assignEmployee(Employee employee) throws OperationNotAllowedException {
-        assignedEmployees.add(employee);
-        employee.assignActivity(this);
+    public Activity(String activityName, Employee employee) {
+        this.activityName = activityName;
+        this.parentEmployee = employee;
     }
 
+
+
+    // Info
     public String getActivityName() {
         return activityName;
     }
-
-    public int getActivityNum() {
-        return activityNum;
+    public void setActivityName(String activityName) {
+        this.activityName = activityName;
     }
-
+    public Project getParentProject() {
+        return parentProject;
+    }
+    public Employee getParentEmployee() {
+        return parentEmployee;
+    }
     public int getStartWeek() {
         return startWeek;
     }
-
+    public void setStartWeek(int startWeek) throws OperationNotAllowedException {
+        if (endWeek != 0 && endWeek < startWeek)
+            throw new OperationNotAllowedException("The start week cannot be after the end week");
+        else
+            this.startWeek = startWeek;
+    }
     public int getEndWeek() {
         return endWeek;
     }
-
-    public float getExpectedWorkHours() {
-        return expectedWorkHours;
-    }
-    public void setExpectedWorkHours(float expectedWorkHours) throws OperationNotAllowedException {
-        this.expectedWorkHours = expectedWorkHours;
-    }
-
-    public HashMap<Employee, Float> getEmployeeWorkHoursMap() {
-        return employeeWorkHoursMap;
-    }
-
-    public void setStartAndEndWeek(int startWeek, int endWeek) throws OperationNotAllowedException {
-        if (endWeek < startWeek)
+    public void setEndWeek(int endWeek) throws OperationNotAllowedException {
+        if (startWeek != 0 && startWeek > endWeek)
             throw new OperationNotAllowedException("The start week cannot be after the end week");
-
-        this.startWeek = startWeek;
-        this.endWeek = endWeek;
+        else
+            this.endWeek = endWeek;
     }
 
-    // TODO: What is this?
-    /*public boolean equals( Object other) {
-        Activity act = (Activity) other;
-        return ((this.activityNum == act.activityNum) && (this.activityName.equals(act.activityName)) );
-    }*/
 
-    public ObservableList<Employee> getAssignedEmployees() {
-        return assignedEmployees;
-    }
-
+    // Work-info
     public void registerWorkHours(Employee employee, float hours) throws OperationNotAllowedException {
         if (hours < 0f){
             throw new OperationNotAllowedException("Time must be positive or 0");
@@ -97,28 +76,8 @@ public class Activity {
         }
 
         employeeWorkHoursMap.put(employee, hours);
-
-        // TODO: see gui functionality for correction
-        /*float currentHours = this.employeeWorkHoursMap.get(employee);
-        currentHours = currentHours + hours;
-        this.employeeWorkHoursMap.put(employee, currentHours);*/
     }
-
-    // TODO: don't need this; the registerWorkHours func does this
-    public void modifyWorkHours(Employee employee, float hours) throws OperationNotAllowedException {
-        if (hours < 0f){
-            throw new OperationNotAllowedException("Time must be positive or 0");
-        }
-        if (hours % 0.5f != 0f){
-            throw new OperationNotAllowedException("Time must be given in half hours");
-        }
-        if (!this.employeeWorkHoursMap.containsKey(employee)){
-            this.employeeWorkHoursMap.put(employee, 0f);
-        }
-        this.employeeWorkHoursMap.put(employee, hours);
-    }
-
-    public float getWorkHours(Employee employee){
+    public float getWorkedHours(Employee employee){
         if (employeeWorkHoursMap.get(employee) != null) {
             return employeeWorkHoursMap.get(employee);
         }
@@ -126,20 +85,38 @@ public class Activity {
             return 0;
         }
     }
-
-    public void setActivityName(String activityName) {
-        this.activityName = activityName;
-    }
-
     public float getSpendHours() {
         return employeeWorkHoursMap.values().stream().reduce(0f , Float::sum);
     }
-
+    public float getExpectedWorkHours() {
+        return expectedWorkHours;
+    }
+    public void setExpectedWorkHours(float expectedWorkHours) {
+        this.expectedWorkHours = expectedWorkHours;
+    }
     public float getRemainingHours() {
         return getExpectedWorkHours() - getSpendHours();
     }
-
+    public void assignEmployee(Employee employee) throws OperationNotAllowedException {
+        assignedEmployees.add(employee);
+        employee.assignActivity(this);
+    }
+    public void assignEmployeeForUserActivity(Employee employee) {
+        assignedEmployees.add(employee);
+    }
+    public void unassignEmployee(Employee employee) {
+        assignedEmployees.remove(employee);
+    }
     public void unassignAllEmployees() {
         assignedEmployees.forEach(employee -> employee.unassignActivity(this));
+        assignedEmployees.removeAll();
     }
+    public ObservableList<Employee> getAssignedEmployees() {
+        return assignedEmployees;
+    }
+    public HashMap<Employee, Float> getEmployeeWorkHoursMap() {
+        return employeeWorkHoursMap;
+    }
+
+
 }

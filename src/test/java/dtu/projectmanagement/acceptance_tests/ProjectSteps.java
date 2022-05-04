@@ -10,9 +10,9 @@ import static org.junit.Assert.*;
 
 public class ProjectSteps {
 
-    private float totalHoursSpend;
+    private float spendWorkHours;
     private float hoursRegistered;
-
+    private float remainingWorkHours;
 
     private ManagementApp managementApp;
     private ProjectHelper projectHelper;
@@ -29,24 +29,14 @@ public class ProjectSteps {
 
 
 
-    @Given("there is a project")
-    public void thereIsAProject() {
+    @Given("there is a project and it is selected")
+    public void thereIsAProjectAndItIsSelected() {
         projectHelper.addProject();
     }
 
-    @Given("there is a given employee in the system")
-    public void thereIsAGivenEmployeeInTheSystem() {
-        employeeHelper.addEmployee();
-    }
-
-    @When("the employee assigns the given employee to be project leader of the given project")
-    public void theEmployeeAssignsTheGivenEmployeeToBeProjectLeaderOfTheGivenProject() {
-        managementApp.assignProjectLeader(projectHelper.getProject(), employeeHelper.getEmployee());
-    }
-
-    @Then("the given employee is the project leader of the given project")
-    public void theGivenEmployeeIsTheProjectLeaderOfTheGivenProject() {
-        assertEquals(projectHelper.getProject().getProjectLeader(), employeeHelper.getEmployee());
+    @When("the employee assigns the employee with the username {string} to be project leader of the selected project")
+    public void theEmployeeAssignsTheGivenEmployeeToBeProjectLeaderOfTheGivenProject(String username) throws OperationNotAllowedException {
+        managementApp.assignProjectLeader(managementApp.getEmployee(username));
     }
 
     @Given("a project is created")
@@ -65,23 +55,6 @@ public class ProjectSteps {
         int year = Calendar.getInstance().get(Calendar.YEAR);
         String projectNum = String.format("%02d%04d", year % 100, projCount);
         assertNotNull(managementApp.getProject(projectNum));
-    }
-
-    @Given("the project has an activity in it")
-    public void theProjectHasAnActivityInIt() {
-        projectHelper.addActivity();
-    }
-
-
-    @Given("the employee using the system is the project leader of the project")
-    public void theCurrentEmployeeUsingTheSystemIsTheProjectLeaderOfTheProject() {
-        projectHelper.setUserToProjectLeader();
-        assertEquals(projectHelper.getProject().getProjectLeader(), managementApp.getUser());
-    }
-
-    @Given("the employee using the system is not the project leader of the project")
-    public void theCurrentEmployeeUsingTheSystemIsNotTheProjectLeaderOfTheProject() {
-        assertNull(projectHelper.getProject().getProjectLeader());
     }
 
     @When("the given employee sets the start time of the project to {int} weeks from now.")
@@ -123,4 +96,52 @@ public class ProjectSteps {
     }
 
 
+    @And("the employee with the username {string} is the project leader of the selected project")
+    public void theEmployeeWithTheUsernameIsTheProjectLeaderOfTheSelectedProject(String username) {
+        managementApp.assignProjectLeader(managementApp.getEmployee(username));
+    }
+
+    @When("the user queries for the remaining hours on the project")
+    public void theUserQueriesForTheRemainingHoursOnTheProject() {
+        try {
+            remainingWorkHours = managementApp.getRemainingHoursOnProject();
+        } catch (OperationNotAllowedException e) {
+            errorMessage.setErrorMessage(e.getMessage());
+        }
+    }
+
+    @Then("the remaining work hours on the project is {int} hours")
+    public void theRemainingWorkRemainingHoursOnTheProjectIsHours(int hours) {
+        assertEquals(hours, remainingWorkHours, 0f);
+    }
+
+    @When("the user queries for the spend hours on the project")
+    public void theUserQueriesForTheSpendHoursOnTheProject() {
+        try {
+            spendWorkHours = managementApp.getSpendHoursOnProject();
+        } catch (OperationNotAllowedException e) {
+            errorMessage.setErrorMessage(e.getMessage());
+        }
+    }
+
+    @Then("the spend on the project is {int} hours")
+    public void theSpendOnTheProjectIsHours(int hours) {
+        assertEquals(hours, spendWorkHours, 0f);
+    }
+
+    @When("the user sets the start and end time of the project to {int} and {int}, respectively")
+    public void theUserSetsTheStartAndEndTimeOfTheProjectToAndRespectively(int startWeek, int endWeek) {
+        try {
+            managementApp.setProjectStartWeek(startWeek);
+            managementApp.setProjectEndWeek(endWeek);
+        } catch (OperationNotAllowedException e) {
+            errorMessage.setErrorMessage(e.getMessage());
+        }
+    }
+
+    @Then("the start and end time of the project is {int} and {int}, respectively")
+    public void theStartAndEndTimeOfTheProjectIsAndRespectively(int startWeek, int endWeek) {
+        assertEquals(managementApp.getProjectStartWeek(), startWeek);
+        assertEquals(managementApp.getProjectEndWeek(), endWeek);
+    }
 }

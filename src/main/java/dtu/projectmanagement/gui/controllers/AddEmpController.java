@@ -1,6 +1,7 @@
 package dtu.projectmanagement.gui.controllers;
 
 import dtu.projectmanagement.app.ManagementApp;
+import dtu.projectmanagement.app.OperationNotAllowedException;
 import dtu.projectmanagement.gui.ManagementAppGUI;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -35,7 +36,7 @@ public class AddEmpController {
     }
 
     @FXML
-    public void onBtnOK() throws IOException {
+    public void onBtnOK() {
         lblError.setTextFill(Color.RED);
         if ((tfUsername.getLength() == 0) || tfUsername.getLength() > 4) {
             lblError.setText("The username needs to be between one and\nfour letters long.");
@@ -47,12 +48,12 @@ public class AddEmpController {
             return;
         }
 
-        if (!Objects.isNull(managementApp.getEmployee(tfUsername.getText().toLowerCase()))) {
-            lblError.setText("An employee with that username already exists.");
+        try {
+            managementApp.addEmployee(tfUsername.getText().toLowerCase());
+        } catch (OperationNotAllowedException e) {
+            lblError.setText(e.getMessage());
             return;
         }
-
-        managementApp.addEmployee(tfUsername.getText().toLowerCase());
         lblError.setTextFill(Color.GREENYELLOW);
         lblError.setText(tfUsername.getText() + " successfully added");
 

@@ -45,7 +45,7 @@ public class LogInController {
     @FXML
     public void onBtnContinue() throws IOException {
         Employee selectedUser = lvEmp.getSelectionModel().getSelectedItem();
-        managementApp.login(selectedUser.getUsername());
+        managementApp.login(selectedUser);
 
         if (stagePopUp != null)
             stagePopUp.close();

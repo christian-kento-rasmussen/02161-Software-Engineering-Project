@@ -184,61 +184,60 @@ public class HomeController {
     private void loadProject() {
         selectedProject = lvProjects.getSelectionModel().getSelectedItem();
 
-        lblProjectNum.setText(managementApp.getProjectNum(selectedProject));
+        lblProjectNum.setText(managementApp.getProjectNum());
 
-        if (managementApp.getProjectLeader(selectedProject) == null)
+        if (managementApp.getProjectLeader() == null)
             lblProjectLeaderUsername.setText("N/A");
         else
-            lblProjectLeaderUsername.setText(managementApp.getProjectLeaderUsername(selectedProject));
+            lblProjectLeaderUsername.setText(managementApp.getProjectLeaderUsername());
 
-        if (managementApp.getProjectStartWeek(selectedProject) == 0)
+        if (managementApp.getProjectStartWeek() == 0)
             lblProjectStartWeek.setText("N/A");
         else
-            lblProjectStartWeek.setText(String.valueOf(managementApp.getProjectStartWeek(selectedProject)));
+            lblProjectStartWeek.setText(String.valueOf(managementApp.getProjectStartWeek()));
 
-        if (managementApp.getProjectEndWeek(selectedProject) == 0)
+        if (managementApp.getProjectEndWeek() == 0)
             lblProjectStartWeek.setText("N/A");
         else
-            lblProjectStartWeek.setText(String.valueOf(managementApp.getProjectEndWeek(selectedProject)));
+            lblProjectStartWeek.setText(String.valueOf(managementApp.getProjectEndWeek()));
 
-        lblProjectName.setText(managementApp.getProjectName(selectedProject));
+        lblProjectName.setText(managementApp.getProjectName());
         cbPickProjectLeader.getSelectionModel().clearSelection();
 
         lblProjectSpendHours.setText("N/A");
         lblProjectExpectedHours.setText("N/A");
         lblProjectRemainingHours.setText("N/A");
 
-        lvProjectActivities.setItems(managementApp.getProjectActivityRepo(selectedProject));
+        lvProjectActivities.setItems(managementApp.getProjectActivityRepo());
     }
 
-    private void loadActivity() {
+    private void loadActivity() throws OperationNotAllowedException {
 
         // TODO: DO TYPE BASED LOADING HERE AFTER REFACTOR
 
-        lblActivityProjectNum.setText(managementApp.getProjectNum(selectedProject));
-        lblActivityNum.setText(managementApp.getActivityNum(selectedProject, selectedActivity));
+        lblActivityProjectNum.setText(managementApp.getProjectNum());
 
-        lblActivityName.setText(managementApp.getActivityName(selectedProject, selectedActivity));
-        lblRegisteredHours.setText(String.valueOf(managementApp.getWorkHoursOnActivity(selectedProject, selectedActivity)));
+        lblActivityName.setText(managementApp.getActivityName());
+        lblRegisteredHours.setText(String.valueOf(managementApp.getWorkedHoursOnActivity()));
 
-        if (managementApp.getUser() != managementApp.getProjectLeader(selectedProject))
+        if (managementApp.getUser() != managementApp.getProjectLeader())
             lblActivityExpectedHours.setText("N/A");
         else
-            lblActivityExpectedHours.setText(String.valueOf(managementApp.getActivityExpectedHours(selectedProject, selectedActivity)));
+            lblActivityExpectedHours.setText(String.valueOf(managementApp.getExpectedWorkHoursOnActivity()));
 
-        if (managementApp.getActivityStartWeek(selectedProject, selectedActivity) == 0)
+        if (managementApp.getActivityStartWeek() == 0)
             lblProjectStartWeek.setText("N/A");
         else
-            lblProjectStartWeek.setText(String.valueOf(managementApp.getActivityStartWeek(selectedProject, selectedActivity)));
+            lblProjectStartWeek.setText(String.valueOf(managementApp.getActivityStartWeek()));
 
-        if (managementApp.getActivityEndWeek(selectedProject, selectedActivity) == 0)
+        if (managementApp.getActivityEndWeek() == 0)
             lblProjectStartWeek.setText("N/A");
         else
-            lblProjectStartWeek.setText(String.valueOf(managementApp.getActivityEndWeek(selectedProject, selectedActivity)));
+            lblProjectStartWeek.setText(String.valueOf(managementApp.getActivityEndWeek()));
 
 
         cbAssignEmployee.getSelectionModel().clearSelection();
-        lvAssignedEmployees.setItems(managementApp.getAssignedEmployees(selectedProject, selectedActivity));
+        lvAssignedEmployees.setItems(managementApp.getAssignedEmployees());
     }
 
     // Navbar
@@ -317,7 +316,7 @@ public class HomeController {
             return;
         }
 
-        managementApp.setProjectName(selectedProject, tfChangeProjectName.getText());
+        managementApp.setProjectName(tfChangeProjectName.getText());
         lblProjectName.setText(tfChangeProjectName.getText());
 
         lblProjectNameError.setText("");
@@ -329,8 +328,8 @@ public class HomeController {
     public void onBtnChangeProjectLeader() {
         Employee selectedEmployee = cbPickProjectLeader.getSelectionModel().getSelectedItem();
 
-        managementApp.assignProjectLeader(selectedProject, selectedEmployee);
-        lblProjectLeaderUsername.setText(managementApp.getProjectLeaderUsername(selectedProject));
+        managementApp.assignProjectLeader(selectedEmployee);
+        lblProjectLeaderUsername.setText(managementApp.getProjectLeaderUsername());
     }
     @FXML
     public void onBtnSetProjectStartWeek() {
@@ -347,7 +346,7 @@ public class HomeController {
         }
 
         try {
-            managementApp.setProjectStartWeek(selectedProject, startWeek);
+            managementApp.setProjectStartWeek(startWeek);
         } catch (OperationNotAllowedException e) {
             lblProjectStartWeekError.setText(e.getMessage());
             return;
@@ -371,7 +370,7 @@ public class HomeController {
         }
 
         try {
-            managementApp.setProjectEndWeek(selectedProject, endWeek);
+            managementApp.setProjectEndWeek(endWeek);
         } catch (OperationNotAllowedException e) {
             lblProjectEndWeekError.setText(e.getMessage());
             return;
@@ -384,9 +383,9 @@ public class HomeController {
     @FXML
     public void onBtnGetProjectStats() {
         try {
-            lblProjectSpendHours.setText(String.valueOf(managementApp.getSpendHoursOnProject(selectedProject)));
-            lblProjectExpectedHours.setText(String.valueOf(managementApp.getExpectedHoursOnProject(selectedProject)));
-            lblProjectRemainingHours.setText(String.valueOf(managementApp.getRemainingHoursOnProject(selectedProject)));
+            lblProjectSpendHours.setText(String.valueOf(managementApp.getSpendHoursOnProject()));
+            lblProjectExpectedHours.setText(String.valueOf(managementApp.getExpectedHoursOnProject()));
+            lblProjectRemainingHours.setText(String.valueOf(managementApp.getRemainingHoursOnProject()));
         } catch(OperationNotAllowedException e) {
             lblProjectStatsError.setText(e.getMessage());
             return;
@@ -409,13 +408,13 @@ public class HomeController {
             return;
         }
 
-        managementApp.addNewProjectActivity(selectedProject, tfProjectActivityName.getText());
+        managementApp.addNewProjectActivity(tfProjectActivityName.getText());
 
         lblProjectActivityNameError.setText("");
         tfProjectActivityName.setText("");
     }
     @FXML
-    public void onBtnViewProjectActivity() {
+    public void onBtnViewProjectActivity() throws OperationNotAllowedException {
         back = tabPane.getSelectionModel().getSelectedIndex();
         selectedActivity = lvProjectActivities.getSelectionModel().getSelectedItem();
         loadActivity();
@@ -424,7 +423,7 @@ public class HomeController {
     @FXML
     public void onBtnDeleteProjectActivity() {
         selectedActivity = lvProjectActivities.getSelectionModel().getSelectedItem();
-        managementApp.deleteProjectActivity(selectedProject, selectedActivity);
+        managementApp.deleteProjectActivity(selectedActivity);
     }
 
 
@@ -444,7 +443,7 @@ public class HomeController {
             return;
         }
 
-        managementApp.setProjectActivityName(selectedProject, selectedActivity, tfChangeActivityName.getText());
+        managementApp.setActivityName(tfChangeActivityName.getText());
         lblActivityName.setText(tfChangeActivityName.getText());
 
         lblChangeActivityNameError.setText("");
@@ -462,7 +461,7 @@ public class HomeController {
         float registeredHours = Float.parseFloat(tfRegisterHours.getText());
 
         try {
-            managementApp.registerWorkHoursOnProjectActivity(selectedProject, selectedActivity, registeredHours);
+            managementApp.registerWorkHoursOnActivity(registeredHours);
         } catch (OperationNotAllowedException e) {
             lblRegisterHoursError.setText(e.getMessage());
             return;
@@ -483,7 +482,7 @@ public class HomeController {
         float expectedHours = Float.parseFloat(tfSetExpectedHours.getText());
 
         try {
-            managementApp.setExpectedWorkHoursOnActivity(selectedProject, selectedActivity, expectedHours);
+            managementApp.setExpectedWorkHoursOnActivity(expectedHours);
         } catch (OperationNotAllowedException e) {
             lblActivityExpectedHoursError.setText(e.getMessage());
             return;
@@ -507,7 +506,7 @@ public class HomeController {
     public void onBtnAssignEmployee() {
         Employee selectedEmployee = cbAssignEmployee.getSelectionModel().getSelectedItem();
         try {
-            managementApp.assignEmployeeToActivity(selectedProject, selectedActivity, selectedEmployee);
+            managementApp.assignEmployeeToActivity(selectedEmployee);
         } catch(OperationNotAllowedException e) {
             lblProjectActivityAssignError.setText(e.getMessage());
         }
@@ -533,7 +532,7 @@ public class HomeController {
     }
 
     @FXML
-    public void onBtnAddNewNonProjectActivity() {
+    public void onBtnAddNewUserActivity() throws OperationNotAllowedException {
         if ((tfActivityName.getLength() == 0) || tfActivityName.getLength() > 20) {
             lblActivityNameError.setText("Activity names need to be between 1 and 20 characters");
             tfActivityName.requestFocus();

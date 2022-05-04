@@ -1,8 +1,6 @@
 package dtu.projectmanagement.app;
 
-import dtu.projectmanagement.domain.Activity;
-import dtu.projectmanagement.domain.Employee;
-import dtu.projectmanagement.domain.Project;
+import dtu.projectmanagement.domain.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
@@ -14,21 +12,27 @@ public class ManagementApp {
     private Activity selectedActivity;
     private Employee user;
 
-    private ObservableList<Project> projectRepo = FXCollections.observableArrayList();
-    private ObservableList<Employee> employeeRepo = FXCollections.observableArrayList();
+    private final ObservableList<Project> projectRepo = FXCollections.observableArrayList();
+    private final ObservableList<Employee> employeeRepo = FXCollections.observableArrayList();
 
-    private Map<Integer, Integer> serialNum = new HashMap<>();
+    private final Map<Integer, Integer> serialNum = new HashMap<>();
 
 
 
-    public void checkIsProjectLeader(Project project) throws OperationNotAllowedException {
-        if (!user.equals(project.getProjectLeader()))
-            throw new OperationNotAllowedException("Only the project leader is allow to perform that action");
+    // Selection
+    public void selectProject(Project project) {
+        selectedProject = project;
+    }
+    public void selectActivity(Activity activity) {
+        selectedActivity = activity;
     }
 
 
-    // Project
 
+    /*
+        PROJECT
+    */
+    // Project - creation, deletion, repo
     /**
      * This function creates a new project, with correct project number
      */
@@ -43,179 +47,168 @@ public class ManagementApp {
 
         projectRepo.add(project);
     }
-
     public void deleteProject(Project project) {
         project.getActivityRepo().forEach(Activity::unassignAllEmployees);
         projectRepo.remove(project);
     }
-
-    public Project getProject(String project_number) {
-
+    public Project getProject(String projectNum) {
         for (Project project : projectRepo) {
-            if (project.getProjectNum().equals(project_number)) {
-                return project;}
-            }
+            if (project.getProjectNum().equals(projectNum))
+                return project;
+        }
         return null;
     }
-
-// return projectRepo.stream()
-// .filter(project -> project.getProjectNum().equals(project_number))
-// .findAny()
-// .orElse(null);
-
-    public void assignProjectLeader(Project project, Employee employee) {
-        project.setProjectLeader(employee);
-    }
-
-    public float getSpendHoursOnProject(Project project) throws OperationNotAllowedException {
-        checkIsProjectLeader(project);
-        return project.getSpendHours();
-    }
-
-    public String getProjectLeaderUsername(Project project) {
-        return project.getProjectLeader().getUsername();
-    }
-
-    public String getProjectNum(Project project) {
-        return project.getProjectNum();
-    }
-
-    public String getProjectName(Project project) {
-        return project.getProjectName();
-    }
-
-    public Employee getProjectLeader(Project project) {
-        return project.getProjectLeader();
-    }
-
     public ObservableList<Project> getProjectRepo() {
         return projectRepo;
     }
 
-    public void setProjectName(Project project, String projectName) {
-        project.setProjectName(projectName);
+    // Project - project leader
+    public void assignProjectLeader(Employee employee) {
+        selectedProject.setProjectLeader(employee);
+    }
+    public Employee getProjectLeader() {
+        return selectedProject.getProjectLeader();
+    }
+    public void checkIsProjectLeader() throws OperationNotAllowedException {
+        if (!user.equals(selectedProject.getProjectLeader()))
+            throw new OperationNotAllowedException("Only the project leader is allow to perform that action");
+    }
+    public String getProjectLeaderUsername() {
+        return selectedProject.getProjectLeaderUsername();
     }
 
-    public void generateReport(Project project) throws OperationNotAllowedException {
-        checkIsProjectLeader(project);
-        project.generateReport();
+    // Project - info
+    public String getProjectNum() {
+        return selectedProject.getProjectNum();
+    }
+    public String getProjectName() {
+        return selectedProject.getProjectName();
+    }
+    public void setProjectName(String projectName) {
+        selectedProject.setProjectName(projectName);
+    }
+    public void setProjectStartWeek(int startWeek) throws OperationNotAllowedException {
+        checkIsProjectLeader();
+        selectedProject.setStartWeek(startWeek);
+    }
+    public int getProjectStartWeek() {
+        return selectedProject.getStartWeek();
+    }
+    public void setProjectEndWeek(int endWeek) throws OperationNotAllowedException {
+        checkIsProjectLeader();
+        selectedProject.setEndWeek(endWeek);
+    }
+    public int getProjectEndWeek() {
+        return selectedProject.getEndWeek();
     }
 
-    public void setProjectStartWeek(Project project, int startWeek) throws OperationNotAllowedException {
-        checkIsProjectLeader(project);
-        project.setStartWeek(startWeek);
+    // Project - work-info
+    public float getSpendHoursOnProject() throws OperationNotAllowedException {
+        checkIsProjectLeader();
+        return selectedProject.getSpendHours();
+    }
+    public float getExpectedHoursOnProject() throws OperationNotAllowedException {
+        checkIsProjectLeader();
+        return selectedProject.getExpectedHours();
+    }
+    public float getRemainingHoursOnProject() throws OperationNotAllowedException {
+        checkIsProjectLeader();
+        return selectedProject.getRemainingHours();
+    }
+    public void generateProjectReport() throws OperationNotAllowedException {
+        checkIsProjectLeader();
+        selectedProject.generateReport();
     }
 
-    public void setProjectEndWeek(Project project, int endWeek) throws OperationNotAllowedException {
-        checkIsProjectLeader(project);
-        project.setEndWeek(endWeek);
+
+
+    /*
+        ACTIVITY
+    */
+    // Activity - creation, deletion, repo
+    public void addNewProjectActivity(String activityName) {
+        selectedProject.addNewActivity(activityName);
+    }
+    public void deleteProjectActivity(Activity activity) {
+        selectedProject.deleteActivity(activity);
+    }
+    public void addNewUserActivity(String activityName) throws OperationNotAllowedException {
+        user.addNewActivity(activityName);
+    }
+    public void deleteUserActivity(Activity activity) {
+        user.unassignActivity(activity);
+        activity.unassignEmployee(user);
+    }
+    public Activity getProjectActivity(String activityName) {
+        return selectedProject.getActivity(activityName);
+    }
+    public ObservableList<Activity> getProjectActivityRepo() {
+        return selectedProject.getActivityRepo();
+    }
+    public Activity getUserActivity(String activityName) {
+        return user.getActivity(activityName);
+    }
+    public ObservableList<Activity> getUserActivities() {
+        return user.getAssignedActivities();
     }
 
-    public float getRemainingHoursOnProject(Project project) throws OperationNotAllowedException {
-        checkIsProjectLeader(project);
-        return project.getRemainingWorkHours();
+    // Activity - assigned employees
+    public void assignEmployeeToActivity(Employee employee) throws OperationNotAllowedException {
+        selectedActivity.assignEmployee(employee);
+    }
+    public void unassignEmployeeFromActivity(Employee employee) {
+        selectedActivity.unassignEmployee(employee);
+    }
+    public ObservableList<Employee> getAssignedEmployees() {
+        return selectedActivity.getAssignedEmployees();
     }
 
-    public float getExpectedHoursOnProject(Project project) throws OperationNotAllowedException {
-        checkIsProjectLeader(project);
-        return project.getExpectedHours();
+    // Activity - info
+    public String getActivityName() {
+        return selectedActivity.getActivityName();
+    }
+    public void setActivityName(String activityName) {
+        selectedActivity.setActivityName(activityName);
+    }
+    public void setActivityStartWeek(int startWeek) throws OperationNotAllowedException {
+        checkIsProjectLeader();
+        selectedActivity.setStartWeek(startWeek);
+    }
+    public int getActivityStartWeek() {
+        return selectedActivity.getStartWeek();
+    }
+    public void setActivityEndWeek(int endWeek) throws OperationNotAllowedException {
+        checkIsProjectLeader();
+        selectedActivity.setEndWeek(endWeek);
+    }
+    public int getActivityEndWeek() {
+        return selectedActivity.getEndWeek();
     }
 
-
-    // Activity
-
-    public void addNewProjectActivity(Project project, String activityName) {
-        project.addNewActivity(activityName);
+    // Activity - work-info
+    public float getSpendHoursOnActivity() throws OperationNotAllowedException {
+        checkIsProjectLeader();
+        return selectedActivity.getSpendHours();
     }
-
-    public void deleteProjectActivity(Project project, Activity activity) {
-        project.deleteActivity(activity);
-        /*try {
-        project.removeActivity(activity);
-        }
-        catch (OperationNotAllowedException e) {
-            throw new OperationNotAllowedException(e.getMessage());
-        }*/
-
+    public float getExpectedWorkHoursOnActivity() throws OperationNotAllowedException {
+        // TODO: test
+        checkIsProjectLeader();
+        return selectedActivity.getExpectedWorkHours();
     }
-
-    public void assignEmployeeToActivity(Project project, Activity activity, Employee employee) throws OperationNotAllowedException {
-        project.assignEmployeeToActivity(activity, employee);
+    public void setExpectedWorkHoursOnActivity(float hours) throws OperationNotAllowedException {
+        checkIsProjectLeader();
+        selectedActivity.setExpectedWorkHours(hours);
     }
-
-    public void setActivityStartAndEndWeek(Project project, Activity activity, int startWeek, int endWeek) throws OperationNotAllowedException {
-        checkIsProjectLeader(project);
-
-        project.setActivityStartAndEndWeek(activity, startWeek, endWeek);
+    public float getRemainingHoursOnActivity() throws OperationNotAllowedException {
+        checkIsProjectLeader();
+        return selectedActivity.getRemainingHours();
     }
-
-    public float getSpendHoursOnActivity(Project project, Activity activity) throws OperationNotAllowedException {
-        checkIsProjectLeader(project);
-        return project.getSpendHoursOnActivity(activity);
-    }
-
-    public float getRemainingHoursOnActivity(Project project, Activity activity) throws OperationNotAllowedException {
-        checkIsProjectLeader(project);
-        return project.getRemainingHoursOnActivity(activity);
-    }
-
-    public String getActivityName(Project project, Activity activity) {
-        return project.getActivityName(activity);
-    }
-
-    public void setProjectActivityName(Project project, Activity activity, String activityName) {
-        project.setActivityName(activity, activityName);
-    }
-
-    public ObservableList<Activity> getProjectActivityRepo(Project project) {
-        return project.getActivityRepo();
-    }
-
-    public void setExpectedWorkHoursOnActivity(Project project, Activity activity, float hours) throws OperationNotAllowedException {
-        checkIsProjectLeader(project);
-        project.getActivity(activity.getActivityName()).setExpectedWorkHours(hours);
-    }
-
-    // TODO: what is this? see getRemaining func
-    public float seeRemainingWorkHoursOnActivity(Project project, Activity activity) throws OperationNotAllowedException {
-
-        float expectedHours = activity.getExpectedWorkHours();
-        float spendHours = getRemainingHoursOnActivity(project, activity);
-        float remainingHours = expectedHours - spendHours;
-        return remainingHours;
-
-
-    }
-
-    public ObservableList<Employee> getAssignedEmployees(Project project, Activity activity) {
-        return project.getAssignedEmployees(activity);
-    }
-
-    public String getActivityNum(Project project, Activity activity) {
-        return project.getActivityNum(activity);
-    }
-
-    // Employee
-
-    public void login(String username) {
-        user = getEmployee(username);
-    }
-
-    public void addEmployee(String username) {
-        employeeRepo.add(new Employee(username));
-    }
-
-    public void removeEmployee(Employee employee) {
-        employeeRepo.remove(employee);
-    }
-
-    public List<Employee> ListAvailableEmployeesForActivity(String projectNum, String activityName) {
+    public List<Employee> listAvailableEmployeesForActivity() throws OperationNotAllowedException {
+        checkIsProjectLeader();
         List<Employee> employeesAvailable = new ArrayList<>();
 
-        Project project = getProject(projectNum);
-        Activity activity = project.getActivity(activityName);
-        int startWeek = activity.getStartWeek();
-        int endWeek = activity.getEndWeek();
+        int startWeek = getActivityStartWeek();
+        int endWeek = getActivityEndWeek();
 
         for (Employee employee : employeeRepo) {
             if (employee.availableInPeriod(startWeek,endWeek)){
@@ -224,61 +217,60 @@ public class ManagementApp {
         }
 
         return employeesAvailable;
+
+        // TODO: måske det er noget som activity classen skulle gøre, for at køre SOLID? a la:
+        // return assignedEmployees.stream()
+        //                .filter(employee -> employee.availableForActivity(activity))
+        //                .collect(Collectors.toList());
     }
 
+
+
+    /*
+        EMPLOYEE
+    */
+    // Employee - creation, deletion, repo
+    public void login(Employee employee) {
+        user = employee;
+    }
     public Employee getUser() {
         return user;
     }
-
+    public void addEmployee(String username) throws OperationNotAllowedException {
+        boolean duplicate = employeeRepo.stream().anyMatch(employee -> employee.getUsername().equals(username));
+        if (duplicate)
+            throw new OperationNotAllowedException("An employee with that username already exists.");
+        employeeRepo.add(new Employee(username));
+    }
+    public void removeEmployee(Employee employee) {
+        projectRepo.forEach(project -> {
+            if (project.getProjectLeader() == employee)
+                project.setProjectLeader(null);
+            project.getActivityRepo().forEach(activity -> activity.unassignEmployee(employee));
+        });
+        employeeRepo.remove(employee);
+    }
     public Employee getEmployee(String username) {
         return employeeRepo.stream()
-                .filter(emp -> emp.getUsername().equals(username))
+                .filter(employee -> employee.getUsername().equals(username))
                 .findAny()
                 .orElse(null);
     }
-
     public ObservableList<Employee> getEmployeeRepo() {
         return employeeRepo;
     }
 
+    // Employee - info
     public String getUserUsername() {
         return user.getUsername();
     }
 
-    public void addNewUserActivity(String activityName) {
-        user.addNewActivity(activityName);
+    // Employee - work-info
+    public void registerWorkHoursOnActivity(float hours) throws OperationNotAllowedException {
+        selectedActivity.registerWorkHours(user, hours);
     }
-
-    public ObservableList<Activity> getUserActivities() {
-        return user.getActivities();
-    }
-
-    public void registerWorkHoursOnProjectActivity(Project project, Activity activity, float hours) throws OperationNotAllowedException {
-        project.registerWorkHoursOnActivity(user, activity, hours);
-    }
-
-    public float getWorkHoursOnActivity(Project project, Activity activity) {
-        return project.getWorkHoursOnActivity(user, activity);
-    }
-
-    public float getActivityExpectedHours(Project project, Activity activity) {
-        return project.getExpectedHoursOnActivity(activity);
-    }
-
-    public int getProjectStartWeek(Project project) {
-        return project.getStartWeek();
-    }
-
-    public int getProjectEndWeek(Project project) {
-        return project.getEndWeek();
-    }
-
-    public int getActivityStartWeek(Project project, Activity activity) {
-        return project.getActivityStartWeek(activity);
-    }
-
-    public int getActivityEndWeek(Project project, Activity activity) {
-        return project.getActivityEndWeek(activity);
+    public float getWorkedHoursOnActivity() {
+        return selectedActivity.getWorkedHours(user);
     }
 }
 
