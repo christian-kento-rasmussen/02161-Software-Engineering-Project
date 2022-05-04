@@ -919,7 +919,7 @@
                                     <Font size="22.0" />
                                  </font>
                               </Button>
-                              <Button fx:id="btnDeleteProject2" disable="true" mnemonicParsing="false" onAction="#onBtnDeleteProject" prefHeight="46.0" prefWidth="207.0" styleClass="btnRed" text="Unassign Activity" textFill="#eeeeee">
+                              <Button fx:id="btnUnassignActivity" disable="true" mnemonicParsing="false" onAction="#onBtnUnassignActivity" prefHeight="46.0" prefWidth="207.0" styleClass="btnRed" text="Unassign Activity" textFill="#eeeeee">
                                  <font>
                                     <Font size="22.0" />
                                  </font>
@@ -963,7 +963,7 @@
                         </ListView>
                         <HBox alignment="CENTER_RIGHT" spacing="22.0">
                            <children>
-                              <Button fx:id="btnDeleteProject1" disable="true" mnemonicParsing="false" onAction="#onBtnDeleteProject" prefHeight="46.0" prefWidth="221.0" styleClass="btnRed" text="Remove Employee" textFill="#eeeeee">
+                              <Button fx:id="btnRemoveEmployee" disable="true" mnemonicParsing="false" onAction="#onBtnRemoveEmployee" prefHeight="46.0" prefWidth="221.0" styleClass="btnRed" text="Remove Employee" textFill="#eeeeee">
                                  <font>
                                     <Font size="22.0" />
                                  </font>

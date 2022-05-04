@@ -12,6 +12,10 @@ public class Activity {
     private Project parentProject;
     private Employee parentEmployee;
 
+    public static final int PROJECT_TYPE = 0;
+    public static final int EMPLOYEE_TYPE = 1;
+    private final int type;
+
     private float expectedWorkHours;
     private int startWeek;
     private int endWeek;
@@ -22,10 +26,12 @@ public class Activity {
     public Activity(String activityName, Project parentProject) {
         this.activityName = activityName;
         this.parentProject = parentProject;
+        type = PROJECT_TYPE;
     }
     public Activity(String activityName, Employee employee) {
         this.activityName = activityName;
         this.parentEmployee = employee;
+        type = EMPLOYEE_TYPE;
     }
 
 
@@ -61,7 +67,9 @@ public class Activity {
         else
             this.endWeek = endWeek;
     }
-
+    public int getActivityType() {
+        return type;
+    }
 
     // Work-info
     public void registerWorkHours(Employee employee, float hours) throws OperationNotAllowedException {
@@ -117,6 +125,4 @@ public class Activity {
     public HashMap<Employee, Float> getEmployeeWorkHoursMap() {
         return employeeWorkHoursMap;
     }
-
-
 }

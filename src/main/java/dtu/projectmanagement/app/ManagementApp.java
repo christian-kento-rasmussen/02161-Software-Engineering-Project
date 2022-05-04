@@ -1,6 +1,7 @@
 package dtu.projectmanagement.app;
 
 import dtu.projectmanagement.domain.*;
+import javafx.beans.property.StringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
@@ -157,7 +158,11 @@ public class ManagementApp {
         selectedActivity.assignEmployee(employee);
     }
     public void unassignEmployeeFromActivity(Employee employee) {
-        selectedActivity.unassignEmployee(employee);
+        if (selectedActivity.getActivityType() == Activity.PROJECT_TYPE) {
+            employee.unassignActivity(selectedActivity);
+            selectedActivity.unassignEmployee(employee);
+        } else if (selectedActivity.getActivityType() == Activity.EMPLOYEE_TYPE)
+            deleteUserActivity(selectedActivity);
     }
     public ObservableList<Employee> getAssignedEmployees() {
         return selectedActivity.getAssignedEmployees();
@@ -217,11 +222,6 @@ public class ManagementApp {
         }
 
         return employeesAvailable;
-
-        // TODO: måske det er noget som activity classen skulle gøre, for at køre SOLID? a la:
-        // return assignedEmployees.stream()
-        //                .filter(employee -> employee.availableForActivity(activity))
-        //                .collect(Collectors.toList());
     }
 
 
@@ -242,7 +242,10 @@ public class ManagementApp {
             throw new OperationNotAllowedException("An employee with that username already exists.");
         employeeRepo.add(new Employee(username));
     }
-    public void removeEmployee(Employee employee) {
+    public void removeEmployee(Employee employee) throws OperationNotAllowedException {
+        if (employee.equals(user))
+            throw new OperationNotAllowedException("Cannot delete the current user of the application");
+
         projectRepo.forEach(project -> {
             if (project.getProjectLeader() == employee)
                 project.setProjectLeader(null);

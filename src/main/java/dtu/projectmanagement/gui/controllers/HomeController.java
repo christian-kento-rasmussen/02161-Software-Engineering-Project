@@ -21,8 +21,6 @@ import java.io.IOException;
 public class HomeController {
 
     ManagementApp managementApp;
-    Project selectedProject;
-    Activity selectedActivity;
 
     Stage stagePopUp;
     private int back;
@@ -42,10 +40,13 @@ public class HomeController {
     @FXML private ListView<Activity> lvActivities;
     @FXML private Label lblActivityNameError;
     @FXML private TextField tfActivityName;
+
     @FXML private Button btnViewActivity;
+    @FXML private Button btnUnassignActivity;
 
     // Employees Pane
     @FXML private ListView<Employee> lvEmp;
+    @FXML private Button btnRemoveEmployee;
 
     // ProjectView Pane
     @FXML private Label lblProjectNum;
@@ -124,14 +125,23 @@ public class HomeController {
         lvActivities.getSelectionModel().selectedItemProperty().addListener(e -> {
             if (lvActivities.getSelectionModel().getSelectedItem() == null) {
                 btnViewActivity.setDisable(true);
+                btnUnassignActivity.setDisable(true);
                 return;
             }
             btnViewActivity.setDisable(false);
+            btnUnassignActivity.setDisable(false);
         });
 
         // Employee Pane
         lvEmp.setItems(managementApp.getEmployeeRepo());
         lvEmp.setCellFactory(employeeListView -> new EmployeeListViewCell());
+        lvEmp.getSelectionModel().selectedItemProperty().addListener(e -> {
+            if (lvEmp.getSelectionModel().getSelectedItem() == null) {
+                btnRemoveEmployee.setDisable(true);
+                return;
+            }
+            btnRemoveEmployee.setDisable(false);
+        });
 
         // ProjectView Pane
         cbPickProjectLeader.setItems(managementApp.getEmployeeRepo());
@@ -172,7 +182,6 @@ public class HomeController {
 
 
     // Utility Methods
-
     @FXML
     public void onBtnActivityBack() {
         if (back == 1)
@@ -182,8 +191,6 @@ public class HomeController {
     }
 
     private void loadProject() {
-        selectedProject = lvProjects.getSelectionModel().getSelectedItem();
-
         lblProjectNum.setText(managementApp.getProjectNum());
 
         if (managementApp.getProjectLeader() == null)
@@ -243,14 +250,17 @@ public class HomeController {
     // Navbar
     @FXML
     public void onBtnProjects() {
+        lvProjects.getSelectionModel().clearSelection();
         tabPane.getSelectionModel().select(0);
     }
     @FXML
     public void onBtnActivities() {
+        lvActivities.getSelectionModel().clearSelection();
         tabPane.getSelectionModel().select(3);
     }
     @FXML
     public void onBtnEmployees() {
+        lvEmp.getSelectionModel().clearSelection();
         tabPane.getSelectionModel().select(4);
     }
     @FXML
@@ -281,13 +291,14 @@ public class HomeController {
 
     @FXML
     public void onBtnViewProject() {
+        Project selectedProject = lvProjects.getSelectionModel().getSelectedItem();
+        managementApp.selectProject(selectedProject);
         loadProject();
         tabPane.getSelectionModel().select(1);
     }
-
     @FXML
     public void onBtnDeleteProject() {
-        selectedProject = lvProjects.getSelectionModel().getSelectedItem();
+        Project selectedProject = lvProjects.getSelectionModel().getSelectedItem();
         managementApp.deleteProject(selectedProject);
     }
 
@@ -416,13 +427,14 @@ public class HomeController {
     @FXML
     public void onBtnViewProjectActivity() throws OperationNotAllowedException {
         back = tabPane.getSelectionModel().getSelectedIndex();
-        selectedActivity = lvProjectActivities.getSelectionModel().getSelectedItem();
+        Activity selectedActivity = lvProjectActivities.getSelectionModel().getSelectedItem();
+        managementApp.selectActivity(selectedActivity);
         loadActivity();
         tabPane.getSelectionModel().select(2);
     }
     @FXML
     public void onBtnDeleteProjectActivity() {
-        selectedActivity = lvProjectActivities.getSelectionModel().getSelectedItem();
+        Activity selectedActivity = lvProjectActivities.getSelectionModel().getSelectedItem();
         managementApp.deleteProjectActivity(selectedActivity);
     }
 
@@ -524,14 +536,6 @@ public class HomeController {
 
     // Activities Pane
     @FXML
-    public void onBtnViewActivity() throws OperationNotAllowedException {
-        back = tabPane.getSelectionModel().getSelectedIndex();
-        selectedActivity = lvActivities.getSelectionModel().getSelectedItem();
-        loadActivity();
-        tabPane.getSelectionModel().select(2);
-    }
-
-    @FXML
     public void onBtnAddNewUserActivity() throws OperationNotAllowedException {
         if ((tfActivityName.getLength() == 0) || tfActivityName.getLength() > 20) {
             lblActivityNameError.setText("Activity names need to be between 1 and 20 characters");
@@ -551,7 +555,21 @@ public class HomeController {
         tfActivityName.setText("");
     }
 
+    @FXML
+    public void onBtnViewActivity() throws OperationNotAllowedException {
+        back = tabPane.getSelectionModel().getSelectedIndex();
+        Activity selectedActivity = lvActivities.getSelectionModel().getSelectedItem();
+        managementApp.selectActivity(selectedActivity);
+        loadActivity();
+        tabPane.getSelectionModel().select(2);
+    }
+    @FXML
+    public void onBtnUnassignActivity() {
+        Activity selectedActivity = lvActivities.getSelectionModel().getSelectedItem();
+        managementApp.selectActivity(selectedActivity);
+        managementApp.unassignEmployeeFromActivity(managementApp.getUser());
 
+    }
 
     // Employees Pane
     @FXML
@@ -571,5 +589,15 @@ public class HomeController {
         //stage.setIcon();
         stagePopUp.setScene(scene);
         stagePopUp.show();
+    }
+
+    @FXML
+    public void onBtnRemoveEmployee() {
+        Employee selectedEmployee = lvEmp.getSelectionModel().getSelectedItem();
+        try {
+            managementApp.removeEmployee(selectedEmployee);
+        } catch (OperationNotAllowedException e) {
+            // TODO: add popup
+        }
     }
 }
