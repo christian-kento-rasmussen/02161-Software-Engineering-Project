@@ -11,8 +11,6 @@ import java.io.IOException;
 
 public class ManagementAppGUI extends Application {
 
-    public static ManagementApp managementApp;
-
     @Override
     public void start(Stage stage) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(ManagementAppGUI.class.getResource("views/logIn-view.fxml"));
@@ -27,7 +25,6 @@ public class ManagementAppGUI extends Application {
     }
 
     public static void main(String[] args) {
-        managementApp = new ManagementApp();
         launch();
     }
 }

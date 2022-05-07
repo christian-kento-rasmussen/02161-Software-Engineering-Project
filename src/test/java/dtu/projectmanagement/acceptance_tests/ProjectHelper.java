@@ -13,7 +13,7 @@ public class ProjectHelper {
     private String lastAct;
     private int projectCnt = 1;
     private int actCnt;
-    private ManagementApp managementApp;
+    private final ManagementApp managementApp;
 
     public ProjectHelper(ManagementApp managementApp) {
         this.managementApp = managementApp;
@@ -27,7 +27,11 @@ public class ProjectHelper {
         int year = Calendar.getInstance().get(Calendar.YEAR);
         projectNum = String.format("%02d%04d", year % 100, projectCnt++);
 
-        managementApp.selectProject(getProject());
+        try {
+            managementApp.selectProject(getProject());
+        } catch (OperationNotAllowedException e) {
+            e.printStackTrace();
+        }
     }
 
     public Project getProject() {

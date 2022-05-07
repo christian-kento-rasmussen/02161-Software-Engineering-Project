@@ -8,7 +8,7 @@ import java.util.List;
 public class Employee {
 
     private String username;
-    private List<Activity> assignedActivities = new ArrayList<>();
+    private final List<Activity> assignedActivities = new ArrayList<>();
 
     public Employee(String username) {
         this.username = username;

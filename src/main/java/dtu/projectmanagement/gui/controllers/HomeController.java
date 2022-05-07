@@ -114,7 +114,7 @@ public class HomeController implements PropertyChangeListener {
 
     @FXML
     public void initialize() {
-        managementApp = ManagementAppGUI.managementApp;
+        managementApp = ManagementApp.getInstance();
         managementApp.addObserver(this);
 
         // TODO: do the thing with textformat
@@ -362,7 +362,11 @@ public class HomeController implements PropertyChangeListener {
     @FXML
     public void onBtnViewProject() {
         Project selectedProject = lvProjects.getSelectionModel().getSelectedItem();
-        managementApp.selectProject(selectedProject);
+        try {
+            managementApp.selectProject(selectedProject);
+        } catch (OperationNotAllowedException e) {
+            // TODO: popup
+        }
         tabPane.getSelectionModel().select(1);
     }
     @FXML
@@ -492,7 +496,11 @@ public class HomeController implements PropertyChangeListener {
     public void onBtnViewProjectActivity() {
         back = tabPane.getSelectionModel().getSelectedIndex();
         Activity selectedActivity = lvProjectActivities.getSelectionModel().getSelectedItem();
-        managementApp.selectActivity(selectedActivity);
+        try {
+            managementApp.selectActivity(selectedActivity);
+        } catch (OperationNotAllowedException e) {
+            // TODO: popup
+        }
         tabPane.getSelectionModel().select(2);
     }
     @FXML
@@ -613,10 +621,10 @@ public class HomeController implements PropertyChangeListener {
     @FXML
     public void onBtnGetActivityStats() {
         try {
-            lblActivitySpendHours.setText(String.valueOf(managementApp.getSpendHoursOnProject()));
-            lblActivityExpectedHours.setText(String.valueOf(managementApp.getExpectedHoursOnProject()));
-            lblActivityExpectedHoursStat.setText(String.valueOf(managementApp.getExpectedHoursOnProject()));
-            lblActivityRemainingHours.setText(String.valueOf(managementApp.getRemainingHoursOnProject()));
+            lblActivitySpendHours.setText(String.valueOf(managementApp.getSpendHoursOnActivity()));
+            lblActivityExpectedHours.setText(String.valueOf(managementApp.getExpectedWorkHoursOnActivity()));
+            lblActivityExpectedHoursStat.setText(String.valueOf(managementApp.getExpectedWorkHoursOnActivity()));
+            lblActivityRemainingHours.setText(String.valueOf(managementApp.getRemainingHoursOnActivity()));
         } catch(OperationNotAllowedException e) {
             lblProjectStatsError.setText(e.getMessage());
         }
@@ -673,13 +681,21 @@ public class HomeController implements PropertyChangeListener {
     public void onBtnViewActivity() {
         back = tabPane.getSelectionModel().getSelectedIndex();
         Activity selectedActivity = lvActivities.getSelectionModel().getSelectedItem();
-        managementApp.selectActivity(selectedActivity);
+        try {
+            managementApp.selectActivity(selectedActivity);
+        } catch (OperationNotAllowedException e) {
+            // TODO: popup
+        }
         tabPane.getSelectionModel().select(2);
     }
     @FXML
     public void onBtnUnassignActivity() {
         Activity selectedActivity = lvActivities.getSelectionModel().getSelectedItem();
-        managementApp.selectActivity(selectedActivity);
+        try {
+            managementApp.selectActivity(selectedActivity);
+        } catch (OperationNotAllowedException e) {
+            // TODO: popup
+        }
         managementApp.unassignEmployeeFromActivity(managementApp.getUser());
     }
 
@@ -704,12 +720,12 @@ public class HomeController implements PropertyChangeListener {
     }
 
     @FXML
-    public void onBtnRemoveEmployee() {
+    public void onBtnRemoveEmployee() throws IOException {
         Employee selectedEmployee = lvEmp.getSelectionModel().getSelectedItem();
-        try {
-            managementApp.removeEmployee(selectedEmployee);
-        } catch (OperationNotAllowedException e) {
-            // TODO: add popup
-        }
+
+        if (managementApp.getUser() == selectedEmployee)
+            switchToLogInScene();
+
+        managementApp.removeEmployee(selectedEmployee);
     }
 }

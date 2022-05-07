@@ -21,7 +21,7 @@ public class AddEmpController {
 
     @FXML
     public void initialize() {
-        managementApp = ManagementAppGUI.managementApp;
+        managementApp = ManagementApp.getInstance();
     }
 
 

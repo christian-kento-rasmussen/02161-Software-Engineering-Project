@@ -47,14 +47,12 @@ public class ActivitySteps {
         managementApp.selectActivity(managementApp.getProjectActivity(activityName));
         managementApp.setActivityStartWeek(startWeek);
         managementApp.setActivityEndWeek(endWeek);
-        managementApp.selectActivity(null);
     }
 
     @And("the employee with username {string} is assigned to the activity named {string}")
     public void employeeIsAttachedToActivity(String username, String activityName) throws OperationNotAllowedException {
         managementApp.selectActivity(managementApp.getProjectActivity(activityName));
         managementApp.assignEmployeeToActivity(managementApp.getEmployee(username));
-        managementApp.selectActivity(null);
     }
 
     @Given("the project does not have an activity named {string}")
@@ -138,7 +136,11 @@ public class ActivitySteps {
 
     @And("the activity named {string} is selected")
     public void theActivityNamedIsSelected(String activityName) {
-        managementApp.selectActivity(managementApp.getProjectActivity(activityName));
+        try {
+            managementApp.selectActivity(managementApp.getProjectActivity(activityName));
+        } catch (OperationNotAllowedException e) {
+            errorMessage.setErrorMessage(e.getMessage());
+        }
     }
 
     @Then("the project does not have an activity named {string} and the employee with username {string} is not assigned to the activity")

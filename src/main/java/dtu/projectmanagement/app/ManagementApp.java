@@ -8,6 +8,8 @@ import java.util.*;
 
 public class ManagementApp {
 
+    private static ManagementApp instance;
+
     private Project selectedProject;
     private Activity selectedActivity;
     private Employee user;
@@ -22,18 +24,43 @@ public class ManagementApp {
         support.addPropertyChangeListener(l);
     }
 
+    public static ManagementApp getInstance() {
+        if (instance == null)
+            instance = new ManagementApp();
+        return instance;
+    }
+
     // Selection
-    public void selectProject(Project project) {
+    public void selectProject(Project project) throws OperationNotAllowedException {
+        if (!projectRepo.contains(project))
+            throw new OperationNotAllowedException("The project does not exist.");
+
         selectedProject = project;
 
         support.firePropertyChange(NotificationType.UPDATE_PROJECT, null, null);
     }
-    public void selectActivity(Activity activity) {
+    public void selectActivity(Activity activity) throws OperationNotAllowedException {
+        boolean isInSelectedProject = selectedProject != null && getSelectedProject().getActivityRepo().contains(activity);
+        boolean isInUser = user != null && getUser().getAssignedActivities().contains(activity);
+        if (!(isInSelectedProject || isInUser))
+            throw new OperationNotAllowedException("The activity does not exist.");
+
         selectedActivity = activity;
 
         support.firePropertyChange(NotificationType.UPDATE_ACTIVITY, null, null);
     }
+    public Project getSelectedProject() throws OperationNotAllowedException {
+        if (selectedProject != null)
+            return selectedProject;
+        throw new OperationNotAllowedException("No project selected");
+    }
+    public Activity getSelectedActivity() throws OperationNotAllowedException {
+        if (selectedActivity != null)
+            return selectedActivity;
+        throw new OperationNotAllowedException("No activity selected.");
+    }
 
+    // TODO: project exists and get project
 
 
     /*
@@ -67,6 +94,7 @@ public class ManagementApp {
             if (project.getProjectNum().equals(projectNum))
                 return project;
         }
+
         return null;
     }
     public List<Project> getProjectRepo() {
@@ -230,7 +258,6 @@ public class ManagementApp {
         return selectedActivity.getStartWeek();
     }
     public void setActivityEndWeek(int endWeek) throws OperationNotAllowedException {
-        // TODO: or parent to the activity
         if (selectedActivity.getParentEmployee() != user) {
             checkIsProjectLeader();
         }
@@ -309,9 +336,13 @@ public class ManagementApp {
 
         support.firePropertyChange(NotificationType.UPDATE_EMPLOYEE_REPO, null, null);
     }
-    public void removeEmployee(Employee employee) throws OperationNotAllowedException {
-        if (employee.equals(user))
-            throw new OperationNotAllowedException("Cannot delete the current user of the application");
+    /**
+     * @author William Steffens (s185369)
+     */
+    public void removeEmployee(Employee employee) {
+        // Pre-condition
+        assert true : "Pre-condition violation";
+
 
         projectRepo.forEach(project -> {
             if (project.getProjectLeader() == employee)
@@ -320,8 +351,32 @@ public class ManagementApp {
         });
         employeeRepo.remove(employee);
 
+
+        // Post-condition
+        assert !employeeRepo.contains(employee)
+                && !isAProjectLeader(employee)
+                && !isAssignedAProjectActivity(employee) : "Post-condition violation";
+
         support.firePropertyChange(NotificationType.UPDATE_EMPLOYEE_REPO, null, null);
     }
+    // Contract post-condition helper method for removeEmployee method
+    private boolean isAProjectLeader(Employee employee) {
+        for (Project project : projectRepo)
+            if (employee == project.getProjectLeader())
+                return true;
+
+        return false;
+    }
+    // Contract post-condition helper method for removeEmployee method
+    private boolean isAssignedAProjectActivity(Employee employee) {
+        for (Project project : projectRepo)
+            for (Activity projectActivity : project.getActivityRepo())
+                if (projectActivity.getAssignedEmployees().contains(employee))
+                    return true;
+
+        return false;
+    }
+
     public Employee getEmployee(String username) {
         return employeeRepo.stream()
                 .filter(employee -> employee.getUsername().equals(username))

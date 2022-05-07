@@ -29,7 +29,7 @@ public class LogInController implements PropertyChangeListener {
 
     @FXML
     public void initialize() {
-        managementApp = ManagementAppGUI.managementApp;
+        managementApp = ManagementApp.getInstance();
         managementApp.addObserver(this);
 
         lvEmp.setItems(FXCollections.observableArrayList(managementApp.getEmployeeRepo()));

@@ -20,8 +20,8 @@ public class Activity {
     private int startWeek;
     private int endWeek;
 
-    private HashMap<Employee, Float> employeeWorkHoursMap = new HashMap<>();
-    private List<Employee> assignedEmployees = new ArrayList<>();
+    private final HashMap<Employee, Float> employeeWorkHoursMap = new HashMap<>();
+    private final List<Employee> assignedEmployees = new ArrayList<>();
 
     public Activity(String activityName, Project parentProject) {
         this.activityName = activityName;
