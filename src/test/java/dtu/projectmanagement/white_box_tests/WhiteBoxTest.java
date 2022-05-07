@@ -1,21 +1,10 @@
-package dtu.projectmanagement.acceptance_tests;
+package dtu.projectmanagement.white_box_tests;
 
 import dtu.projectmanagement.app.ManagementApp;
-import dtu.projectmanagement.app.OperationNotAllowedException;
 import org.junit.Test;
 
 
-
-import dtu.projectmanagement.app.ManagementApp;
-import dtu.projectmanagement.domain.Activity;
-import dtu.projectmanagement.domain.Employee;
 import dtu.projectmanagement.domain.Project;
-import io.cucumber.java.en.*;
-
-
-import java.util.List;
-
-import static org.junit.Assert.*;
 
 
 public class WhiteBoxTest {

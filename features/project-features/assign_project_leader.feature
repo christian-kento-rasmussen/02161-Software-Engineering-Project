@@ -3,7 +3,7 @@ Feature: Assign a project leader to a project
     Actor: Employee
 
 Scenario: Assign a project leader to a project
-  Given there is a project and it is selected
+  Given there is a project
   And there is an employee with username "foo"
-  When the employee assigns the employee with the username "foo" to be project leader of the selected project
-  Then the employee with the username "foo" is the project leader of the selected project
+  When the employee assigns the employee with the username "foo" to be project leader of the given project
+  Then the employee with the username "foo" is assigned as the project leader of the given project

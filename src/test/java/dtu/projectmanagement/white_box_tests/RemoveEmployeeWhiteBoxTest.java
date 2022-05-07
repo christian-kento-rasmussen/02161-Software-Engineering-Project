@@ -1,4 +1,4 @@
-package dtu.projectmanagement.acceptance_tests;
+package dtu.projectmanagement.white_box_tests;
 
 import dtu.projectmanagement.app.ManagementApp;
 import org.junit.jupiter.api.BeforeEach;

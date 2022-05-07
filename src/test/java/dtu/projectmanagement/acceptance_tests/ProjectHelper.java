@@ -26,12 +26,6 @@ public class ProjectHelper {
 
         int year = Calendar.getInstance().get(Calendar.YEAR);
         projectNum = String.format("%02d%04d", year % 100, projectCnt++);
-
-        try {
-            managementApp.selectProject(getProject());
-        } catch (OperationNotAllowedException e) {
-            e.printStackTrace();
-        }
     }
 
     public Project getProject() {
@@ -44,19 +38,11 @@ public class ProjectHelper {
 
     public void addActivity() {
         lastAct = "testActivity" + actCnt++;
-        managementApp.addNewProjectActivity(lastAct);
-    }
-
-    public void setActivityExpectedWorkHours(int hours) throws OperationNotAllowedException {
-        getActivity().setExpectedWorkHours(hours);
+        //managementApp.addNewProjectActivity(lastAct);
     }
 
     public void setUserToProjectLeader() {
-        managementApp.assignProjectLeader(managementApp.getUser());
-    }
-
-    public Activity getActivity() {
-        return getProject().getActivity(lastAct);
+        //managementApp.assignProjectLeader(managementApp.getUser());
     }
 
     public Activity getActivity(String activityName) {

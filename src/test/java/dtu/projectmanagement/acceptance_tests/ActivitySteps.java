@@ -4,12 +4,15 @@ import dtu.projectmanagement.app.ManagementApp;
 
 import dtu.projectmanagement.app.OperationNotAllowedException;
 import dtu.projectmanagement.domain.Activity;
+import dtu.projectmanagement.domain.Employee;
 import dtu.projectmanagement.domain.Project;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Then;
 
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.When;
+
+import java.util.List;
 
 import static org.junit.Assert.*;
 
@@ -21,6 +24,8 @@ public class ActivitySteps {
     private float remainingWorkHours;
     private float totalExpectedWorkHours;
     private float employeeTotalHours;
+
+    private List<Employee> availableEmployeesForActivity;
 
     private final ProjectHelper projectHelper;
     private final ErrorMessageHolder errorMessage;
@@ -35,80 +40,68 @@ public class ActivitySteps {
 
     @Then("the start and end time of the activity is {int} and {int}, respectively")
     public void theStartAndEndTimeOfTheActivityIsAndRespectively(int startWeek, int endWeek) {
-        assertEquals(managementApp.getActivityStartWeek(), startWeek);
-        assertEquals(managementApp.getActivityEndWeek(), endWeek);
+        //assertEquals(managementApp.getActivityStartWeek(), startWeek);
+        //assertEquals(managementApp.getActivityEndWeek(), endWeek);
     }
 
 
 
     @And("there is an activity named {string} in the project with start week {int} and end week {int}")
     public void thereIsAnActivityWithActivityNameStartWeekAndEndWeekContainedInTheProject(String activityName, int startWeek, int endWeek) throws OperationNotAllowedException {
-        managementApp.addNewProjectActivity(activityName);
-        managementApp.selectActivity(managementApp.getProjectActivity(activityName));
-        managementApp.setActivityStartWeek(startWeek);
-        managementApp.setActivityEndWeek(endWeek);
-    }
-
-    @And("the employee with username {string} is assigned to the activity named {string}")
-    public void employeeIsAttachedToActivity(String username, String activityName) throws OperationNotAllowedException {
-        managementApp.selectActivity(managementApp.getProjectActivity(activityName));
-        managementApp.assignEmployeeToActivity(managementApp.getEmployee(username));
+        managementApp.addNewProjectActivity(projectHelper.getProject(), activityName);
+        managementApp.setActivityStartWeek(projectHelper.getActivity(activityName), startWeek);
+        managementApp.setActivityEndWeek(projectHelper.getActivity(activityName), endWeek);
     }
 
     @Given("the project does not have an activity named {string}")
     public void thereIsAnActivityWithActivityName(String activityName) {
-        assertFalse(managementApp.getProjectActivityRepo().stream().anyMatch(activity -> activity.getActivityName().equals(activityName)));
+        assertFalse(managementApp.getProjectActivityRepo(projectHelper.getProject()).stream().anyMatch(activity -> activity.getActivityName().equals(activityName)));
     }
 
     @When("an activity named {string} is added to the project")
     public void theActivityIsAddedToTheProject(String activityName) {
-        managementApp.addNewProjectActivity(activityName);
+        managementApp.addNewProjectActivity(projectHelper.getProject(), activityName);
     }
 
     @And("there is an activity named {string} in the project")
     public void thereIsAnActivityNamedInTheProject(String activityName) {
-        managementApp.addNewProjectActivity(activityName);
+        managementApp.addNewProjectActivity(projectHelper.getProject(), activityName);
     }
 
     @Then("the project has an activity named {string}")
     public void theActivityWithActivityNameIsContainedInProject(String activityName) {
-        assertTrue(managementApp.getProjectActivityRepo().stream().anyMatch(activity -> activity.getActivityName().equals(activityName)));
+        assertTrue(managementApp.getProjectActivityRepo(projectHelper.getProject()).stream().anyMatch(activity -> activity.getActivityName().equals(activityName)));
     }
 
     @When("the activity named {string} is deleted from the project")
     public void theActivityIsDeletedFromProject(String activityName) {
-        managementApp.deleteProjectActivity(managementApp.getProjectActivity(activityName));
+        managementApp.deleteProjectActivity(projectHelper.getProject(), managementApp.getProjectActivity(projectHelper.getProject(), activityName));
     }
 
     @When("the employee assigns the other employee with username {string} to the selected activity")
     public void theEmployeeAssignsTheOtherEmployeeWithInitialsToTheActivity(String username) {
-        try {
+        /*try {
             managementApp.assignEmployeeToActivity(managementApp.getEmployee(username));
         } catch (OperationNotAllowedException e) {
             errorMessage.setErrorMessage(e.getMessage());
-        }
+        }*/
     }
 
-    @Then("the other employee with username {string} is assigned to the activity named {string} and vice versa")
+    @Then("the employee with username {string} is assigned to the activity named {string} and vice versa")
     public void theOtherEmployeeWithUsernameIsAssignedToTheActivity(String username, String activityName) {
-        assertTrue(managementApp.getEmployee(username)
+        /*assertTrue(managementApp.getEmployee(username)
                 .getAssignedActivities()
                 .stream()
                 .anyMatch(activity -> activity.getActivityName().equals(activityName)));
         assertTrue(managementApp.getAssignedEmployees()
                 .stream()
-                .anyMatch(employee -> employee.getUsername().equals(username)));
+                .anyMatch(employee -> employee.getUsername().equals(username)));*/
     }
 
-    @And("the other employee with username {string} is already assigned to the activity")
-    public void theOtherEmployeeWithInitialsIsAlreadyAssignedToTheActivity(String username) throws OperationNotAllowedException {
-        managementApp.assignEmployeeToActivity(managementApp.getEmployee(username));
-    }
-
-    @When("the user registers {float} hours spent on the activity")
-    public void theEmployeeRegistersHoursSpentOnTheActivity(float hours) {
+    @When("the user registers {float} hours spent on the activity named {string} in the project")
+    public void theEmployeeRegistersHoursSpentOnTheActivity(float hours, String activityName) {
         try {
-            managementApp.registerWorkHoursOnActivity(hours);
+            managementApp.registerWorkHoursOnActivity(projectHelper.getActivity(activityName), hours);
         } catch (OperationNotAllowedException e) {
             errorMessage.setErrorMessage(e.getMessage());
         }
@@ -116,17 +109,17 @@ public class ActivitySteps {
 
     @Then("the users registered hours on the activity is {float} hours")
     public void theEmployeesWorkHoursOnTheActivityIsHours(float hours) {
-        assertEquals(hours, managementApp.getWorkedHoursOnActivity(), 0f);
+        //assertEquals(hours, managementApp.getWorkedHoursOnActivity(), 0f);
     }
 
-    @Then("the expected hours on the activity is {int} hours")
-    public void theExpectedWorkHoursOnTheActivityIs(int hours) throws OperationNotAllowedException {
-        assertEquals(hours, managementApp.getExpectedWorkHoursOnActivity(), 0.0);
+    @Then("the expected hours on the activity named {string} is {int} hours")
+    public void theExpectedWorkHoursOnTheActivityIs(String activityName, int hours) throws OperationNotAllowedException {
+        assertEquals(hours, managementApp.getExpectedWorkHoursOnActivity(projectHelper.getActivity(activityName)), 0.0);
     }
 
-    @When("the employee queries their registered work hours on an activity")
-    public void theEmployeeQueriesTheirRegisteredWorkHoursOnAnActivity() {
-        employeeTotalHours = managementApp.getWorkedHoursOnActivity();
+    @When("the user queries their registered work hours on the activity named {string} in the project")
+    public void theEmployeeQueriesTheirRegisteredWorkHoursOnAnActivity(String activityName) {
+        employeeTotalHours = managementApp.getWorkedHoursOnActivity(projectHelper.getProject().getActivity(activityName));
     }
 
     @Then("the result of the query is {float} work hours")
@@ -134,24 +127,15 @@ public class ActivitySteps {
         assertEquals(hours, employeeTotalHours, 0f);
     }
 
-    @And("the activity named {string} is selected")
-    public void theActivityNamedIsSelected(String activityName) {
-        try {
-            managementApp.selectActivity(managementApp.getProjectActivity(activityName));
-        } catch (OperationNotAllowedException e) {
-            errorMessage.setErrorMessage(e.getMessage());
-        }
-    }
-
     @Then("the project does not have an activity named {string} and the employee with username {string} is not assigned to the activity")
     public void theProjectDoesNotHaveAnActivityNamedAndTheEmployeeWithUsernameIsNotAssignedToTheActivity(String activityName, String username) {
-        assertFalse(managementApp.getProjectActivityRepo()
+        /*assertFalse(managementApp.getProjectActivityRepo()
                 .stream()
                 .anyMatch(activity -> activity.getActivityName().equals(activityName)));
         assertFalse(managementApp.getEmployee(username)
                 .getAssignedActivities()
                 .stream()
-                .anyMatch(activity -> activity.getActivityName().equals(activityName)));
+                .anyMatch(activity -> activity.getActivityName().equals(activityName)));*/
     }
 
     @And("the employee has an activity named {string}")
@@ -169,10 +153,10 @@ public class ActivitySteps {
         assertFalse(managementApp.getUserActivities().stream().anyMatch(activity -> activity.getActivityName().equals(activityName)));
     }
 
-    @When("the user queries for the remaining hours on the activity")
-    public void theUserQueriesForTheRemainingHoursOnTheActivity() {
+    @When("the user queries for the remaining hours on the activity named {string} in the project")
+    public void theUserQueriesForTheRemainingHoursOnTheActivity(String activityName) {
         try {
-            remainingWorkHours = managementApp.getRemainingHoursOnActivity();
+            remainingWorkHours = managementApp.getRemainingHoursOnActivity(projectHelper.getActivity(activityName));
         } catch (OperationNotAllowedException e) {
             errorMessage.setErrorMessage(e.getMessage());
         }
@@ -183,19 +167,19 @@ public class ActivitySteps {
         assertEquals(hours, remainingWorkHours, 0f);
     }
 
-    @And("the user sets the expected hours on the activity to {int} hours")
-    public void theUserSetsTheExpectedHoursOnTheActivityTo(int hours) {
+    @And("the user sets the expected hours on the activity named {string} to {int} hours")
+    public void theUserSetsTheExpectedHoursOnTheActivityTo(String activityName, int hours) {
         try {
-            managementApp.setExpectedWorkHoursOnActivity(hours);
+            managementApp.setExpectedWorkHoursOnActivity(projectHelper.getActivity(activityName), hours);
         } catch (OperationNotAllowedException e) {
             errorMessage.setErrorMessage(e.getMessage());
         }
     }
 
-    @When("the user queries for the spend hours on the activity")
-    public void theUserQueriesForTheSpendHoursOnTheActivity() {
+    @When("the user queries for the spend hours on the activity named {string} in the project")
+    public void theUserQueriesForTheSpendHoursOnTheActivity(String activityName) {
         try {
-            spendWorkHours = managementApp.getSpendHoursOnActivity();
+            spendWorkHours = managementApp.getSpendHoursOnActivity(projectHelper.getActivity(activityName));
         } catch (OperationNotAllowedException e) {
             errorMessage.setErrorMessage(e.getMessage());
         }
@@ -206,13 +190,41 @@ public class ActivitySteps {
         assertEquals(hours, spendWorkHours, 0f);
     }
 
-    @When("the user sets the start and end time of the activity to {int} and {int}, respectively")
-    public void theUserSetsTheStartAndEndTimeOfTheActivityToAndRespectively(int startWeek, int endWeek) {
+    @When("the user sets the start and end time of the activity named {string} in the project to {int} and {int}, respectively")
+    public void theUserSetsTheStartAndEndTimeOfTheActivityToAndRespectively(String activityName, int startWeek, int endWeek) {
         try {
-            managementApp.setActivityStartWeek(startWeek);
-            managementApp.setActivityEndWeek(endWeek);
+            managementApp.setActivityStartWeek(projectHelper.getActivity(activityName), startWeek);
+            managementApp.setActivityEndWeek(projectHelper.getActivity(activityName), endWeek);
         } catch (OperationNotAllowedException e) {
             errorMessage.setErrorMessage(e.getMessage());
         }
+    }
+
+    @When("the employee with username {string} is assigned to the activity named {string} in the project")
+    public void theEmployeeAssignsTheOtherEmployeeWithUsernameToTheActivityNamedInTheProject(String username, String activityName) {
+        try {
+            managementApp.assignEmployeeToActivity(projectHelper.getActivity(activityName), managementApp.getEmployee(username));
+        } catch (OperationNotAllowedException e) {
+            errorMessage.setErrorMessage(e.getMessage());
+        }
+    }
+
+    @When("the user queries for the available employees for the activity named {string} in the project")
+    public void theProjectLeaderQueriesForTheAvailableEmployeesForTheSelectedActivity(String activityName) throws OperationNotAllowedException {
+        try {
+            availableEmployeesForActivity = managementApp.listAvailableEmployeesForActivity(projectHelper.getActivity(activityName));
+        } catch (OperationNotAllowedException e) {
+            errorMessage.setErrorMessage(e.getMessage());
+        }
+    }
+
+    @Then("the available employee for the selected activity is the employee with the username {string}")
+    public void availableEmployeesForActivityNameIs (String username) {
+        assertTrue(availableEmployeesForActivity.stream().anyMatch(employee -> employee.getUsername().equals(username)));
+    }
+
+    @Then("there is no available employees for the selected activity")
+    public void thereIsNoAvailableEmployeesForActivityName() {
+        assertEquals(0, availableEmployeesForActivity.size());
     }
 }

@@ -29,14 +29,14 @@ public class ProjectSteps {
 
 
 
-    @Given("there is a project and it is selected")
+    @Given("there is a project")
     public void thereIsAProjectAndItIsSelected() {
         projectHelper.addProject();
     }
 
-    @When("the employee assigns the employee with the username {string} to be project leader of the selected project")
+    @When("the employee assigns the employee with the username {string} to be project leader of the given project")
     public void theEmployeeAssignsTheGivenEmployeeToBeProjectLeaderOfTheGivenProject(String username) throws OperationNotAllowedException {
-        managementApp.assignProjectLeader(managementApp.getEmployee(username));
+        managementApp.assignProjectLeader(projectHelper.getProject(), managementApp.getEmployee(username));
     }
 
     @Given("a project is created")
@@ -96,15 +96,15 @@ public class ProjectSteps {
     }
 
 
-    @And("the employee with the username {string} is the project leader of the selected project")
+    @And("the employee with the username {string} is assigned as the project leader of the given project")
     public void theEmployeeWithTheUsernameIsTheProjectLeaderOfTheSelectedProject(String username) {
-        managementApp.assignProjectLeader(managementApp.getEmployee(username));
+        managementApp.getProjectLeader(projectHelper.getProject());
     }
 
     @When("the user queries for the remaining hours on the project")
     public void theUserQueriesForTheRemainingHoursOnTheProject() {
         try {
-            remainingWorkHours = managementApp.getRemainingHoursOnProject();
+            remainingWorkHours = managementApp.getRemainingHoursOnProject(projectHelper.getProject());
         } catch (OperationNotAllowedException e) {
             errorMessage.setErrorMessage(e.getMessage());
         }
@@ -118,7 +118,7 @@ public class ProjectSteps {
     @When("the user queries for the spend hours on the project")
     public void theUserQueriesForTheSpendHoursOnTheProject() {
         try {
-            spendWorkHours = managementApp.getSpendHoursOnProject();
+            spendWorkHours = managementApp.getSpendHoursOnProject(projectHelper.getProject());
         } catch (OperationNotAllowedException e) {
             errorMessage.setErrorMessage(e.getMessage());
         }
@@ -132,8 +132,8 @@ public class ProjectSteps {
     @When("the user sets the start and end time of the project to {int} and {int}, respectively")
     public void theUserSetsTheStartAndEndTimeOfTheProjectToAndRespectively(int startWeek, int endWeek) {
         try {
-            managementApp.setProjectStartWeek(startWeek);
-            managementApp.setProjectEndWeek(endWeek);
+            managementApp.setProjectStartWeek(projectHelper.getProject(), startWeek);
+            managementApp.setProjectEndWeek(projectHelper.getProject(), endWeek);
         } catch (OperationNotAllowedException e) {
             errorMessage.setErrorMessage(e.getMessage());
         }
@@ -141,7 +141,12 @@ public class ProjectSteps {
 
     @Then("the start and end time of the project is {int} and {int}, respectively")
     public void theStartAndEndTimeOfTheProjectIsAndRespectively(int startWeek, int endWeek) {
-        assertEquals(managementApp.getProjectStartWeek(), startWeek);
-        assertEquals(managementApp.getProjectEndWeek(), endWeek);
+        assertEquals(managementApp.getProjectStartWeek(projectHelper.getProject()), startWeek);
+        assertEquals(managementApp.getProjectEndWeek(projectHelper.getProject()), endWeek);
+    }
+
+    @And("the employee with the username {string} is the project leader of the given project")
+    public void theEmployeeWithTheUsernameIsTheProjectLeaderOfTheGivenProject(String username) {
+        managementApp.assignProjectLeader(projectHelper.getProject(), managementApp.getEmployee(username));
     }
 }

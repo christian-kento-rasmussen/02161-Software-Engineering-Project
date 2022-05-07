@@ -1,7 +1,9 @@
-package dtu.projectmanagement.domain;
+package dtu.projectmanagement.white_box_tests;
 
 import dtu.projectmanagement.app.ManagementApp;
 import dtu.projectmanagement.app.OperationNotAllowedException;
+import dtu.projectmanagement.domain.Activity;
+import dtu.projectmanagement.domain.Employee;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
