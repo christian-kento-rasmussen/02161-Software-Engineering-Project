@@ -89,13 +89,13 @@ public class ActivitySteps {
 
     @Then("the employee with username {string} is assigned to the activity named {string} and vice versa")
     public void theOtherEmployeeWithUsernameIsAssignedToTheActivity(String username, String activityName) {
-        /*assertTrue(managementApp.getEmployee(username)
+        assertTrue(managementApp.getEmployee(username)
                 .getAssignedActivities()
                 .stream()
                 .anyMatch(activity -> activity.getActivityName().equals(activityName)));
-        assertTrue(managementApp.getAssignedEmployees()
+        assertTrue(managementApp.getAssignedEmployees(managementApp.getProjectActivity(projectHelper.getProject(), activityName))
                 .stream()
-                .anyMatch(employee -> employee.getUsername().equals(username)));*/
+                .anyMatch(employee -> employee.getUsername().equals(username)));
     }
 
     @When("the user registers {float} hours spent on the activity named {string} in the project")
@@ -149,7 +149,7 @@ public class ActivitySteps {
     }
 
     @Then("the employee does not have an activity named {string}")
-    public void theUserDoesNotHaveAnActivityNamed(String activityName) {
+        public void theUserDoesNotHaveAnActivityNamed(String activityName) {
         assertFalse(managementApp.getUserActivities().stream().anyMatch(activity -> activity.getActivityName().equals(activityName)));
     }
 
