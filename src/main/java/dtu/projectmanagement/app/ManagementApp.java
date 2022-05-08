@@ -252,14 +252,28 @@ public class ManagementApp {
 
         return activity.getExpectedWorkHours();
     }
+
+    //TODO: DRY!!!
     public void setExpectedWorkHoursOnActivity(Activity activity, float hours) throws OperationNotAllowedException {
-        // TODO: DRY!!!
+
+        // Pre-condition
+        assert activity != null : " Pre - condition violation " ;
+
         authorizeActivityChange(activity);
 
-        activity.setExpectedWorkHours(hours);
+        if (hours>=0) {
+            activity.setExpectedWorkHours(hours);}
+        else {
+            throw new OperationNotAllowedException("Expected Work hours must be positive"); }
 
         support.firePropertyChange(NotificationType.UPDATE_ACTIVITY, null, null);
+
+        // Post-condition
+        assert activity.getExpectedWorkHours() == hours : " post - condition violation " ;
     }
+
+
+
     public float getRemainingHoursOnActivity(Activity activity) throws OperationNotAllowedException {
         authorizeActivityChange(activity);
 

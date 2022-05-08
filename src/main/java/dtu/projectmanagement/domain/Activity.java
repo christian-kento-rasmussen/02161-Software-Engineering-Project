@@ -99,8 +99,11 @@ public class Activity {
     public float getExpectedWorkHours() {
         return expectedWorkHours;
     }
-    public void setExpectedWorkHours(float expectedWorkHours) {
-        this.expectedWorkHours = expectedWorkHours;
+    public void setExpectedWorkHours(float expectedWorkHours) throws OperationNotAllowedException {
+        if (expectedWorkHours>=0) {
+            this.expectedWorkHours = (expectedWorkHours); }
+        else {
+            throw new OperationNotAllowedException("Expected Work hours must be positive"); }
     }
     public float getRemainingHours() {
         return getExpectedWorkHours() - getSpendHours();
@@ -114,8 +117,12 @@ public class Activity {
         assignedEmployees.add(employee);
     }
     public void unassignEmployee(Employee employee) throws OperationNotAllowedException {
-        if (!assignedEmployees.contains(employee)) {
+
+
+        if (!assignedEmployees.contains(employee) && !(employee==null)) {
             throw new OperationNotAllowedException("Employee is already unassigned from this activity"); }
+        else if (employee==null) {
+            throw new OperationNotAllowedException("Employee does not exist in the system");}
         else {
             assignedEmployees.remove(employee);
         }
