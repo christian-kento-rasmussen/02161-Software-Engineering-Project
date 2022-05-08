@@ -75,7 +75,7 @@ public class ActivitySteps {
 
     @When("the activity named {string} is deleted from the project")
     public void theActivityIsDeletedFromProject(String activityName) {
-        managementApp.deleteProjectActivity(projectHelper.getProject(), managementApp.getProjectActivity(projectHelper.getProject(), activityName));
+        managementApp.deleteProjectActivity(projectHelper.getProject(), projectHelper.getActivity(activityName));
     }
 
     @When("the employee assigns the other employee with username {string} to the selected activity")
@@ -87,18 +87,9 @@ public class ActivitySteps {
         }*/
     }
 
-    @Then("the employee with username {string} is assigned to the activity named {string} and vice versa")
-    public void theOtherEmployeeWithUsernameIsAssignedToTheActivity(String username, String activityName) {
-        assertTrue(managementApp.getEmployee(username)
-                .getAssignedActivities()
-                .stream()
-                .anyMatch(activity -> activity.getActivityName().equals(activityName)));
-        assertTrue(managementApp.getAssignedEmployees(managementApp.getProjectActivity(projectHelper.getProject(), activityName))
-                .stream()
-                .anyMatch(employee -> employee.getUsername().equals(username)));
-    }
 
-    @When("the user registers {float} hours spent on the activity named {string} in the project")
+
+@When("the user registers {float} hours spent on the activity named {string} in the project")
     public void theEmployeeRegistersHoursSpentOnTheActivity(float hours, String activityName) {
         try {
             managementApp.registerWorkHoursOnActivity(projectHelper.getActivity(activityName), hours);
@@ -144,7 +135,7 @@ public class ActivitySteps {
     }
 
     @When("the employee activity named {string} is deleted")
-    public void theUserActivityNamedIsDeleted(String activityName) {
+    public void theUserActivityNamedIsDeleted(String activityName) throws OperationNotAllowedException {
         managementApp.deleteUserActivity(managementApp.getUserActivity(activityName));
     }
 
@@ -200,14 +191,7 @@ public class ActivitySteps {
         }
     }
 
-    @When("the employee with username {string} is assigned to the activity named {string} in the project")
-    public void theEmployeeAssignsTheOtherEmployeeWithUsernameToTheActivityNamedInTheProject(String username, String activityName) {
-        try {
-            managementApp.assignEmployeeToActivity(projectHelper.getActivity(activityName), managementApp.getEmployee(username));
-        } catch (OperationNotAllowedException e) {
-            errorMessage.setErrorMessage(e.getMessage());
-        }
-    }
+
 
     @When("the user queries for the available employees for the activity named {string} in the project")
     public void theProjectLeaderQueriesForTheAvailableEmployeesForTheSelectedActivity(String activityName) throws OperationNotAllowedException {
@@ -226,5 +210,46 @@ public class ActivitySteps {
     @Then("there is no available employees for the selected activity")
     public void thereIsNoAvailableEmployeesForActivityName() {
         assertEquals(0, availableEmployeesForActivity.size());
+    }
+
+    @When("the employee with username {string} is assigned to the activity named {string} in the project")
+    public void theEmployeeAssignsTheOtherEmployeeWithUsernameToTheActivityNamedInTheProject(String username, String activityName) {
+        try {
+            managementApp.assignEmployeeToActivity(projectHelper.getActivity(activityName), managementApp.getEmployee(username));
+        } catch (OperationNotAllowedException e) {
+            errorMessage.setErrorMessage(e.getMessage());
+        }
+    }
+
+    @When("the employee with username {string} is unassigned from the activity named {string} in the project")
+    public void theEmployeeWithUsernameIsUnassignedFromTheActivityNamedInTheProject(String employeeName, String activityName) throws OperationNotAllowedException {
+        try {
+            managementApp.unassignEmployeeFromActivity(projectHelper.getActivity(activityName), managementApp.getEmployee(employeeName));
+        } catch (OperationNotAllowedException e) {
+            errorMessage.setErrorMessage(e.getMessage());
+        }
+    }
+
+    @Then("the employee with username {string} is assigned to the activity named {string} and vice versa")
+    public void theOtherEmployeeWithUsernameIsAssignedToTheActivity(String username, String activityName) {
+        assertTrue(managementApp.getEmployee(username)
+                .getAssignedActivities()
+                .stream()
+                .anyMatch(activity -> activity.getActivityName().equals(activityName)));
+        assertTrue(managementApp.getAssignedEmployees(projectHelper.getActivity(activityName)).stream()
+                .anyMatch(employee -> employee.getUsername().equals(username)));
+    }
+
+
+
+    @Then("the employee with username {string} is unassigned from the activity named {string} and vice versa")
+    public void theEmployeeWithUsernameIsUnassignedFromTheActivityNamedAndViceVersa(String username, String activityName) {
+        assertFalse(managementApp.getEmployee(username)
+                .getAssignedActivities()
+                .stream()
+                .anyMatch(activity -> activity.getActivityName().equals(activityName)));
+        assertFalse(managementApp.getAssignedEmployees(projectHelper.getActivity(activityName))
+                .stream()
+                .anyMatch(employee -> employee.getUsername().equals(username)));
     }
 }

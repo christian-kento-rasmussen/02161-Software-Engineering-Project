@@ -107,13 +107,21 @@ public class Activity {
     }
     public void assignEmployee(Employee employee) throws OperationNotAllowedException {
         assignedEmployees.add(employee);
+
         employee.assignActivity(this);
     }
     public void assignEmployeeForUserActivity(Employee employee) {
         assignedEmployees.add(employee);
     }
-    public void unassignEmployee(Employee employee) {
-        assignedEmployees.remove(employee);
+    public void unassignEmployee(Employee employee) throws OperationNotAllowedException {
+        if (!assignedEmployees.contains(employee)) {
+            throw new OperationNotAllowedException("Employee is already unassigned from this activity"); }
+        else {
+            assignedEmployees.remove(employee);
+        }
+
+
+
     }
     public void unassignAllEmployees() {
         assignedEmployees.forEach(employee -> employee.unassignActivity(this));

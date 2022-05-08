@@ -36,8 +36,8 @@ public class Employee {
         assignedActivities.add(activity);
         activity.assignEmployeeForUserActivity(this);
     }
-    public void unassignActivity(Activity activity) {
-        assignedActivities.remove(activity);
+    public void unassignActivity(Activity activity)  {
+            assignedActivities.remove(activity);
     }
     public void assignActivity(Activity activity) throws OperationNotAllowedException {
         if (assignedActivities.contains(activity)){

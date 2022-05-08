@@ -165,7 +165,7 @@ public class ManagementApp {
 
         support.firePropertyChange(NotificationType.UPDATE_ACTIVITY_REPO, null, null);
     }
-    public void deleteUserActivity(Activity activity) {
+    public void deleteUserActivity(Activity activity) throws OperationNotAllowedException  {
         user.unassignActivity(activity);
         activity.unassignEmployee(user);
 
@@ -194,7 +194,7 @@ public class ManagementApp {
 
         support.firePropertyChange(NotificationType.UPDATE_ACTIVITY, null, null);
     }
-    public void unassignEmployeeFromActivity(Activity activity, Employee employee) {
+    public void unassignEmployeeFromActivity(Activity activity, Employee employee) throws OperationNotAllowedException {
         if (activity.getActivityType() == Activity.PROJECT_TYPE) {
             employee.unassignActivity(activity);
             activity.unassignEmployee(employee);
@@ -304,7 +304,7 @@ public class ManagementApp {
     /**
      * @author William Steffens (s185369)
      */
-    public void removeEmployee(Employee employee) {
+    public void removeEmployee(Employee employee)   {
         // Pre-condition
         assert true : "Pre-condition violation";
 
@@ -312,7 +312,13 @@ public class ManagementApp {
         projectRepo.forEach(project -> {
             if (project.getProjectLeader() == employee)
                 project.setProjectLeader(null);
-            project.getActivityRepo().forEach(activity -> activity.unassignEmployee(employee));
+            project.getActivityRepo().forEach(activity -> {
+                try {
+                    activity.unassignEmployee(employee);
+                } catch (OperationNotAllowedException e) {
+                    e.printStackTrace();
+                }
+            });
         });
         employeeRepo.remove(employee);
 

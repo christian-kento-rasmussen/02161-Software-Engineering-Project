@@ -637,7 +637,9 @@ public class HomeController implements PropertyChangeListener {
     @FXML
     public void onBtnUnassignEmployee() {
         Employee selectedEmployee = lvAssignedEmployees.getSelectionModel().getSelectedItem();
-        managementApp.unassignEmployeeFromActivity(selectedActivity, selectedEmployee);
+        try {
+            managementApp.unassignEmployeeFromActivity(selectedActivity, selectedEmployee);
+        } catch (OperationNotAllowedException ignore) {}
     }
     @FXML
     public void onBtnFindAvailableEmployees() {
@@ -683,7 +685,9 @@ public class HomeController implements PropertyChangeListener {
     public void onBtnUnassignActivity() {
         selectedActivity = lvActivities.getSelectionModel().getSelectedItem();
         loadActivityRepo();
-        managementApp.unassignEmployeeFromActivity(selectedActivity, managementApp.getUser());
+        try {
+            managementApp.unassignEmployeeFromActivity(selectedActivity, managementApp.getUser());
+        } catch (OperationNotAllowedException ignore) {}
     }
 
     // EmployeeRepo Pane
