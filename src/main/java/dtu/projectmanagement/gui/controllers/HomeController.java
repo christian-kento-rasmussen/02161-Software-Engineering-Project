@@ -266,6 +266,8 @@ public class HomeController implements PropertyChangeListener {
     }
 
     private void loadActivity() {
+        if (selectedActivity == null)
+            return;
         if (managementApp.getActivityType(selectedActivity) == Activity.PROJECT_TYPE) {
             lblParent.setText(managementApp.getProjectNum(selectedActivity.getParentProject()));
 
