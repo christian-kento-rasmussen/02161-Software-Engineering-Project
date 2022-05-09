@@ -36,6 +36,8 @@ public class ManagementApp {
     // Project - creation, deletion, repo
     /**
      * This function creates a new project, with correct project number
+     * @author Christian Kento Rasmussen (s204159)
+     * @author Christian Raasten
      */
     public void createNewProject() {
         int year = Calendar.getInstance().get(Calendar.YEAR);
@@ -59,6 +61,9 @@ public class ManagementApp {
 
         support.firePropertyChange(NotificationType.UPDATE_PROJECT_REPO, null, null);
     }
+    /**
+     * @author Christian Kento Rasmussen (s204159)
+     */
     public Project getProject(String projectNum) {
         for (Project project : projectRepo) {
             if (project.getProjectNum().equals(projectNum))
@@ -106,15 +111,24 @@ public class ManagementApp {
 
         support.firePropertyChange(NotificationType.UPDATE_PROJECT, null, null);
     }
+    /**
+     * @author Christian Kento Rasmussen (s204159)
+     */
     public void setProjectStartWeek(Project project, int startWeek) throws OperationNotAllowedException {
         checkIsProjectLeader(project);
         project.setStartWeek(startWeek);
 
         support.firePropertyChange(NotificationType.UPDATE_PROJECT, null, null);
     }
+    /**
+     * @author Christian Kento Rasmussen (s204159)
+     */
     public int getProjectStartWeek(Project project) {
         return project.getStartWeek();
     }
+    /**
+     * @author Christian Kento Rasmussen (s204159)
+     */
     public void setProjectEndWeek(Project project, int endWeek) throws OperationNotAllowedException {
         checkIsProjectLeader(project);
         project.setEndWeek(endWeek);
@@ -284,6 +298,9 @@ public class ManagementApp {
 
         return activity.getRemainingHours();
     }
+    /**
+     * @author Christian Kento Rasmussen (s204159)
+     */
     public List<Employee> listAvailableEmployeesForActivity(Activity activity) throws OperationNotAllowedException {
         checkIsProjectLeader(activity.getParentProject());
         List<Employee> employeesAvailable = new ArrayList<>();

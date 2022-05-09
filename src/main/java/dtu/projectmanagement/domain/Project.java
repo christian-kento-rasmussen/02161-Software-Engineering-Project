@@ -45,9 +45,15 @@ public class Project {
             throw new OperationNotAllowedException("No project leader selected.");
         return projectLeader.getUsername();
     }
+    /**
+     * @author Christian Kento Rasmussen (s204159)
+     */
     public int getStartWeek() {
         return startWeek;
     }
+    /**
+     * @author Christian Kento Rasmussen (s204159)
+     */
     public void setStartWeek(int startWeek) throws OperationNotAllowedException {
         // Todo: test for this other case?
         if (endWeek != 0 && endWeek <= startWeek)
@@ -55,9 +61,15 @@ public class Project {
         else
             this.startWeek = startWeek;
     }
+    /**
+     * @author Christian Kento Rasmussen (s204159)
+     */
     public int getEndWeek() {
         return endWeek;
     }
+    /**
+     * @author Christian Kento Rasmussen (s204159)
+     */
     public void setEndWeek(int endWeek) throws OperationNotAllowedException {
         if (startWeek != 0 && startWeek >= endWeek)
             throw new OperationNotAllowedException("The start week cannot be the same as or after the end week");
@@ -95,6 +107,9 @@ public class Project {
     public float getExpectedHours() {
         return activities.stream().reduce(0f, (acc, val) -> acc + val.getExpectedWorkHours(), Float::sum);
     }
+    /**
+     * @author Christian Kento Rasmussen (s204159)
+     */
     public float getRemainingHours() {
         return getExpectedHours() - getSpendHours();
     }
