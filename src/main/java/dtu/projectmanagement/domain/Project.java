@@ -50,8 +50,8 @@ public class Project {
     }
     public void setStartWeek(int startWeek) throws OperationNotAllowedException {
         // Todo: test for this other case?
-        if (endWeek != 0 && endWeek < startWeek)
-            throw new OperationNotAllowedException("The start week cannot be after the end week");
+        if (endWeek != 0 && endWeek <= startWeek)
+            throw new OperationNotAllowedException("The start week cannot be the same as or after the end week");
         else
             this.startWeek = startWeek;
     }
@@ -59,8 +59,8 @@ public class Project {
         return endWeek;
     }
     public void setEndWeek(int endWeek) throws OperationNotAllowedException {
-        if (startWeek != 0 && startWeek > endWeek)
-            throw new OperationNotAllowedException("The start week cannot be after the end week");
+        if (startWeek != 0 && startWeek >= endWeek)
+            throw new OperationNotAllowedException("The start week cannot be the same as or after the end week");
         else
             this.endWeek = endWeek;
     }

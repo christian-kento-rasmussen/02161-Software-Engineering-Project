@@ -53,8 +53,8 @@ public class Activity {
         return startWeek;
     }
     public void setStartWeek(int startWeek) throws OperationNotAllowedException {
-        if (endWeek != 0 && endWeek < startWeek)
-            throw new OperationNotAllowedException("The start week cannot be after the end week");
+        if (endWeek != 0 && endWeek <= startWeek)
+            throw new OperationNotAllowedException("The start week cannot be the same as or after the end week");
         else
             this.startWeek = startWeek;
     }
@@ -62,8 +62,8 @@ public class Activity {
         return endWeek;
     }
     public void setEndWeek(int endWeek) throws OperationNotAllowedException {
-        if (startWeek != 0 && startWeek > endWeek)
-            throw new OperationNotAllowedException("The start week cannot be after the end week");
+        if (startWeek != 0 && startWeek >= endWeek)
+            throw new OperationNotAllowedException("The start week cannot be the same as or after the end week");
         else
             this.endWeek = endWeek;
     }
