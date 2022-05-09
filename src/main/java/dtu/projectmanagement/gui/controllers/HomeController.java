@@ -611,6 +611,12 @@ public class HomeController implements PropertyChangeListener {
             return;
         }
 
+        if (tfRegisterHours.getText().matches("^\\d+(,\\d+)?$")) {
+            lblRegisterHoursError.setText("The number should not use comma notation.");
+            return;
+        }
+
+
         float registeredHours = Float.parseFloat(tfRegisterHours.getText());
 
         try {
@@ -629,6 +635,11 @@ public class HomeController implements PropertyChangeListener {
     public void onBtnSetActivityExpectedHours() {
         if (!tfSetExpectedHours.getText().matches("^\\d+(.\\d+)?$")) {
             lblActivityExpectedHoursError.setText("The amount of hours must be a positive number.");
+            return;
+        }
+
+        if (tfSetExpectedHours.getText().matches("^\\d+,\\d+$")) {
+            lblActivityExpectedHoursError.setText("The number should not use comma notation.");
             return;
         }
 

@@ -1,6 +1,5 @@
 package dtu.projectmanagement.gui;
 
-import dtu.projectmanagement.app.ManagementApp;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
