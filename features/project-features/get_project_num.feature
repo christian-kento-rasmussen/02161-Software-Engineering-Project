@@ -1,6 +1,6 @@
 Feature: Get project num
   Description: Employee queries for the project number of a project
-  Actors: Employee
+  Actor: Employee
 
 Scenario: Employee queries for the project num of a project
   Given there is a project

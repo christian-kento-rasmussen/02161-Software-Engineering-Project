@@ -1,6 +1,6 @@
 Feature: Get the employee repo
   Description: Employee gets the employee repo
-  Actors: Employee
+  Actor: Employee
 
 Scenario: There is no projects and the size of the employee repo is 0
   Given there is zero employee in the management application

@@ -1,6 +1,6 @@
 Feature: Register work hours on an activity
   Description: The employee registers their work hours on an activity
-  Actors: Employee
+  Actor: Employee
 
   Scenario: The employee registers work hours on an activity
     Given there is a project

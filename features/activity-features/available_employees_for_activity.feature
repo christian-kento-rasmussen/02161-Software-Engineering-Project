@@ -1,6 +1,6 @@
 Feature: Find available employees for activity
 	Description: The project leader finds all available employees for activity
-	Actors: Project Leader
+	Actor: Project Leader
 
 Scenario: The project leader queries for available employees for an activity
 	Given there is a project

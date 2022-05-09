@@ -1,6 +1,6 @@
 Feature: Change the name of an activity
   Description: Employee changes the name of an activity
-  Actors: Employee
+  Actor: Employee
 
 Scenario: The employee changes the name of a project activity
   Given there is a project

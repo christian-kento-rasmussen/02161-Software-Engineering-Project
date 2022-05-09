@@ -1,6 +1,6 @@
 Feature: Get activity type of activity
   Description: The employee gets the activity type of an activity
-  Actors: Employee
+  Actor: Employee
 
 Scenario: The employee gets the type of a project activity
   Given there is a project

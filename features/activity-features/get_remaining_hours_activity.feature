@@ -1,6 +1,6 @@
 Feature: Get remaining work hours on an activity
 	Description: The project leader queries for the remaining work hours on an activity
-	Actors: Project Leader
+	Actor: Project Leader
 
 Scenario: The project leader queries for the remaining work hours on an activity
 	Given there is a project

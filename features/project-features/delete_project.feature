@@ -1,6 +1,6 @@
 Feature: Delete a project
   Description: Employee deletes a project
-  Actors: Employee
+  Actor: Employee
 
 Scenario: Delete a project with no activities and no assigned employees to those activities
   Given a project is created

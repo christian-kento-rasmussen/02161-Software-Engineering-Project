@@ -1,6 +1,6 @@
 Feature: Get the name of an activity
   Description: Employee queries for the name of an activity
-  Actors: Employee
+  Actor: Employee
 
   Scenario: The employee queries for the name of a project activity
     Given there is a project

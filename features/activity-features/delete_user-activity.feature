@@ -1,6 +1,6 @@
 Feature: Delete a user activity
     Description: Employee deletes an activity
-    Actors: Employee
+    Actor: Employee
 
 Scenario: Delete a user activity
     Given there is an employee with username "foo"

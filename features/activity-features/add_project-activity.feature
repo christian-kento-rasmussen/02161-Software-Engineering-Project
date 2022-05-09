@@ -1,6 +1,6 @@
 Feature: Create new project activity
 	Description: Employee adds an activity to a project
-	Actors: Employee
+	Actor: Employee
 
 Scenario: An employee adds an activity to a project
 	Given there is a project

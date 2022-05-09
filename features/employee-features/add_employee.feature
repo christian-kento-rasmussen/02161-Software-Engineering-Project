@@ -1,6 +1,6 @@
 Feature: Add new employee
   Description: Employee adds a new employee
-  Actors: Employee
+  Actor: Employee
 
 Scenario: Employee adds a new employee with the username a correct username
   Given the employeeRepo does not contain an employee with the username "foo"
