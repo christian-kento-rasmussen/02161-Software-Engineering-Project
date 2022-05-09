@@ -167,6 +167,9 @@ public class HomeController implements PropertyChangeListener {
     }
 
     private void loadProject() {
+        if (selectedProject == null)
+            return;
+
         lblProjectNum.setText(managementApp.getProjectNum(selectedProject));
 
         if (managementApp.getProjectLeader(selectedProject) == null)
@@ -264,14 +267,13 @@ public class HomeController implements PropertyChangeListener {
 
     private void loadActivity() {
         if (managementApp.getActivityType(selectedActivity) == Activity.PROJECT_TYPE) {
-            lblParent.setText(managementApp.getProjectNum(selectedProject));
+            lblParent.setText(managementApp.getProjectNum(selectedActivity.getParentProject()));
 
             cbAssignEmployee.setDisable(false);
             lvAssignedEmployees.setDisable(false);
             btnFindAvailableEmployees.setDisable(false);
             lvAvailableEmployees.setDisable(false);
 
-            loadProject();
         } else if (managementApp.getActivityType(selectedActivity) == Activity.EMPLOYEE_TYPE) {
             try {
                 lblParent.setText(managementApp.getUserUsername());
