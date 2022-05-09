@@ -69,9 +69,9 @@ public class Activity {
     }
     public void setStartEndWeek(int startWeek, int endWeek) throws OperationNotAllowedException {
         // Precondition
-        assert startWeek != 0
-                && endWeek != 0
-                && startWeek < endWeek : "Precondition";
+//        assert startWeek != 0
+//                && endWeek != 0
+//                && startWeek < endWeek : "Precondition";
 
         if (startWeek == 0) {
             throw new OperationNotAllowedException("Start week can not be 0");
@@ -88,7 +88,7 @@ public class Activity {
         this.endWeek = endWeek;
         this.startWeek = startWeek;
 
-        assert (this.endWeek - this.startWeek) > 0 : "Postcondition";
+//        assert (this.endWeek - this.startWeek) > 0 : "Postcondition";
     }
     public int getActivityType() {
         return type;
