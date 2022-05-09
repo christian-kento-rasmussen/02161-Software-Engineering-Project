@@ -139,9 +139,8 @@ public class Activity {
         return getExpectedWorkHours() - getSpendHours();
     }
     public void assignEmployee(Employee employee) throws OperationNotAllowedException {
-        assignedEmployees.add(employee);
-
         employee.assignActivity(this);
+        assignedEmployees.add(employee);
     }
     public void assignEmployeeForUserActivity(Employee employee) {
         assignedEmployees.add(employee);
