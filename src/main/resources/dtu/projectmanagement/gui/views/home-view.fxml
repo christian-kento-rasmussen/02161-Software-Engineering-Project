@@ -163,11 +163,6 @@
                                           <Font size="44.0" />
                                        </font>
                                     </Label>
-                                    <Button mnemonicParsing="false" onAction="#onBtnGenerateReport" prefHeight="46.0" prefWidth="206.0" styleClass="btnLeader" text="Generate Report" textFill="#eeeeee">
-                                       <font>
-                                          <Font size="22.0" />
-                                       </font>
-                                    </Button>
                                  </children>
                                  <VBox.margin>
                                     <Insets bottom="11.0" left="22.0" right="22.0" top="22.0" />

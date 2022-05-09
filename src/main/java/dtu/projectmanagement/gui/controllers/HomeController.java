@@ -418,12 +418,7 @@ public class HomeController implements PropertyChangeListener {
         tabPane.getSelectionModel().select(0);
     }
     @FXML
-    public void onBtnGenerateReport() {
-        // TODO
-    }
-    @FXML
     public void onBtnChangeProjectName() {
-        // TODO: Change to popup if you have the time?
         if (!tfChangeProjectName.getText().matches("^[a-zA-Z0-9]+$")) {
             lblProjectNameError.setText("Project names can only contain alphanumeric characters.");
             tfChangeProjectName.requestFocus();
@@ -460,7 +455,6 @@ public class HomeController implements PropertyChangeListener {
             return;
         }
 
-        // TODO: popup
         try {
             managementApp.setProjectStartWeek(selectedProject, startWeek);
         } catch (OperationNotAllowedException e) {
@@ -645,7 +639,6 @@ public class HomeController implements PropertyChangeListener {
             return;
         }
 
-        // TODO: popup
         try {
             managementApp.setActivityEndWeek(selectedActivity, endWeek);
         } catch (OperationNotAllowedException e) {

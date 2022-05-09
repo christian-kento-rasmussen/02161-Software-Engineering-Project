@@ -132,32 +132,18 @@ public class ManagementApp {
     public float getSpendHoursOnProject(Project project) throws OperationNotAllowedException {
         checkIsProjectLeader(project);
 
-        support.firePropertyChange(NotificationType.UPDATE_PROJECT, null, null);
-
         return project.getSpendHours();
     }
     public float getExpectedHoursOnProject(Project project) throws OperationNotAllowedException {
         checkIsProjectLeader(project);
-
-        support.firePropertyChange(NotificationType.UPDATE_PROJECT, null, null);
 
         return project.getExpectedHours();
     }
     public float getRemainingHoursOnProject(Project project) throws OperationNotAllowedException {
         checkIsProjectLeader(project);
 
-        support.firePropertyChange(NotificationType.UPDATE_PROJECT, null, null);
-
         return project.getRemainingHours();
     }
-    /**
-     * @author William Steffens (s185369)
-     */
-    /* TODO: make
-    public void generateProjectReport(Project project, String filelocation) throws OperationNotAllowedException {
-        checkIsProjectLeader(project);
-        project.generateReport(filelocation);
-    }*/
 
 
 
