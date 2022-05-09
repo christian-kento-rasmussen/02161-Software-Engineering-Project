@@ -23,10 +23,10 @@ public class SetExpectedWorkHoursOnActivityWhiteBoxTest {
 
         projectHelper.addProject();
         managementApp.addNewProjectActivity(projectHelper.getProject(), "Lav mad");
-        managementApp.addEmployee("Theo");
-        managementApp.login(managementApp.getEmployee("Theo"));
+        managementApp.addEmployee("theo");
+        managementApp.login(managementApp.getEmployee("theo"));
 //        managementApp.assignProjectLeader(projectHelper.getProject(), managementApp.getEmployee("Theo"));
-        managementApp.assignEmployeeToActivity(projectHelper.getActivity("Lav mad"), managementApp.getEmployee("Theo"));
+        managementApp.assignEmployeeToActivity(projectHelper.getActivity("Lav mad"), managementApp.getEmployee("theo"));
         managementApp.setExpectedWorkHoursOnActivity(projectHelper.getActivity("Lav mad"),10);
 
         System.out.println(projectHelper.getProject().getActivity("Lav mad").getExpectedWorkHours());
@@ -37,10 +37,10 @@ public class SetExpectedWorkHoursOnActivityWhiteBoxTest {
 
         projectHelper.addProject();
         managementApp.addNewProjectActivity(projectHelper.getProject(), "Lav mad");
-        managementApp.addEmployee("Theo");
-        managementApp.login(managementApp.getEmployee("Theo"));
-        managementApp.assignProjectLeader(projectHelper.getProject(), managementApp.getEmployee("Theo"));
-        managementApp.assignEmployeeToActivity(projectHelper.getActivity("Lav mad"), managementApp.getEmployee("Theo"));
+        managementApp.addEmployee("theo");
+        managementApp.login(managementApp.getEmployee("theo"));
+        managementApp.assignProjectLeader(projectHelper.getProject(), managementApp.getEmployee("theo"));
+        managementApp.assignEmployeeToActivity(projectHelper.getActivity("Lav mad"), managementApp.getEmployee("theo"));
         managementApp.setExpectedWorkHoursOnActivity(projectHelper.getActivity("Lav mad"),-1);
 
 
@@ -54,10 +54,10 @@ public class SetExpectedWorkHoursOnActivityWhiteBoxTest {
 
         projectHelper.addProject();
         managementApp.addNewProjectActivity(projectHelper.getProject(), "Lav mad");
-        managementApp.addEmployee("Theo");
-        managementApp.login(managementApp.getEmployee("Theo"));
-        managementApp.assignProjectLeader(projectHelper.getProject(), managementApp.getEmployee("Theo"));
-        managementApp.assignEmployeeToActivity(projectHelper.getActivity("Lav mad"), managementApp.getEmployee("Theo"));
+        managementApp.addEmployee("theo");
+        managementApp.login(managementApp.getEmployee("theo"));
+        managementApp.assignProjectLeader(projectHelper.getProject(), managementApp.getEmployee("theo"));
+        managementApp.assignEmployeeToActivity(projectHelper.getActivity("Lav mad"), managementApp.getEmployee("theo"));
         managementApp.setExpectedWorkHoursOnActivity(projectHelper.getActivity("Lav mad"),10);
 
 

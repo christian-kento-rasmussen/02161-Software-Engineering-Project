@@ -373,29 +373,6 @@ public class ManagementApp {
 
         support.firePropertyChange(NotificationType.UPDATE_EMPLOYEE_REPO, null, null);
     }
-    // DesignByContract helper method for removeEmployee method
-    /**
-     * @author William Steffens (s185369)
-     */
-    private boolean isAProjectLeader(Employee employee) {
-        for (Project project : projectRepo)
-            if (employee == project.getProjectLeader())
-                return true;
-
-        return false;
-    }
-    // DesignByContract helper method for removeEmployee method
-    /**
-     * @author William Steffens (s185369)
-     */
-    private boolean isAssignedAProjectActivity(Employee employee) {
-        for (Project project : projectRepo)
-            for (Activity projectActivity : project.getActivityRepo())
-                if (projectActivity.getAssignedEmployees().contains(employee))
-                    return true;
-
-        return false;
-    }
 
     public Employee getEmployee(String username) {
         return employeeRepo.stream()
@@ -421,6 +398,8 @@ public class ManagementApp {
     // Employee - work-info
     public void registerWorkHoursOnActivity(Activity activity, float hours) throws OperationNotAllowedException {
         activity.registerWorkHours(user, hours);
+
+        support.firePropertyChange(NotificationType.UPDATE_ACTIVITY, null, null);
     }
     public float getWorkedHoursOnActivity(Activity activity) {
         return activity.getWorkedHours(user);

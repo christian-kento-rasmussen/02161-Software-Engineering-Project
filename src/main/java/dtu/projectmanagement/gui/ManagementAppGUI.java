@@ -8,6 +8,9 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
+/**
+ * @author William Steffens (s185369)
+ */
 public class ManagementAppGUI extends Application {
 
     @Override

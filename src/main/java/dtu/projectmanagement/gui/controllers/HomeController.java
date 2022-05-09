@@ -23,6 +23,9 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.io.IOException;
 
+/**
+ * @author William Steffens (s185369)
+ */
 public class HomeController implements PropertyChangeListener {
 
     ManagementApp managementApp;
@@ -611,35 +614,18 @@ public class HomeController implements PropertyChangeListener {
             return;
         }
 
-        if (tfRegisterHours.getText().matches("^\\d+(,\\d+)?$")) {
-            lblRegisterHoursError.setText("The number should not use comma notation.");
-            return;
-        }
-
-
-        float registeredHours = Float.parseFloat(tfRegisterHours.getText());
+        float registeredHours = Float.parseFloat(tfRegisterHours.getText().replace(",","."));
 
         try {
             managementApp.registerWorkHoursOnActivity(selectedActivity, registeredHours);
         } catch (OperationNotAllowedException e) {
             lblRegisterHoursError.setText(e.getMessage());
-            return;
         }
-
-        lblRegisteredHours.setText(tfRegisterHours.getText());
-
-        lblRegisterHoursError.setText("");
-        tfRegisterHours.setText("");
     }
     @FXML
     public void onBtnSetActivityExpectedHours() {
         if (!tfSetExpectedHours.getText().matches("^\\d+(.\\d+)?$")) {
             lblActivityExpectedHoursError.setText("The amount of hours must be a positive number.");
-            return;
-        }
-
-        if (tfSetExpectedHours.getText().matches("^\\d+,\\d+$")) {
-            lblActivityExpectedHoursError.setText("The number should not use comma notation.");
             return;
         }
 

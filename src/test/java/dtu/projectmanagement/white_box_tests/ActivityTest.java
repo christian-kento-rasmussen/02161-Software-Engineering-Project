@@ -19,30 +19,30 @@ class ActivityTest {
     @BeforeEach
     void setUp() throws OperationNotAllowedException {
         managementApp.createNewProject();
-        managementApp.addEmployee("BLIB");
-        activity = new Activity("save the world",managementApp.getEmployee("BLIB"));
+        managementApp.addEmployee("blib");
+        activity = new Activity("save the world",managementApp.getEmployee("blib"));
     }
 
     @Test
     void registerWorkHoursSetA() {
-        Exception exception = assertThrows(OperationNotAllowedException.class, () -> activity.registerWorkHours(managementApp.getEmployee("BLIB"), -1));
+        Exception exception = assertThrows(OperationNotAllowedException.class, () -> activity.registerWorkHours(managementApp.getEmployee("blib"), -1));
         assertEquals("Time must be positive or 0", exception.getMessage());
     }
     @Test
     void registerWorkHoursSetB() {
-        Exception exception = assertThrows(OperationNotAllowedException.class, () -> activity.registerWorkHours(managementApp.getEmployee("BLIB"), 1.25f));
+        Exception exception = assertThrows(OperationNotAllowedException.class, () -> activity.registerWorkHours(managementApp.getEmployee("blib"), 1.25f));
         assertEquals("Time must be given in half hours", exception.getMessage());
     }
     @Test
     void registerWorkHoursSetC() throws OperationNotAllowedException {
         HashMap<Employee, Float> employeeWorkHoursMap = activity.getEmployeeWorkHoursMap();
-        employeeWorkHoursMap.put(managementApp.getEmployee("BLIB"),0f);
-        activity.registerWorkHours(managementApp.getEmployee("BLIB"), 2f);
+        employeeWorkHoursMap.put(managementApp.getEmployee("blib"),0f);
+        activity.registerWorkHours(managementApp.getEmployee("blib"), 2f);
     }
 
     @Test
     void registerWorkHoursSetD() throws OperationNotAllowedException {
-        activity.registerWorkHours(managementApp.getEmployee("BLIB"), 2f);
+        activity.registerWorkHours(managementApp.getEmployee("blib"), 2f);
     }
 
     @Test
