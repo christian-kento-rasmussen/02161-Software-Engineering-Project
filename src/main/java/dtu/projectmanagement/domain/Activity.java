@@ -127,14 +127,19 @@ public class Activity {
     public float getExpectedWorkHours() {
         return expectedWorkHours;
     }
+    /**
+     * @author Christian Raasteen (s204148)
+     */
     public void setExpectedWorkHours(float expectedWorkHours) throws OperationNotAllowedException {
-        // TODO: should be like register hours checks
         if (expectedWorkHours>=0) {
             this.expectedWorkHours = (expectedWorkHours);
         } else {
             throw new OperationNotAllowedException("Expected Work hours must be positive");
         }
     }
+    /**
+     * @author Christian Raasteen (s204148)
+     */
     public float getRemainingHours() {
         return getExpectedWorkHours() - getSpendHours();
     }

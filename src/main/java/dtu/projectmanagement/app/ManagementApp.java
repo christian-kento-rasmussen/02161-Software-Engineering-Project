@@ -65,6 +65,9 @@ public class ManagementApp {
      * @author Christian Kento Rasmussen (s204159)
      */
     public Project getProject(String projectNum) {
+        /**
+         * @author Christian Raasteen (s204148)
+         */
         for (Project project : projectRepo) {
             if (project.getProjectNum().equals(projectNum))
                 return project;
@@ -161,10 +164,10 @@ public class ManagementApp {
 
 
 
-    /*
-        ACTIVITY
-    */
-    // Activity - creation, deletion, repo
+
+    /**
+     * @author Christian Raasteen (s204148)
+     */
     public void addNewProjectActivity(Project project, String activityName) throws OperationNotAllowedException {
         project.addNewActivity(activityName);
 
@@ -270,13 +273,20 @@ public class ManagementApp {
 
         return activity.getSpendHours();
     }
+
+    /**
+     * @author Christian Raasteen (s204148)
+     */
     public float getExpectedWorkHoursOnActivity(Activity activity) throws OperationNotAllowedException {
         authorizeActivity(activity);
 
         return activity.getExpectedWorkHours();
     }
-    public void setExpectedWorkHoursOnActivity(Activity activity, float hours) throws OperationNotAllowedException {
 
+    /**
+     * @author Christian Raasteen (s204148)
+     */
+    public void setExpectedWorkHoursOnActivity(Activity activity, float hours) throws OperationNotAllowedException {
         // Pre-condition
         assert activity != null : " Pre - condition violation " ;
 
