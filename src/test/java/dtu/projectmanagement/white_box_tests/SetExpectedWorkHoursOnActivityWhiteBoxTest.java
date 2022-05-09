@@ -29,7 +29,7 @@ public class SetExpectedWorkHoursOnActivityWhiteBoxTest {
         managementApp.assignEmployeeToActivity(projectHelper.getActivity("Lav mad"), managementApp.getEmployee("theo"));
         managementApp.setExpectedWorkHoursOnActivity(projectHelper.getActivity("Lav mad"),10);
 
-        System.out.println(projectHelper.getProject().getActivity("Lav mad").getExpectedWorkHours());
+//        System.out.println(projectHelper.getProject().getActivity("Lav mad").getExpectedWorkHours());
     }
 
     @Test(expected = OperationNotAllowedException.class)
