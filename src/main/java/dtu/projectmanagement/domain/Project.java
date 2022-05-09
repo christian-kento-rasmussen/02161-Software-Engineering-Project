@@ -35,12 +35,18 @@ public class Project {
     public void setProjectName(String projectName) {
         this.projectName = projectName;
     }
+    /**
+     * @author William Steffens (s185369)
+     */
     public void setProjectLeader(Employee employee) {
         projectLeader = employee;
     }
     public Employee getProjectLeader() {
         return projectLeader;
     }
+    /**
+     * @author William Steffens (s185369)
+     */
     public String getProjectLeaderUsername() throws OperationNotAllowedException {
         if (projectLeader == null)
             throw new OperationNotAllowedException("No project leader selected.");
@@ -95,6 +101,9 @@ public class Project {
         activity.unassignAllEmployees();
         activities.remove(activity);
     }
+    /**
+     * @author William Steffens (s185369)
+     */
     public Activity getActivity(String activityName) {
         return activities.stream()
                 .filter(activity -> activity.getActivityName().equals(activityName))
@@ -107,6 +116,9 @@ public class Project {
 
 
     // Work-info
+    /**
+     * @author William Steffens (s185369)
+     */
     public float getSpendHours() {
         return activities.stream().reduce(0f, (acc, val) -> acc + val.getSpendHours(), Float::sum);
     }

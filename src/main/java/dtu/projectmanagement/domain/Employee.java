@@ -19,6 +19,9 @@ public class Employee {
     public String getUsername() {
         return username;
     }
+    /**
+     * @author Christian Kento Rasmussen (s204159)
+     */
     public Boolean availableInPeriod(int startWeek, int endWeek){
         for (Activity activity : assignedActivities) {
             if (startWeek <= activity.getEndWeek() && endWeek >= activity.getStartWeek()){
@@ -31,6 +34,9 @@ public class Employee {
 
 
     // Activity
+    /**
+     * @author William Steffens (s185369)
+     */
     public void addNewActivity(String activityName) throws OperationNotAllowedException {
         if (assignedActivities.stream().anyMatch(activity -> activity.getActivityName().equals(activityName)))
             throw new OperationNotAllowedException("An activity with that name already exists.");
@@ -39,6 +45,9 @@ public class Employee {
         assignedActivities.add(activity);
         activity.assignEmployeeForUserActivity(this);
     }
+    /**
+     * @author William Steffens (s185369)
+     */
     public void unassignActivity(Activity activity)  {
             assignedActivities.remove(activity);
     }
@@ -48,12 +57,18 @@ public class Employee {
         }
         assignedActivities.add(activity);
     }
+    /**
+     * @author William Steffens (s185369)
+     */
     public Activity getActivity(String activityName) {
         return assignedActivities.stream()
                 .filter(activity -> activity.getActivityName().equals(activityName))
                 .findAny()
                 .orElse(null);
     }
+    /**
+     * @author William Steffens (s185369)
+     */
     public List<Activity> getAssignedActivities() {
         return assignedActivities;
     }

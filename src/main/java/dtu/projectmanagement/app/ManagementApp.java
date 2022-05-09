@@ -88,6 +88,9 @@ public class ManagementApp {
 
         support.firePropertyChange(NotificationType.UPDATE_PROJECT, null, null);
     }
+    /**
+     * @author William Steffens (s185369)
+     */
     public Employee getProjectLeader(Project project) {
         return project.getProjectLeader();
     }
@@ -98,6 +101,9 @@ public class ManagementApp {
         if (!user.equals(project.getProjectLeader()))
             throw new OperationNotAllowedException("Only the project leader is allow to perform that action");
     }
+    /**
+     * @author William Steffens (s185369)
+     */
     public String getProjectLeaderUsername(Project project) throws OperationNotAllowedException {
         return project.getProjectLeaderUsername();
     }
@@ -106,9 +112,15 @@ public class ManagementApp {
     public String getProjectNum(Project project) {
         return project.getProjectNum();
     }
+    /**
+     * @author William Steffens (s185369)
+     */
     public String getProjectName(Project project) {
         return project.getProjectName();
     }
+    /**
+     * @author William Steffens (s185369)
+     */
     public void setProjectName(Project project, String projectName) {
         project.setProjectName(projectName);
 
@@ -138,6 +150,7 @@ public class ManagementApp {
 
         support.firePropertyChange(NotificationType.UPDATE_PROJECT, null, null);
     }
+
     public int getProjectEndWeek(Project project) {
         return project.getEndWeek();
     }
@@ -174,32 +187,53 @@ public class ManagementApp {
         support.firePropertyChange(NotificationType.UPDATE_PROJECT, null, null);
         support.firePropertyChange(NotificationType.UPDATE_ACTIVITY_REPO, null, null);
     }
+    /**
+     * @author William Steffens (s185369)
+     */
     public void deleteProjectActivity(Project project, Activity activity) {
         project.deleteActivity(activity);
 
         support.firePropertyChange(NotificationType.UPDATE_PROJECT, null, null);
         support.firePropertyChange(NotificationType.UPDATE_ACTIVITY_REPO, null, null);
     }
+    /**
+     * @author William Steffens (s185369)
+     */
     public void addNewUserActivity(String activityName) throws OperationNotAllowedException {
         user.addNewActivity(activityName);
 
         support.firePropertyChange(NotificationType.UPDATE_ACTIVITY_REPO, null, null);
     }
+    /**
+     * @author William Steffens (s185369)
+     */
     public List<Activity> getProjectActivityRepo(Project project) {
         return project.getActivityRepo();
     }
+    /**
+     * @author William Steffens (s185369)
+     */
     public Activity getUserActivity(String activityName) {
         return user.getActivity(activityName);
     }
+    /**
+     * @author William Steffens (s185369)
+     */
     public List<Activity> getUserActivities() {
         return user.getAssignedActivities();
     }
+    /**
+     * @author William Steffens (s185369)
+     */
     public void authorizeActivity(Activity activity) throws OperationNotAllowedException {
         if (user != activity.getParentEmployee())
             checkIsProjectLeader(activity.getParentProject());
     }
 
     // Activity - assigned employees
+    /**
+     * @author William Steffens (s185369)
+     */
     public void assignEmployeeToActivity(Activity activity, Employee employee) throws OperationNotAllowedException {
         activity.assignEmployee(employee);
 
@@ -219,9 +253,15 @@ public class ManagementApp {
     }
 
     // Activity - info
+    /**
+     * @author William Steffens (s185369)
+     */
     public String getActivityName(Activity activity) {
         return activity.getActivityName();
     }
+    /**
+     * @author William Steffens (s185369)
+     */
     public void setActivityName(Activity activity, String activityName) throws OperationNotAllowedException {
         if (activity.getActivityType() == Activity.PROJECT_TYPE) {
             if (activity.getParentProject().getActivityRepo().stream().anyMatch(act -> act.getActivityName().equals(activityName)))
@@ -235,6 +275,9 @@ public class ManagementApp {
 
         support.firePropertyChange(NotificationType.UPDATE_ACTIVITY, null, null);
     }
+    /**
+     * @author William Steffens (s185369)
+     */
     public void setActivityStartWeek(Activity activity, int startWeek) throws OperationNotAllowedException {
         authorizeActivity(activity);
 
@@ -247,9 +290,15 @@ public class ManagementApp {
         activity.setStartEndWeek(startWeek,endWeek);
         support.firePropertyChange(NotificationType.UPDATE_ACTIVITY, null, null);
     }
+    /**
+     * @author William Steffens (s185369)
+     */
     public int getActivityStartWeek(Activity activity) {
         return activity.getStartWeek();
     }
+    /**
+     * @author William Steffens (s185369)
+     */
     public void setActivityEndWeek(Activity activity, int endWeek) throws OperationNotAllowedException {
         authorizeActivity(activity);
 
@@ -257,6 +306,9 @@ public class ManagementApp {
 
         support.firePropertyChange(NotificationType.UPDATE_ACTIVITY, null, null);
     }
+    /**
+     * @author William Steffens (s185369)
+     */
     public int getActivityEndWeek(Activity activity) {
         return activity.getEndWeek();
     }

@@ -37,30 +37,54 @@ public class Activity {
 
 
     // Info
+    /**
+     * @author William Steffens (s185369)
+     */
     public String getActivityName() {
         return activityName;
     }
+    /**
+     * @author William Steffens (s185369)
+     */
     public void setActivityName(String activityName) {
         this.activityName = activityName;
     }
+    /**
+     * @author William Steffens (s185369)
+     */
     public Project getParentProject() {
         return parentProject;
     }
+    /**
+     * @author William Steffens (s185369)
+     */
     public Employee getParentEmployee() {
         return parentEmployee;
     }
+    /**
+     * @author William Steffens (s185369)
+     */
     public int getStartWeek() {
         return startWeek;
     }
+    /**
+     * @author William Steffens (s185369)
+     */
     public void setStartWeek(int startWeek) throws OperationNotAllowedException {
         if (endWeek != 0 && endWeek <= startWeek)
             throw new OperationNotAllowedException("The start week cannot be the same as or after the end week");
         else
             this.startWeek = startWeek;
     }
+    /**
+     * @author William Steffens (s185369)
+     */
     public int getEndWeek() {
         return endWeek;
     }
+    /**
+     * @author William Steffens (s185369)
+     */
     public void setEndWeek(int endWeek) throws OperationNotAllowedException {
         if (startWeek != 0 && startWeek >= endWeek)
             throw new OperationNotAllowedException("The start week cannot be the same as or after the end week");
@@ -144,21 +168,32 @@ public class Activity {
     public float getRemainingHours() {
         return getExpectedWorkHours() - getSpendHours();
     }
+    /**
+     * @author William Steffens (s185369)
+     */
     public void assignEmployee(Employee employee) throws OperationNotAllowedException {
         employee.assignActivity(this);
         assignedEmployees.add(employee);
     }
+    /**
+     * @author William Steffens (s185369)
+     */
     public void assignEmployeeForUserActivity(Employee employee) {
         assignedEmployees.add(employee);
     }
     public void unassignEmployee(Employee employee) {
         assignedEmployees.remove(employee);
     }
-
+    /**
+     * @author William Steffens (s185369)
+     */
     public void unassignAllEmployees() {
         assignedEmployees.forEach(employee -> employee.unassignActivity(this));
         assignedEmployees.clear();
     }
+    /**
+     * @author William Steffens (s185369)
+     */
     public List<Employee> getAssignedEmployees() {
         return assignedEmployees;
     }
