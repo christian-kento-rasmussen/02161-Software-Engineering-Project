@@ -1,6 +1,6 @@
 Feature: Remove employee
   Description: Employee removes an employee
-  Actors: Employee
+  Actor: Employee
 
 Scenario: Employee removes an employee from the system
   Given there is a project

@@ -2,8 +2,6 @@ Feature: Get registered work hours on activity
   Description: The employee queries their registered work hours on an activity
   Actors: Employee
 
-  # TODO: test for user activities
-
   Scenario: The employee queries their registered work hours on an activity
     Given there is a project
     And there is an employee with username "foo"

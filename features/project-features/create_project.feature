@@ -1,6 +1,6 @@
 Feature: Create new project
 	Description: Employee adds a new project
-	Actors: Employee
+	Actor: Employee
 
 Scenario: Create new project
 	Given a project is created

@@ -1,6 +1,6 @@
 Feature: Set start and end time of a project
   Description: The project leader sets the start time of a project
-  Actors: Project Leader
+  Actor: Project Leader
 
   Scenario: The project leader sets start and end time of a project
     Given there is a project

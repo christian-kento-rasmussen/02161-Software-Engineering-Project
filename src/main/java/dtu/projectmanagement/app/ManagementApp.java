@@ -342,16 +342,25 @@ public class ManagementApp {
      * @author William Steffens (s185369)
      */
     public void addEmployee(String username) throws OperationNotAllowedException {
-        if ((username.length() == 0) || username.length() > 4)
-            throw new OperationNotAllowedException("The username needs to be between one and four letters long.");
+        String newUsername = username.toLowerCase(); // 1
 
-        if (!username.matches("^[a-zA-Z]+$"))
-            throw new OperationNotAllowedException("The username cannot contain non-alphabetical characters (a-zA-Z).");
+        if ((newUsername.length() <= 0) || newUsername.length() > 4) // 2
+            throw new OperationNotAllowedException("The username needs to be between one and four letters long."); // 3
 
-        if (getEmployee(username) != null)
-            throw new OperationNotAllowedException("An employee with that username already exists.");
+        if (!newUsername.matches("^[a-z]+$")) // 4
+            throw new OperationNotAllowedException("The username cannot contain non-alphabetical characters (a-zA-Z)."); // 5
 
-        employeeRepo.add(new Employee(username));
+        if (getEmployee(newUsername) != null) // 6
+            throw new OperationNotAllowedException("An employee with that username already exists."); // 7
+
+        assert newUsername != null
+                && newUsername.length() > 0 && newUsername.length() <= 4
+                && newUsername.matches("^[a-zA-Z]+$")
+                && employeeRepo.stream().noneMatch(employee -> employee.getUsername().equals(newUsername)) : "Pre-condition";
+
+        employeeRepo.add(new Employee(newUsername)); // 8
+
+        assert employeeRepo.stream().anyMatch(employee -> employee.getUsername().equals(newUsername)) : "Post-condition";
 
         support.firePropertyChange(NotificationType.UPDATE_EMPLOYEE_REPO, null, null);
     }
@@ -359,27 +368,18 @@ public class ManagementApp {
      * @author William Steffens (s185369)
      */
     public void removeEmployee(Employee employee) throws OperationNotAllowedException {
-        if (!employeeRepo.contains(employee) || employee == null)                                           // 1
-            throw new OperationNotAllowedException("Should not remove employee that is not in the system"); // 2
+        if (!employeeRepo.contains(employee) || employee == null)
+            throw new OperationNotAllowedException("Should not remove employee that is not in the system");
 
-        // Pre-condition
-        assert employeeRepo.contains(employee)
-                && employee != null : "Pre-condition violation";
-
-        projectRepo.forEach(project -> {                                                                    // 3
-            if (project.getProjectLeader() == employee)                                                     // 4
-                project.setProjectLeader(null);                                                             // 5
-            project.getActivityRepo().forEach(activity -> {                                                 // 6
-                if (activity.getAssignedEmployees().contains(employee))                                     // 7
-                    activity.unassignEmployee(employee);                                                    // 8
+        projectRepo.forEach(project -> {
+            if (project.getProjectLeader() == employee)
+                project.setProjectLeader(null);
+            project.getActivityRepo().forEach(activity -> {
+                if (activity.getAssignedEmployees().contains(employee))
+                    activity.unassignEmployee(employee);
             });
         });
-        employeeRepo.remove(employee);                                                                      // 9
-
-        // Post-conditions
-        assert !employeeRepo.contains(employee)
-                && !isAProjectLeader(employee)
-                && !isAssignedAProjectActivity(employee) : "Post-condition violation";
+        employeeRepo.remove(employee);
 
         support.firePropertyChange(NotificationType.UPDATE_EMPLOYEE_REPO, null, null);
     }

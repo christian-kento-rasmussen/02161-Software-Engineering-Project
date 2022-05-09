@@ -1,6 +1,6 @@
 Feature: Create user activity
   Description: Employee creates user activity that is not bound to a project
-  Actors: Employee
+  Actor: Employee
 
 Scenario: The employee adds a new user activity
   Given there is an employee with username "foo"

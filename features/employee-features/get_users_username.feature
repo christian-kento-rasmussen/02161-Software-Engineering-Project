@@ -1,6 +1,6 @@
 Feature: Get users username
   Description: Employee gets users username
-  Actors: Employee
+  Actor: Employee
 
 Scenario: The employee is logged in and gets the users username
   Given there is an employee with username "foo"

@@ -1,6 +1,6 @@
 Feature: Change the name of a project
   Description: Employee changes the name of a project
-  Actors: Employee
+  Actor: Employee
 
 Scenario: The employee changes the name of a project
   Given there is a project
