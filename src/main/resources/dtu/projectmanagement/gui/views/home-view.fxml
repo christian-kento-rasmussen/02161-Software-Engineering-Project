@@ -16,7 +16,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1082.0" prefWidth="1469.0" stylesheets="@../css/style.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dtu.projectmanagement.gui.controllers.HomeController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="478.0" prefWidth="590.0" stylesheets="@../css/style.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dtu.projectmanagement.gui.controllers.HomeController">
    <left>
       <VBox alignment="TOP_CENTER" prefHeight="876.0" prefWidth="200.0" style="-fx-background-color: #3c3f41;" BorderPane.alignment="CENTER">
          <children>
@@ -693,7 +693,7 @@
                                                 <Insets right="-10.0" />
                                              </padding>
                                           </Label>
-                                          <Label fx:id="lblProjectStatsError1" textFill="RED" />
+                                          <Label fx:id="lblActivityStatsError" textFill="RED" />
                                           <Button mnemonicParsing="false" onAction="#onBtnGetActivityStats" prefHeight="0.0" prefWidth="163.0" styleClass="btnLeader" text="Show Activity Stats" textFill="#eeeeee">
                                              <font>
                                                 <Font size="14.0" />
@@ -802,8 +802,8 @@
                                                       <Font size="26.0" />
                                                    </font>
                                                 </Label>
-                                                <ComboBox fx:id="cbAssignEmployee" maxWidth="150.0" minWidth="150.0" prefWidth="158.0" promptText="select employee" />
                                                 <Label fx:id="lblProjectActivityAssignError" textFill="RED" />
+                                                <ComboBox fx:id="cbAssignEmployee" maxWidth="150.0" minWidth="150.0" prefWidth="158.0" promptText="select employee" />
                                                 <Button fx:id="btnAssignEmployee" disable="true" maxWidth="150.0" mnemonicParsing="false" onAction="#onBtnAssignEmployee" prefWidth="189.0" text="+ Assign Employee" textFill="#eeeeee">
                                                    <font>
                                                       <Font size="14.0" />
@@ -839,7 +839,7 @@
                                                       <Font size="26.0" />
                                                    </font>
                                                 </Label>
-                                                <Label fx:id="lblProjectActivityAssignError1" textFill="RED" />
+                                                <Label fx:id="lblFindAvailableEmployeesError" textFill="RED" />
                                                 <Button fx:id="btnFindAvailableEmployees" mnemonicParsing="false" onAction="#onBtnFindAvailableEmployees" prefWidth="189.0" styleClass="btnLeader" text="Find Available Employees" textFill="#eeeeee">
                                                    <font>
                                                       <Font size="14.0" />
@@ -882,7 +882,7 @@
                      <children>
                         <HBox alignment="CENTER_LEFT" nodeOrientation="LEFT_TO_RIGHT" spacing="22.0">
                            <children>
-                              <Label maxWidth="1.7976931348623157E308" text="Activites" textFill="#eeeeee" HBox.hgrow="ALWAYS">
+                              <Label maxWidth="1.7976931348623157E308" text="Assigned Activites" textFill="#eeeeee" HBox.hgrow="ALWAYS">
                                  <font>
                                     <Font size="44.0" />
                                  </font>

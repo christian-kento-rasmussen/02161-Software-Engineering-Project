@@ -85,7 +85,6 @@ public class LogInController implements PropertyChangeListener {
             stagePopUp.close();
 
         // Create and display popup
-        // TODO: maybe do the same function call thing for the creation of the popup
         FXMLLoader fxmlLoader = new FXMLLoader(ManagementAppGUI.class.getResource("views/addNewEmp-view.fxml"));
         Scene scene = new Scene(fxmlLoader.load());
         stagePopUp = new Stage();

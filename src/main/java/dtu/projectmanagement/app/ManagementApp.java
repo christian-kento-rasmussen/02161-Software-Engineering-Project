@@ -168,10 +168,6 @@ public class ManagementApp {
 
         support.firePropertyChange(NotificationType.UPDATE_ACTIVITY_REPO, null, null);
     }
-    /* TODO: delete?
-    public Activity getProjectActivity(Project project, String activityName) {
-        return project.getActivity(activityName);
-    }*/
     public List<Activity> getProjectActivityRepo(Project project) {
         return project.getActivityRepo();
     }
@@ -181,7 +177,7 @@ public class ManagementApp {
     public List<Activity> getUserActivities() {
         return user.getAssignedActivities();
     }
-    public void authorizeActivityChange(Activity activity) throws OperationNotAllowedException {
+    public void authorizeActivity(Activity activity) throws OperationNotAllowedException {
         if (user != activity.getParentEmployee())
             checkIsProjectLeader(activity.getParentProject());
     }
@@ -223,7 +219,7 @@ public class ManagementApp {
         support.firePropertyChange(NotificationType.UPDATE_ACTIVITY, null, null);
     }
     public void setActivityStartWeek(Activity activity, int startWeek) throws OperationNotAllowedException {
-        authorizeActivityChange(activity);
+        authorizeActivity(activity);
 
         activity.setStartWeek(startWeek);
 
@@ -238,7 +234,7 @@ public class ManagementApp {
         return activity.getStartWeek();
     }
     public void setActivityEndWeek(Activity activity, int endWeek) throws OperationNotAllowedException {
-        authorizeActivityChange(activity);
+        authorizeActivity(activity);
 
         activity.setEndWeek(endWeek);
 
@@ -256,12 +252,12 @@ public class ManagementApp {
 
     // Activity - work-info
     public float getSpendHoursOnActivity(Activity activity) throws OperationNotAllowedException {
-        authorizeActivityChange(activity);
+        authorizeActivity(activity);
 
         return activity.getSpendHours();
     }
     public float getExpectedWorkHoursOnActivity(Activity activity) throws OperationNotAllowedException {
-        authorizeActivityChange(activity);
+        authorizeActivity(activity);
 
         return activity.getExpectedWorkHours();
     }
@@ -270,7 +266,7 @@ public class ManagementApp {
         // Pre-condition
         assert activity != null : " Pre - condition violation " ;
 
-        authorizeActivityChange(activity);
+        authorizeActivity(activity);
 
         if (hours>=0) {
             activity.setExpectedWorkHours(hours);}
@@ -284,7 +280,7 @@ public class ManagementApp {
 
     }
     public float getRemainingHoursOnActivity(Activity activity) throws OperationNotAllowedException {
-        authorizeActivityChange(activity);
+        authorizeActivity(activity);
 
         return activity.getRemainingHours();
     }

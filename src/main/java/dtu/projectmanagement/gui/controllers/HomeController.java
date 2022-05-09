@@ -102,6 +102,7 @@ public class HomeController implements PropertyChangeListener {
     @FXML private Label lblActivityEndWeekError;
     @FXML private TextField tfActivityEndWeek;
 
+    @FXML private Label lblActivityStatsError;
     @FXML private Label lblActivitySpendHours;
     @FXML private Label lblActivityExpectedHoursStat;
     @FXML private Label lblActivityRemainingHours;
@@ -114,6 +115,7 @@ public class HomeController implements PropertyChangeListener {
     @FXML private Button btnUnassignEmployee;
 
     @FXML private Button btnFindAvailableEmployees;
+    @FXML private Label lblFindAvailableEmployeesError;
     @FXML private ListView<Employee> lvAvailableEmployees;
 
     @FXML
@@ -187,9 +189,23 @@ public class HomeController implements PropertyChangeListener {
         lblProjectName.setText(managementApp.getProjectName(selectedProject));
         cbPickProjectLeader.getSelectionModel().clearSelection();
 
+        // clear fields
+        tfChangeProjectName.setText("");
+        tfProjectStartWeek.setText("");
+        tfProjectEndWeek.setText("");
+        tfProjectActivityName.setText("");
+
+        // clear stats
         lblProjectSpendHours.setText("N/A");
         lblProjectExpectedHours.setText("N/A");
         lblProjectRemainingHours.setText("N/A");
+
+        // clear err msgs
+        lblProjectNameError.setText("");
+        lblProjectStartWeekError.setText("");
+        lblProjectEndWeekError.setText("");
+        lblProjectStatsError.setText("");
+        lblProjectActivityNameError.setText("");
 
 
         // ProjectView Pane
@@ -280,11 +296,12 @@ public class HomeController implements PropertyChangeListener {
         else
             lblActivityEndWeek.setText(String.valueOf(managementApp.getActivityEndWeek(selectedActivity)));
 
-        lblActivityExpectedHours.setText("N/A");
 
         try {
             lblActivityExpectedHours.setText(String.valueOf(managementApp.getExpectedWorkHoursOnActivity(selectedActivity)));
-        } catch (OperationNotAllowedException ignored) {}
+        } catch (OperationNotAllowedException e) {
+            lblActivityExpectedHours.setText("N/A");
+        }
 
         cbAssignEmployee.getSelectionModel().clearSelection();
 
@@ -324,10 +341,34 @@ public class HomeController implements PropertyChangeListener {
 
         lvAvailableEmployees.getItems().clear();
 
+        // clear fields
+        tfChangeActivityName.setText("");
+        tfRegisterHours.setText("");
+        tfSetExpectedHours.setText("");
+        tfActivityStartWeek.setText("");
+        tfActivityEndWeek.setText("");
+
+        // clear stats
+        lblActivitySpendHours.setText("N/A");
+        lblActivityExpectedHoursStat.setText("N/A");
+        lblActivityRemainingHours.setText("N/A");
+
+        // clear err msgs
+        lblActivityStatsError.setText("");
+        lblChangeActivityNameError.setText("");
+        lblRegisterHoursError.setText("");
+        lblActivityExpectedHoursError.setText("");
+        lblActivityStartWeekError.setText("");
+        lblActivityEndWeekError.setText("");
+        lblProjectActivityAssignError.setText("");
+        lblFindAvailableEmployeesError.setText("");
+
         loadActivityRepo();
     }
 
     private void loadActivityRepo() {
+        lblActivityNameError.setText("");
+
         lvActivities.setItems(FXCollections.observableArrayList(managementApp.getUserActivities()));
         lvActivities.setCellFactory(activityListView -> new ActivityListViewCell());
         lvActivities.getSelectionModel().selectedItemProperty().addListener(e -> {
@@ -479,7 +520,6 @@ public class HomeController implements PropertyChangeListener {
             return;
         }
 
-        // TODO: popup
         try {
             managementApp.setProjectEndWeek(selectedProject, endWeek);
         } catch (OperationNotAllowedException e) {
@@ -519,7 +559,7 @@ public class HomeController implements PropertyChangeListener {
         try {
             managementApp.addNewProjectActivity(selectedProject, tfProjectActivityName.getText());
         } catch (OperationNotAllowedException e) {
-            // TODO: add popup
+            lblProjectActivityNameError.setText(e.getMessage());
         }
 
         lblProjectActivityNameError.setText("");
@@ -544,13 +584,13 @@ public class HomeController implements PropertyChangeListener {
     @FXML
     public void onBtnChangeActivityName() {
         if (!tfChangeActivityName.getText().matches("^[a-zA-Z0-9]+$")) {
-            lblChangeActivityNameError.setText("Project names can only contain alphanumeric characters.");
+            lblChangeActivityNameError.setText("Activity names can only contain alphanumeric characters.");
             tfChangeActivityName.requestFocus();
             return;
         }
 
         if ((tfChangeActivityName.getLength() == 0) || tfChangeActivityName.getLength() > 20) {
-            lblChangeActivityNameError.setText("Project names need to be between 1 and 20 characters");
+            lblChangeActivityNameError.setText("Activity names need to be between 1 and 20 characters");
             tfChangeActivityName.requestFocus();
             return;
         }
@@ -558,7 +598,7 @@ public class HomeController implements PropertyChangeListener {
         try {
             managementApp.setActivityName(selectedActivity, tfChangeActivityName.getText());
         } catch (OperationNotAllowedException e) {
-            // TODO: popup
+            lblChangeActivityNameError.setText(e.getMessage());
         }
 
         lblChangeActivityNameError.setText("");
@@ -614,7 +654,6 @@ public class HomeController implements PropertyChangeListener {
             return;
         }
 
-        // TODO: popup
         try {
             managementApp.setActivityStartWeek(selectedActivity, startWeek);
         } catch (OperationNotAllowedException e) {
@@ -658,7 +697,7 @@ public class HomeController implements PropertyChangeListener {
             lblActivityExpectedHoursStat.setText(String.valueOf(managementApp.getExpectedWorkHoursOnActivity(selectedActivity)));
             lblActivityRemainingHours.setText(String.valueOf(managementApp.getRemainingHoursOnActivity(selectedActivity)));
         } catch(OperationNotAllowedException e) {
-            lblProjectStatsError.setText(e.getMessage());
+            lblActivityStatsError.setText(e.getMessage());
         }
     }
 
@@ -680,11 +719,10 @@ public class HomeController implements PropertyChangeListener {
     }
     @FXML
     public void onBtnFindAvailableEmployees() {
-        // TODO: popup
         try {
             lvAvailableEmployees.setItems(FXCollections.observableArrayList(managementApp.listAvailableEmployeesForActivity(selectedActivity)));
         } catch (OperationNotAllowedException e) {
-
+            lblFindAvailableEmployeesError.setText(e.getMessage());
         }
     }
 
@@ -735,7 +773,6 @@ public class HomeController implements PropertyChangeListener {
             stagePopUp.close();
 
         // Create and display popup
-        // TODO: maybe do the same function call thing for the creation of the popup
         FXMLLoader fxmlLoader = new FXMLLoader(ManagementAppGUI.class.getResource("views/addNewEmp-view.fxml"));
         Scene scene = new Scene(fxmlLoader.load());
         stagePopUp = new Stage();
