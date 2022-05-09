@@ -67,6 +67,19 @@ public class Activity {
         else
             this.endWeek = endWeek;
     }
+    public void setStartEndWeek(int startWeek, int endWeek) throws OperationNotAllowedException {
+        if (startWeek == 0)
+            throw new OperationNotAllowedException("Start week can not be 0");
+
+        if (endWeek == 0)
+            throw new OperationNotAllowedException("End week can not be 0");
+
+        if (startWeek >= endWeek)
+            throw new OperationNotAllowedException("The end week needs to be after the start week");
+
+        this.endWeek = endWeek;
+        this.startWeek = startWeek;
+    }
     public int getActivityType() {
         return type;
     }

@@ -188,6 +188,7 @@ public class ActivitySteps {
         try {
             managementApp.setActivityStartWeek(projectHelper.getActivity(activityName), startWeek);
             managementApp.setActivityEndWeek(projectHelper.getActivity(activityName), endWeek);
+            managementApp.setActivityStartEndWeek(projectHelper.getActivity(activityName), startWeek,endWeek);
         } catch (OperationNotAllowedException e) {
             errorMessage.setErrorMessage(e.getMessage());
         }

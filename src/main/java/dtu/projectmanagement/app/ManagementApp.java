@@ -243,6 +243,11 @@ public class ManagementApp {
 
         support.firePropertyChange(NotificationType.UPDATE_ACTIVITY, null, null);
     }
+
+    public void setActivityStartEndWeek(Activity activity, int startWeek, int endWeek) throws OperationNotAllowedException {
+        activity.setStartEndWeek(startWeek,endWeek);
+        support.firePropertyChange(NotificationType.UPDATE_ACTIVITY, null, null);
+    }
     public int getActivityStartWeek(Activity activity) {
         return activity.getStartWeek();
     }
