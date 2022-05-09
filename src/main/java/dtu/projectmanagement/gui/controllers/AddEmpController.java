@@ -10,6 +10,9 @@ import javafx.scene.control.TextField;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
+/**
+ * @author William Steffens (s185369)
+ */
 public class AddEmpController {
 
     ManagementApp managementApp;

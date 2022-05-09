@@ -18,6 +18,9 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.io.IOException;
 
+/**
+ * @author William Steffens (s185369)
+ */
 public class LogInController implements PropertyChangeListener {
 
     ManagementApp managementApp;

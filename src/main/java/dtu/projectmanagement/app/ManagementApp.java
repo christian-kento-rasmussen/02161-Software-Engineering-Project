@@ -268,6 +268,9 @@ public class ManagementApp {
     }
 
     // Activity - work-info
+    /**
+     * @author William Steffens (s185369)
+     */
     public float getSpendHoursOnActivity(Activity activity) throws OperationNotAllowedException {
         authorizeActivity(activity);
 
@@ -384,12 +387,18 @@ public class ManagementApp {
         support.firePropertyChange(NotificationType.UPDATE_EMPLOYEE_REPO, null, null);
     }
 
+    /**
+     * @author William Steffens (s185369)
+     */
     public Employee getEmployee(String username) {
         return employeeRepo.stream()
                 .filter(employee -> employee.getUsername().equals(username))
                 .findAny()
                 .orElse(null);
     }
+    /**
+     * @author William Steffens (s185369)
+     */
     public List<Employee> getEmployeeRepo() {
         return employeeRepo;
     }
