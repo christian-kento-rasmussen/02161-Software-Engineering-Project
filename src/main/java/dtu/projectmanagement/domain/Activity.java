@@ -96,6 +96,9 @@ public class Activity {
 
     // Work-info
     public void registerWorkHours(Employee employee, float hours) throws OperationNotAllowedException {
+        // Pre-condition
+        assert employee != null : " Pre - condition violation " ;
+
         if (hours < 0f){
             throw new OperationNotAllowedException("Time must be positive or 0");
         }
@@ -107,6 +110,8 @@ public class Activity {
         }
 
         employeeWorkHoursMap.put(employee, hours);
+        // Post-condition
+        assert employeeWorkHoursMap.get(employee) == hours;
     }
     public float getWorkedHours(Employee employee){
         if (employeeWorkHoursMap.get(employee) != null) {
