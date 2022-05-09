@@ -44,4 +44,25 @@ class ActivityTest {
     void registerWorkHoursSetD() throws OperationNotAllowedException {
         activity.registerWorkHours(managementApp.getUser(), 2f);
     }
+
+    @Test
+    void setStartEndWeekA() throws OperationNotAllowedException {
+        activity.setStartEndWeek(0, 1);
+    }
+
+    @Test
+    void setStartEndWeekB() throws OperationNotAllowedException {
+        activity.setStartEndWeek(1, 0);
+    }
+
+    @Test
+    void setStartEndWeekC() throws OperationNotAllowedException {
+        activity.setStartEndWeek(2, 1);
+    }
+
+    @Test
+    void setStartEndWeekD() throws OperationNotAllowedException {
+        activity.setStartEndWeek(1, 2);
+    }
+
 }
