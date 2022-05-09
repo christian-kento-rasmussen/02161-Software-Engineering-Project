@@ -20,7 +20,7 @@ Scenario: The employee changes the name of a project activity, but the project a
   When the user changes the name of the project activity named "activity1" to "activity2"
   Then the error message "The project already contains an activity with that name" is given
 
-Scenario: The employee changes the name of an user activity
+Scenario: The employee changes the name of a user activity
   Given there is an employee with username "foo"
   And the employee with username "foo" is logged in
   And the user creates a new user activity named "userActivity1"
@@ -28,7 +28,7 @@ Scenario: The employee changes the name of an user activity
   Then the user does not have a user activity with the name "userActivity1"
   And the user has a user activity named "thisIsMyActivity"
   
-Scenario: The employee changes the name of an user activity, but the user already has an activity with that name
+Scenario: The employee changes the name of a user activity, but the user already has an activity with that name
   Given there is an employee with username "foo"
   And the employee with username "foo" is logged in
   And the user creates a new user activity named "userActivity1"

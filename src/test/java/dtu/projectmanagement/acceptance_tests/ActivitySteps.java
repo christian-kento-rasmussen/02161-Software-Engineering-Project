@@ -3,6 +3,7 @@ package dtu.projectmanagement.acceptance_tests;
 import dtu.projectmanagement.app.ManagementApp;
 
 import dtu.projectmanagement.app.OperationNotAllowedException;
+import dtu.projectmanagement.domain.Activity;
 import dtu.projectmanagement.domain.Employee;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Then;
@@ -21,6 +22,8 @@ public class ActivitySteps {
     private float spendWorkHours;
     private float remainingWorkHours;
     private float employeeTotalHours;
+    private String queriedActivityName;
+    private int activityType;
 
     private List<Employee> availableEmployeesForActivity;
 
@@ -237,14 +240,6 @@ public class ActivitySteps {
         }
     }
 
-    @Then("the employee with username {string} is unassigned from the activity named {string} and vice versa")
-    public void theEmployeeWithUsernameIsUnassignedFromTheActivityNamedAndViceVersa(String username, String activityName) {
-        assertFalse(managementApp.getEmployee(username)
-                .getAssignedActivities()
-                .stream()
-                .anyMatch(activity -> activity.getActivityName().equals(activityName)));
-    }
-
     @When("the user creates a new user activity named {string}")
     public void theUserCreatesANewUserPersonalActivityNamed(String activityName) {
         try {
@@ -287,5 +282,49 @@ public class ActivitySteps {
         assertFalse(managementApp.getAssignedEmployees(projectHelper.getActivity(activityName))
                 .stream()
                 .anyMatch(employee -> employee.getUsername().equals(username)));
+    }
+
+    @Then("the user gets the activity name {string}")
+    public void theUserGetsTheActivityName(String activityName) {
+        assertEquals(queriedActivityName, activityName);
+    }
+
+    @When("the user queries for the name of the project activity named {string}")
+    public void theUserQueriesForTheNameOfTheProjectActivityNamed(String activityName) {
+        queriedActivityName = managementApp.getActivityName(projectHelper.getActivity(activityName));
+    }
+
+    @When("the user queries for the name of the user activity named {string}")
+    public void theUserQueriesForTheNameOfTheUserActivityNamed(String activityName) {
+        queriedActivityName = managementApp.getActivityName(managementApp.getUserActivity(activityName));
+    }
+
+    @When("the user sets the start time of the activity named {string} in the project to {int}")
+    public void theUserSetsTheStartTimeOfTheActivityNamedInTheProjectTo(String activityName, int startWeek) {
+        try {
+            managementApp.setActivityStartWeek(projectHelper.getActivity(activityName), startWeek);
+        } catch (OperationNotAllowedException e) {
+            errorMessage.setErrorMessage(e.getMessage());
+        }
+    }
+
+    @When("the user queries for the type of the project activity named {string}")
+    public void theUserQueriesForTheTypeOfTheProjectActivityNamed(String activityName) {
+        activityType = managementApp.getActivityType(projectHelper.getActivity(activityName));
+    }
+
+    @When("the user queries for the type of the user activity named {string}")
+    public void theUserQueriesForTheTypeOfTheUserActivityNamed(String activityName) {
+        activityType = managementApp.getActivityType(managementApp.getUserActivity(activityName));
+    }
+
+    @Then("the type of the activity is project activity")
+    public void theTypeOfTheActivityIsProjectActivity() {
+        assertEquals(Activity.PROJECT_TYPE, activityType);
+    }
+
+    @Then("the type of the activity is user activity")
+    public void theTypeOfTheActivityIsUserActivity() {
+        assertEquals(Activity.EMPLOYEE_TYPE, activityType);
     }
 }

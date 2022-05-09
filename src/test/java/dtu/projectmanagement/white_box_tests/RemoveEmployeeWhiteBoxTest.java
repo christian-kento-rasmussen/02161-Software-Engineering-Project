@@ -5,7 +5,6 @@ import dtu.projectmanagement.app.ManagementApp;
 import dtu.projectmanagement.app.OperationNotAllowedException;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.Assert.*;
@@ -40,7 +39,6 @@ public class RemoveEmployeeWhiteBoxTest {
     }
 
     @Test
-    @DisplayName("Employee is not in the system")
     public void testInputDataSetA() {
         assertThrows(OperationNotAllowedException.class, () -> {
            managementApp.removeEmployee(managementApp.getEmployee("test"));
@@ -49,14 +47,12 @@ public class RemoveEmployeeWhiteBoxTest {
 
 
     @Test
-    @DisplayName("Employee is in the system, 0 projects in projectRepo")
     public void testInputDataSetB() throws OperationNotAllowedException {
         managementApp.addEmployee("test");
         managementApp.removeEmployee(managementApp.getEmployee("test"));
     }
 
     @Test
-    @DisplayName("Employee is in the system, 1 project in projectRepo, not project leader, 0 activities")
     public void testInputDataSetC() throws OperationNotAllowedException {
         managementApp.addEmployee("test");
         projectHelper.addProject();
@@ -64,7 +60,6 @@ public class RemoveEmployeeWhiteBoxTest {
     }
 
     @Test
-    @DisplayName("Employee is in the system, 1 project in projectRepo, is project leader, 1 activity, no activities assigned")
     public void testInputDataSetD() throws OperationNotAllowedException {
         managementApp.addEmployee("test");
         projectHelper.addProject();
@@ -74,7 +69,6 @@ public class RemoveEmployeeWhiteBoxTest {
     }
 
     @Test
-    @DisplayName("Employee is in the system, 2 projects in projectRepo, is not project leader, 2 activities, assigned activity")
     public void testInputDataSetE() throws OperationNotAllowedException {
         managementApp.addEmployee("test");
         projectHelper.addProject();

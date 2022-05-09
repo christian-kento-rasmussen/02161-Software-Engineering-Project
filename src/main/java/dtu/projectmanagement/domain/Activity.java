@@ -100,10 +100,12 @@ public class Activity {
         return expectedWorkHours;
     }
     public void setExpectedWorkHours(float expectedWorkHours) throws OperationNotAllowedException {
+        // TODO: should be like register hours checks
         if (expectedWorkHours>=0) {
-            this.expectedWorkHours = (expectedWorkHours); }
-        else {
-            throw new OperationNotAllowedException("Expected Work hours must be positive"); }
+            this.expectedWorkHours = (expectedWorkHours);
+        } else {
+            throw new OperationNotAllowedException("Expected Work hours must be positive");
+        }
     }
     public float getRemainingHours() {
         return getExpectedWorkHours() - getSpendHours();
