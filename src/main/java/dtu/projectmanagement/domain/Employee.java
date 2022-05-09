@@ -15,7 +15,9 @@ public class Employee {
     }
 
 
-
+    /**
+     * @author Christian Kento Rasmussen (s204159)
+     */
     public String getUsername() {
         return username;
     }
@@ -51,6 +53,9 @@ public class Employee {
     public void unassignActivity(Activity activity)  {
             assignedActivities.remove(activity);
     }
+    /**
+     * @author William Steffens (s185369)
+     */
     public void assignActivity(Activity activity) throws OperationNotAllowedException {
         if (assignedActivities.contains(activity)){
             throw new OperationNotAllowedException("Employee is already assigned to the activity");
@@ -58,7 +63,7 @@ public class Employee {
         assignedActivities.add(activity);
     }
     /**
-     * @author William Steffens (s185369)
+     * @author Mathias Daniel Frosz Nielsen (s201968)
      */
     public Activity getActivity(String activityName) {
         return assignedActivities.stream()
@@ -67,7 +72,7 @@ public class Employee {
                 .orElse(null);
     }
     /**
-     * @author William Steffens (s185369)
+     * @author Mathias Daniel Frosz Nielsen (s201968)
      */
     public List<Activity> getAssignedActivities() {
         return assignedActivities;

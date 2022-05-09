@@ -1,5 +1,8 @@
 package dtu.projectmanagement.app;
 
+/**
+ * @author William Steffens (s185369)
+ */
 public class NotificationType {
     public static final String UPDATE_PROJECT = "update_project";
     public static final String UPDATE_PROJECT_REPO = "update_project_repo";

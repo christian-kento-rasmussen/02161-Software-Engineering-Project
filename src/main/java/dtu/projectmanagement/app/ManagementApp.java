@@ -18,10 +18,16 @@ public class ManagementApp {
     private final Map<Integer, Integer> serialNum = new HashMap<>();
 
     PropertyChangeSupport support = new PropertyChangeSupport(this);
+    /**
+     * @author William Steffens (s185369)
+     */
     public void addObserver(PropertyChangeListener l) {
         support.addPropertyChangeListener(l);
     }
 
+    /**
+     * @author William Steffens (s185369)
+     */
     public static ManagementApp getInstance() {
         if (instance == null)
             instance = new ManagementApp();
@@ -37,7 +43,6 @@ public class ManagementApp {
     /**
      * This function creates a new project, with correct project number
      * @author Christian Kento Rasmussen (s204159)
-     * @author Christian Raasten
      */
     public void createNewProject() {
         int year = Calendar.getInstance().get(Calendar.YEAR);
@@ -65,9 +70,6 @@ public class ManagementApp {
      * @author Christian Kento Rasmussen (s204159)
      */
     public Project getProject(String projectNum) {
-        /**
-         * @author Christian Raasteen (s204148)
-         */
         for (Project project : projectRepo) {
             if (project.getProjectNum().equals(projectNum))
                 return project;
@@ -75,6 +77,9 @@ public class ManagementApp {
 
         return null;
     }
+    /**
+     * @author Mathias Daniel Frosz Nielsen (s201968)
+     */
     public List<Project> getProjectRepo() {
         return projectRepo;
     }
@@ -109,6 +114,9 @@ public class ManagementApp {
     }
 
     // Project - info
+    /**
+     * @author William Steffens (s185369)
+     */
     public String getProjectNum(Project project) {
         return project.getProjectNum();
     }
@@ -150,7 +158,9 @@ public class ManagementApp {
 
         support.firePropertyChange(NotificationType.UPDATE_PROJECT, null, null);
     }
-
+    /**
+     * @author Christian Kento Rasmussen (s204159)
+     */
     public int getProjectEndWeek(Project project) {
         return project.getEndWeek();
     }
@@ -164,11 +174,17 @@ public class ManagementApp {
 
         return project.getSpendHours();
     }
+    /**
+     * @author William Steffens (s185369)
+     */
     public float getExpectedHoursOnProject(Project project) throws OperationNotAllowedException {
         checkIsProjectLeader(project);
 
         return project.getExpectedHours();
     }
+    /**
+     * @author William Steffens (s185369)
+     */
     public float getRemainingHoursOnProject(Project project) throws OperationNotAllowedException {
         checkIsProjectLeader(project);
 
@@ -248,6 +264,9 @@ public class ManagementApp {
 
         support.firePropertyChange(NotificationType.UPDATE_ACTIVITY, null, null);
     }
+    /**
+     * @author Mathias Daniel Frosz Nielsen (s201968)
+     */
     public List<Employee> getAssignedEmployees(Activity activity) {
         return activity.getAssignedEmployees();
     }
@@ -276,7 +295,7 @@ public class ManagementApp {
         support.firePropertyChange(NotificationType.UPDATE_ACTIVITY, null, null);
     }
     /**
-     * @author William Steffens (s185369)
+     * @author Mathias Daniel Frosz Nielsen (s201968)
      */
     public void setActivityStartWeek(Activity activity, int startWeek) throws OperationNotAllowedException {
         authorizeActivity(activity);
@@ -285,19 +304,21 @@ public class ManagementApp {
 
         support.firePropertyChange(NotificationType.UPDATE_ACTIVITY, null, null);
     }
-
+    /**
+     * @author Mathias Daniel Frosz Nielsen (s201968)
+     */
     public void setActivityStartEndWeek(Activity activity, int startWeek, int endWeek) throws OperationNotAllowedException {
         activity.setStartEndWeek(startWeek,endWeek);
         support.firePropertyChange(NotificationType.UPDATE_ACTIVITY, null, null);
     }
     /**
-     * @author William Steffens (s185369)
+     * @author Mathias Daniel Frosz Nielsen (s201968)
      */
     public int getActivityStartWeek(Activity activity) {
         return activity.getStartWeek();
     }
     /**
-     * @author William Steffens (s185369)
+     * @author Mathias Daniel Frosz Nielsen (s201968)
      */
     public void setActivityEndWeek(Activity activity, int endWeek) throws OperationNotAllowedException {
         authorizeActivity(activity);
@@ -358,6 +379,9 @@ public class ManagementApp {
         assert activity.getExpectedWorkHours() == hours : " post - condition violation ";
 
     }
+    /**
+     * @author Mathias Daniel Frosz Nielsen (s201968)
+     */
     public float getRemainingHoursOnActivity(Activity activity) throws OperationNotAllowedException {
         authorizeActivity(activity);
 
@@ -387,9 +411,15 @@ public class ManagementApp {
         EMPLOYEE
      */
     // Employee - creation, deletion, repo
+    /**
+     * @author Mathias Daniel Frosz Nielsen (s201968)
+     */
     public void login(Employee employee) {
         user = employee;
     }
+    /**
+     * @author Mathias Daniel Frosz Nielsen (s201968)
+     */
     public Employee getUser() {
         return user;
     }
@@ -467,11 +497,17 @@ public class ManagementApp {
     }
 
     // Employee - work-info
+    /**
+     * @author Mathias Daniel Frosz Nielsen (s201968)
+     */
     public void registerWorkHoursOnActivity(Activity activity, float hours) throws OperationNotAllowedException {
         activity.registerWorkHours(user, hours);
 
         support.firePropertyChange(NotificationType.UPDATE_ACTIVITY, null, null);
     }
+    /**
+     * @author Mathias Daniel Frosz Nielsen (s201968)
+     */
     public float getWorkedHoursOnActivity(Activity activity) {
         return activity.getWorkedHours(user);
     }

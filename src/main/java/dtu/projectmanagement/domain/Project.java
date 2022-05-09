@@ -25,22 +25,33 @@ public class Project {
 
 
     // Info
-
+    /**
+     * @author William Steffens (s185369)
+     */
     public String getProjectNum() {
         return projectNum;
-    }
-    public String getProjectName() {
-        return projectName;
-    }
-    public void setProjectName(String projectName) {
-        this.projectName = projectName;
     }
     /**
      * @author William Steffens (s185369)
      */
+    public String getProjectName() {
+        return projectName;
+    }
+    /**
+     * @author William Steffens (s185369)
+     */
+    public void setProjectName(String projectName) {
+        this.projectName = projectName;
+    }
+    /**
+     * @author Christian Raasteen (s204148)
+     */
     public void setProjectLeader(Employee employee) {
         projectLeader = employee;
     }
+    /**
+     * @author Christian Raasteen (s204148)
+     */
     public Employee getProjectLeader() {
         return projectLeader;
     }
@@ -102,7 +113,7 @@ public class Project {
         activities.remove(activity);
     }
     /**
-     * @author William Steffens (s185369)
+     * @author Mathias Daniel Frosz Nielsen (s201968)
      */
     public Activity getActivity(String activityName) {
         return activities.stream()
@@ -110,6 +121,9 @@ public class Project {
                 .findAny()
                 .orElse(null);
     }
+    /**
+     * @author Mathias Daniel Frosz Nielsen (s201968)
+     */
     public List<Activity> getActivityRepo() {
         return activities;
     }
@@ -122,6 +136,9 @@ public class Project {
     public float getSpendHours() {
         return activities.stream().reduce(0f, (acc, val) -> acc + val.getSpendHours(), Float::sum);
     }
+    /**
+     * @author William Steffens (s185369)
+     */
     public float getExpectedHours() {
         return activities.stream().reduce(0f, (acc, val) -> acc + val.getExpectedWorkHours(), Float::sum);
     }
@@ -131,6 +148,9 @@ public class Project {
     public float getRemainingHours() {
         return getExpectedHours() - getSpendHours();
     }
+    /**
+     * @author Christian Kento Rasmussen (s204159)
+     */
     public void generateReport(String filelocation) {
 
     }

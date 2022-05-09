@@ -35,7 +35,6 @@ public class Activity {
     }
 
 
-
     // Info
     /**
      * @author William Steffens (s185369)
@@ -91,6 +90,9 @@ public class Activity {
         else
             this.endWeek = endWeek;
     }
+    /**
+     * @author Mathias Daniel Frosz Nielsen (s201968)
+     */
     public void setStartEndWeek(int startWeek, int endWeek) throws OperationNotAllowedException {
 
         if (startWeek == 0) {
@@ -115,11 +117,17 @@ public class Activity {
 
         assert (this.endWeek - this.startWeek) > 0 : "Postcondition";
     }
+    /**
+     * @author Mathias Daniel Frosz Nielsen (s201968)
+     */
     public int getActivityType() {
         return type;
     }
 
     // Work-info
+    /**
+     * @author Christian Kento Rasmussen (s204159)
+     */
     public void registerWorkHours(Employee employee, float hours) throws OperationNotAllowedException {
         // Pre-condition
         assert employee != null : " Pre - condition violation " ;
@@ -138,6 +146,9 @@ public class Activity {
         // Post-condition
         assert employeeWorkHoursMap.get(employee) == hours;
     }
+    /**
+     * @author Mathias Daniel Frosz Nielsen (s201968)
+     */
     public float getWorkedHours(Employee employee){
         if (employeeWorkHoursMap.get(employee) != null) {
             return employeeWorkHoursMap.get(employee);
@@ -146,9 +157,15 @@ public class Activity {
             return 0;
         }
     }
+    /**
+     * @author Mathias Daniel Frosz Nielsen (s201968)
+     */
     public float getSpendHours() {
         return employeeWorkHoursMap.values().stream().reduce(0f , Float::sum);
     }
+    /**
+     * @author Mathias Daniel Frosz Nielsen (s201968)
+     */
     public float getExpectedWorkHours() {
         return expectedWorkHours;
     }
@@ -181,6 +198,9 @@ public class Activity {
     public void assignEmployeeForUserActivity(Employee employee) {
         assignedEmployees.add(employee);
     }
+    /**
+     * @author William Steffens (s185369)
+     */
     public void unassignEmployee(Employee employee) {
         assignedEmployees.remove(employee);
     }
@@ -197,6 +217,9 @@ public class Activity {
     public List<Employee> getAssignedEmployees() {
         return assignedEmployees;
     }
+    /**
+     * @author William Steffens (s185369)
+     */
     public HashMap<Employee, Float> getEmployeeWorkHoursMap() {
         return employeeWorkHoursMap;
     }
