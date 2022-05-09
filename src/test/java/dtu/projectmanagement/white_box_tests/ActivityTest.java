@@ -17,10 +17,10 @@ class ActivityTest {
     private Activity activity;
 
     @BeforeEach
-    void setUp() {
+    void setUp() throws OperationNotAllowedException {
         managementApp.createNewProject();
-        /*activity = new Activity("save the world");
-        managementApp.addEmployee("BLIB");*/
+        managementApp.addEmployee("BLIB");
+        activity = new Activity("save the world",managementApp.getEmployee("BLIB"));
     }
 
     @Test
