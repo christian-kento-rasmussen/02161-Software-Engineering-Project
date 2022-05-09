@@ -10,7 +10,6 @@ Feature: Set start and end time of a project
     When the user sets the start and end time of the project to 202207 and 202305, respectively
     Then the start and end time of the project is 202207 and 202305, respectively
 
-    # TODO: start time / end time in project vs in activity
 
   Scenario: The project leader sets start and end time of a project where end time is before start time
     Given there is a project

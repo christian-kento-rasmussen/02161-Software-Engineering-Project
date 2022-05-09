@@ -19,7 +19,7 @@ public class Project {
 
     public Project(String projectNum) {
         this.projectNum = projectNum;
-        this.projectName="Unnamed project";
+        this.projectName = "Unnamed project";
     }
 
 
@@ -40,7 +40,9 @@ public class Project {
     public Employee getProjectLeader() {
         return projectLeader;
     }
-    public String getProjectLeaderUsername() {
+    public String getProjectLeaderUsername() throws OperationNotAllowedException {
+        if (projectLeader == null)
+            throw new OperationNotAllowedException("No project leader selected.");
         return projectLeader.getUsername();
     }
     public int getStartWeek() {
@@ -64,7 +66,10 @@ public class Project {
 
 
     // Activity - creation, deletion, repo
-    public void addNewActivity(String activityName) {
+    public void addNewActivity(String activityName) throws OperationNotAllowedException {
+        if (activities.stream().anyMatch(activity -> activity.getActivityName().equals(activityName)))
+            throw new OperationNotAllowedException("An activity with that name already exists.");
+
         activities.add(new Activity(activityName, this));
     }
     public void deleteActivity(Activity activity) {
@@ -92,7 +97,8 @@ public class Project {
     public float getRemainingHours() {
         return getExpectedHours() - getSpendHours();
     }
-    public void generateReport() {
+    public void generateReport(String filelocation) {
+
     }
 
 

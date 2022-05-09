@@ -17,6 +17,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
+import javafx.util.StringConverter;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
@@ -120,10 +121,12 @@ public class HomeController implements PropertyChangeListener {
         managementApp = ManagementApp.getInstance();
         managementApp.addObserver(this);
 
-        // TODO: do the thing with textformat
-
         // Navbar
-        lblCurrentUser.setText(managementApp.getUserUsername());
+        try {
+            lblCurrentUser.setText(managementApp.getUserUsername());
+        } catch (OperationNotAllowedException e) {
+            lblCurrentUser.setText("N/A");
+        }
 
         // ProjectRepo Pane
         loadProjectRepo();
@@ -163,8 +166,13 @@ public class HomeController implements PropertyChangeListener {
 
         if (managementApp.getProjectLeader(selectedProject) == null)
             lblProjectLeaderUsername.setText("N/A");
-        else
-            lblProjectLeaderUsername.setText(managementApp.getProjectLeaderUsername(selectedProject));
+        else {
+            try {
+                lblProjectLeaderUsername.setText(managementApp.getProjectLeaderUsername(selectedProject));
+            } catch (OperationNotAllowedException e) {
+                lblProjectLeaderUsername.setText("N/A");
+            }
+        }
 
         if (managementApp.getProjectStartWeek(selectedProject) == 0)
             lblProjectStartWeek.setText("N/A");
@@ -187,6 +195,17 @@ public class HomeController implements PropertyChangeListener {
         // ProjectView Pane
         cbPickProjectLeader.setItems(FXCollections.observableArrayList(managementApp.getEmployeeRepo()));
         cbPickProjectLeader.setCellFactory(employeeListView -> new EmployeeListViewCell());
+        cbPickProjectLeader.setConverter(new StringConverter<Employee>() {
+            @Override
+            public String toString(Employee employee) {
+                return employee.getUsername();
+            }
+
+            @Override
+            public Employee fromString(String s) {
+                return cbPickProjectLeader.getItems().stream().filter(emp -> emp.getUsername().equals(s)).findAny().orElse(null);
+            }
+        });
         cbPickProjectLeader.getSelectionModel().selectedItemProperty().addListener(e -> {
             if (cbPickProjectLeader.getSelectionModel().getSelectedItem() == null) {
                 btnChangeProjectLeader.setDisable(true);
@@ -235,7 +254,11 @@ public class HomeController implements PropertyChangeListener {
 
             loadProject();
         } else if (managementApp.getActivityType(selectedActivity) == Activity.EMPLOYEE_TYPE) {
-            lblParent.setText(managementApp.getUserUsername());
+            try {
+                lblParent.setText(managementApp.getUserUsername());
+            } catch (OperationNotAllowedException e) {
+                lblParent.setText("N/A");
+            }
 
             cbAssignEmployee.setDisable(true);
             lvAssignedEmployees.setDisable(true);
@@ -267,6 +290,17 @@ public class HomeController implements PropertyChangeListener {
 
         cbAssignEmployee.setItems(FXCollections.observableArrayList(managementApp.getEmployeeRepo()));
         cbAssignEmployee.setCellFactory(employeeListView -> new EmployeeListViewCell());
+        cbAssignEmployee.setConverter(new StringConverter<Employee>() {
+            @Override
+            public String toString(Employee employee) {
+                return employee.getUsername();
+            }
+
+            @Override
+            public Employee fromString(String s) {
+                return cbAssignEmployee.getItems().stream().filter(emp -> emp.getUsername().equals(s)).findAny().orElse(null);
+            }
+        });
         cbAssignEmployee.getSelectionModel().selectedItemProperty().addListener(e -> {
             if (cbAssignEmployee.getSelectionModel().getSelectedItem() == null) {
                 btnAssignEmployee.setDisable(true);
@@ -287,6 +321,8 @@ public class HomeController implements PropertyChangeListener {
 
         lvAvailableEmployees.setCellFactory(employeeListView -> new EmployeeListViewCell());
         lvAssignedEmployees.getSelectionModel().clearSelection();
+
+        lvAvailableEmployees.getItems().clear();
 
         loadActivityRepo();
     }
@@ -486,7 +522,11 @@ public class HomeController implements PropertyChangeListener {
             return;
         }
 
-        managementApp.addNewProjectActivity(selectedProject, tfProjectActivityName.getText());
+        try {
+            managementApp.addNewProjectActivity(selectedProject, tfProjectActivityName.getText());
+        } catch (OperationNotAllowedException e) {
+            // TODO: add popup
+        }
 
         lblProjectActivityNameError.setText("");
         tfProjectActivityName.setText("");
@@ -521,7 +561,11 @@ public class HomeController implements PropertyChangeListener {
             return;
         }
 
-        managementApp.setActivityName(selectedActivity, tfChangeActivityName.getText());
+        try {
+            managementApp.setActivityName(selectedActivity, tfChangeActivityName.getText());
+        } catch (OperationNotAllowedException e) {
+            // TODO: popup
+        }
 
         lblChangeActivityNameError.setText("");
         tfChangeActivityName.setText("");
@@ -707,7 +751,7 @@ public class HomeController implements PropertyChangeListener {
     }
 
     @FXML
-    public void onBtnRemoveEmployee() throws IOException {
+    public void onBtnRemoveEmployee() throws IOException, OperationNotAllowedException {
         Employee selectedEmployee = lvEmp.getSelectionModel().getSelectedItem();
 
         if (managementApp.getUser() == selectedEmployee)

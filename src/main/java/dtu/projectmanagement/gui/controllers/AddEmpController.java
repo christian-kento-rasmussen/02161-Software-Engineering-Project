@@ -35,15 +35,6 @@ public class AddEmpController {
     @FXML
     public void onBtnOK() {
         lblError.setTextFill(Color.RED);
-        if ((tfUsername.getLength() == 0) || tfUsername.getLength() > 4) {
-            lblError.setText("The username needs to be between one and\nfour letters long.");
-            return;
-        }
-
-        if (!tfUsername.getText().matches("^[a-zA-Z]+$")) {
-            lblError.setText("The username cannot contain non-alphabetical\ncharacters (a-zA-Z).");
-            return;
-        }
 
         try {
             managementApp.addEmployee(tfUsername.getText().toLowerCase());

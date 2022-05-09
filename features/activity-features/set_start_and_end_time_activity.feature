@@ -9,7 +9,7 @@ Scenario: The project leader sets start and end time of an activity
   And the employee with the username "foo" is the project leader of the given project
   And there is an activity named "activity1" in the project
   When the user sets the start and end time of the activity named "activity1" in the project to 202207 and 202305, respectively
-  Then the start and end time of the activity is 202207 and 202305, respectively
+  Then the start and end time of the activity named "activity1" is 202207 and 202305, respectively
 
 Scenario: The project leader sets start and end time of an activity where end time is before start time
   Given there is a project

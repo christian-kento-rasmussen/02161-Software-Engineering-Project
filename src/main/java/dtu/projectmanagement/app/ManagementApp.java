@@ -29,6 +29,7 @@ public class ManagementApp {
     }
 
 
+
     /*
         PROJECT
     */
@@ -49,6 +50,9 @@ public class ManagementApp {
 
         support.firePropertyChange(NotificationType.UPDATE_PROJECT_REPO, null, null);
     }
+    /**
+     * @author William Steffens (s185369)
+     */
     public void deleteProject(Project project) {
         project.getActivityRepo().forEach(Activity::unassignAllEmployees);
         projectRepo.remove(project);
@@ -68,6 +72,9 @@ public class ManagementApp {
     }
 
     // Project - project leader
+    /**
+     * @author William Steffens (s185369)
+     */
     public void assignProjectLeader(Project project, Employee employee) {
         project.setProjectLeader(employee);
 
@@ -76,11 +83,14 @@ public class ManagementApp {
     public Employee getProjectLeader(Project project) {
         return project.getProjectLeader();
     }
+    /**
+     * @author William Steffens (s185369)
+     */
     public void checkIsProjectLeader(Project project) throws OperationNotAllowedException {
         if (!user.equals(project.getProjectLeader()))
             throw new OperationNotAllowedException("Only the project leader is allow to perform that action");
     }
-    public String getProjectLeaderUsername(Project project) {
+    public String getProjectLeaderUsername(Project project) throws OperationNotAllowedException {
         return project.getProjectLeaderUsername();
     }
 
@@ -116,6 +126,9 @@ public class ManagementApp {
     }
 
     // Project - work-info
+    /**
+     * @author William Steffens (s185369)
+     */
     public float getSpendHoursOnProject(Project project) throws OperationNotAllowedException {
         checkIsProjectLeader(project);
 
@@ -137,9 +150,12 @@ public class ManagementApp {
 
         return project.getRemainingHours();
     }
-    public void generateProjectReport(Project project) throws OperationNotAllowedException {
+    /**
+     * @author William Steffens (s185369)
+     */
+    public void generateProjectReport(Project project, String filelocation) throws OperationNotAllowedException {
         checkIsProjectLeader(project);
-        project.generateReport();
+        project.generateReport(filelocation);
     }
 
 
@@ -148,7 +164,7 @@ public class ManagementApp {
         ACTIVITY
     */
     // Activity - creation, deletion, repo
-    public void addNewProjectActivity(Project project, String activityName) {
+    public void addNewProjectActivity(Project project, String activityName) throws OperationNotAllowedException {
         project.addNewActivity(activityName);
 
         support.firePropertyChange(NotificationType.UPDATE_PROJECT, null, null);
@@ -162,12 +178,6 @@ public class ManagementApp {
     }
     public void addNewUserActivity(String activityName) throws OperationNotAllowedException {
         user.addNewActivity(activityName);
-
-        support.firePropertyChange(NotificationType.UPDATE_ACTIVITY_REPO, null, null);
-    }
-    public void deleteUserActivity(Activity activity) {
-        user.unassignActivity(activity);
-        activity.unassignEmployee(user);
 
         support.firePropertyChange(NotificationType.UPDATE_ACTIVITY_REPO, null, null);
     }
@@ -194,12 +204,12 @@ public class ManagementApp {
 
         support.firePropertyChange(NotificationType.UPDATE_ACTIVITY, null, null);
     }
+    /**
+     * @author William Steffens (s185369)
+     */
     public void unassignEmployeeFromActivity(Activity activity, Employee employee) {
-        if (activity.getActivityType() == Activity.PROJECT_TYPE) {
-            employee.unassignActivity(activity);
-            activity.unassignEmployee(employee);
-        } else if (activity.getActivityType() == Activity.EMPLOYEE_TYPE)
-            deleteUserActivity(activity);
+        employee.unassignActivity(activity);
+        activity.unassignEmployee(employee);
 
         support.firePropertyChange(NotificationType.UPDATE_ACTIVITY, null, null);
     }
@@ -211,7 +221,15 @@ public class ManagementApp {
     public String getActivityName(Activity activity) {
         return activity.getActivityName();
     }
-    public void setActivityName(Activity activity, String activityName) {
+    public void setActivityName(Activity activity, String activityName) throws OperationNotAllowedException {
+        if (activity.getActivityType() == Activity.PROJECT_TYPE) {
+            if (activity.getParentProject().getActivityRepo().stream().anyMatch(act -> act.getActivityName().equals(activityName)))
+                throw new OperationNotAllowedException("The project already contains an activity with that name");
+        } else if (activity.getActivityType() == Activity.EMPLOYEE_TYPE) {
+            if (activity.getParentEmployee().getAssignedActivities().stream().anyMatch(act -> act.getActivityName().equals(activityName)))
+                throw new OperationNotAllowedException("The current user already has an activity with that name");
+        }
+
         activity.setActivityName(activityName);
 
         support.firePropertyChange(NotificationType.UPDATE_ACTIVITY, null, null);
@@ -236,6 +254,9 @@ public class ManagementApp {
     public int getActivityEndWeek(Activity activity) {
         return activity.getEndWeek();
     }
+    /**
+     * @author William Steffens (s185369)
+     */
     public int getActivityType(Activity activity) {
         return activity.getActivityType();
     }
@@ -247,13 +268,11 @@ public class ManagementApp {
         return activity.getSpendHours();
     }
     public float getExpectedWorkHoursOnActivity(Activity activity) throws OperationNotAllowedException {
-        // TODO: test
         authorizeActivityChange(activity);
 
         return activity.getExpectedWorkHours();
     }
     public void setExpectedWorkHoursOnActivity(Activity activity, float hours) throws OperationNotAllowedException {
-        // TODO: DRY!!!
         authorizeActivityChange(activity);
 
         activity.setExpectedWorkHours(hours);
@@ -282,10 +301,9 @@ public class ManagementApp {
     }
 
 
-
     /*
         EMPLOYEE
-    */
+     */
     // Employee - creation, deletion, repo
     public void login(Employee employee) {
         user = employee;
@@ -293,10 +311,20 @@ public class ManagementApp {
     public Employee getUser() {
         return user;
     }
+
+    /**
+     * @author William Steffens (s185369)
+     */
     public void addEmployee(String username) throws OperationNotAllowedException {
-        boolean duplicate = employeeRepo.stream().anyMatch(employee -> employee.getUsername().equals(username));
-        if (duplicate)
+        if ((username.length() == 0) || username.length() > 4)
+            throw new OperationNotAllowedException("The username needs to be between one and four letters long.");
+
+        if (!username.matches("^[a-zA-Z]+$"))
+            throw new OperationNotAllowedException("The username cannot contain non-alphabetical characters (a-zA-Z).");
+
+        if (getEmployee(username) != null)
             throw new OperationNotAllowedException("An employee with that username already exists.");
+
         employeeRepo.add(new Employee(username));
 
         support.firePropertyChange(NotificationType.UPDATE_EMPLOYEE_REPO, null, null);
@@ -304,27 +332,35 @@ public class ManagementApp {
     /**
      * @author William Steffens (s185369)
      */
-    public void removeEmployee(Employee employee) {
+    public void removeEmployee(Employee employee) throws OperationNotAllowedException {
+        if (!employeeRepo.contains(employee) || employee == null)                                           // 1
+            throw new OperationNotAllowedException("Should not remove employee that is not in the system"); // 2
+
         // Pre-condition
-        assert true : "Pre-condition violation";
+        assert employeeRepo.contains(employee)
+                && employee != null : "Pre-condition violation";
 
-
-        projectRepo.forEach(project -> {
-            if (project.getProjectLeader() == employee)
-                project.setProjectLeader(null);
-            project.getActivityRepo().forEach(activity -> activity.unassignEmployee(employee));
+        projectRepo.forEach(project -> {                                                                    // 3
+            if (project.getProjectLeader() == employee)                                                     // 4
+                project.setProjectLeader(null);                                                             // 5
+            project.getActivityRepo().forEach(activity -> {                                                 // 6
+                if (activity.getAssignedEmployees().contains(employee))                                     // 7
+                    activity.unassignEmployee(employee);                                                    // 8
+            });
         });
-        employeeRepo.remove(employee);
+        employeeRepo.remove(employee);                                                                      // 9
 
-
-        // Post-condition
+        // Post-conditions
         assert !employeeRepo.contains(employee)
                 && !isAProjectLeader(employee)
                 && !isAssignedAProjectActivity(employee) : "Post-condition violation";
 
         support.firePropertyChange(NotificationType.UPDATE_EMPLOYEE_REPO, null, null);
     }
-    // Contract post-condition helper method for removeEmployee method
+    // DesignByContract helper method for removeEmployee method
+    /**
+     * @author William Steffens (s185369)
+     */
     private boolean isAProjectLeader(Employee employee) {
         for (Project project : projectRepo)
             if (employee == project.getProjectLeader())
@@ -332,7 +368,10 @@ public class ManagementApp {
 
         return false;
     }
-    // Contract post-condition helper method for removeEmployee method
+    // DesignByContract helper method for removeEmployee method
+    /**
+     * @author William Steffens (s185369)
+     */
     private boolean isAssignedAProjectActivity(Employee employee) {
         for (Project project : projectRepo)
             for (Activity projectActivity : project.getActivityRepo())
@@ -353,7 +392,13 @@ public class ManagementApp {
     }
 
     // Employee - info
-    public String getUserUsername() {
+    /**
+     * @author William Steffens (s185369)
+     */
+    public String getUserUsername() throws OperationNotAllowedException {
+        if (user == null)
+            throw new OperationNotAllowedException("No employee is logged in");
+
         return user.getUsername();
     }
 

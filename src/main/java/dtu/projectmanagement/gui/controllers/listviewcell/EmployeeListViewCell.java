@@ -40,6 +40,7 @@ public class EmployeeListViewCell extends ListCell<Employee> {
             }
 
             lblCellUsername.setText(emp.getUsername());
+            setCursor(Cursor.HAND);
 
             setText(null);
             setGraphic(cell);

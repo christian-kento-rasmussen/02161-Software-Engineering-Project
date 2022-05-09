@@ -32,6 +32,9 @@ public class Employee {
 
     // Activity
     public void addNewActivity(String activityName) throws OperationNotAllowedException {
+        if (assignedActivities.stream().anyMatch(activity -> activity.getActivityName().equals(activityName)))
+            throw new OperationNotAllowedException("An activity with that name already exists.");
+
         Activity activity = new Activity(activityName, this);
         assignedActivities.add(activity);
         activity.assignEmployeeForUserActivity(this);

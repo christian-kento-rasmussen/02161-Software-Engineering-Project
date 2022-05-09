@@ -4,6 +4,7 @@ import dtu.projectmanagement.domain.Project;
 import dtu.projectmanagement.gui.ManagementAppGUI;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Cursor;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
 import javafx.scene.layout.VBox;
@@ -38,6 +39,7 @@ public class ProjectListViewCell extends ListCell<Project> {
             }
 
             lblCellProjectName.setText(proj.getProjectName());
+            setCursor(Cursor.HAND);
 
             setText(null);
             setGraphic(cell);
