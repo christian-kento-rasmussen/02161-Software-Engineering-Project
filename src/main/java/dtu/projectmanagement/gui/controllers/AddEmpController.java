@@ -37,13 +37,13 @@ public class AddEmpController {
         lblError.setTextFill(Color.RED);
 
         try {
-            managementApp.addEmployee(tfUsername.getText().toLowerCase());
+            managementApp.addEmployee(tfUsername.getText());
         } catch (OperationNotAllowedException e) {
             lblError.setText(e.getMessage());
             return;
         }
         lblError.setTextFill(Color.GREENYELLOW);
-        lblError.setText(tfUsername.getText() + " successfully added");
+        lblError.setText(tfUsername.getText().toLowerCase() + " successfully added");
 
         tfUsername.setText("");
         tfUsername.requestFocus();
