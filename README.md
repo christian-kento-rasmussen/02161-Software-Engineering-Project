@@ -11,9 +11,11 @@ On 9. March 2022
 
 
 ### How to run project
-1. Open the project folder in IntelliJ IDEA
-2. Open the file [src/main/java/dtu/projectmanagement/gui/ManagementAppGUI.java](src/main/java/dtu/projectmanagement/gui/ManagementAppGUI.java)
-3. Right-click on the file and click `run ManagementAppGUI.main()`
+1. Open the project folder in IntelliJ IDEA as an existing project
+2. Go through the dialog boxes
+3. After having gone through the dialog boxes load the project as a maven project
+4. Open the file [src/main/java/dtu/projectmanagement/gui/ManagementAppGUI.java](src/main/java/dtu/projectmanagement/gui/ManagementAppGUI.java)
+5. Right-click on the file and click `run ManagementAppGUI.main()`
 
-
+No additional software needs to be installed.
  
