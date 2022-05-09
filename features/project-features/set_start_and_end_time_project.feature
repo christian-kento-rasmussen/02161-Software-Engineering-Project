@@ -17,7 +17,7 @@ Feature: Set start and end time of a project
     And the employee with username "foo" is logged in
     And the employee with the username "foo" is the project leader of the given project
     When the user sets the start and end time of the project to 202307 and 202207, respectively
-    Then the error message "The start week cannot be after the end week" is given
+    Then the error message "The start week cannot be the same as or after the end week" is given
 
   Scenario: Someone else than the project leader sets start and end time of a project
     Given there is a project
