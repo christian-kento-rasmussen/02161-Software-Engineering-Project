@@ -99,14 +99,18 @@ public class Activity {
     public float getExpectedWorkHours() {
         return expectedWorkHours;
     }
-    public void setExpectedWorkHours(float expectedWorkHours) {
-        this.expectedWorkHours = expectedWorkHours;
+    public void setExpectedWorkHours(float expectedWorkHours) throws OperationNotAllowedException {
+        if (expectedWorkHours>=0) {
+            this.expectedWorkHours = (expectedWorkHours); }
+        else {
+            throw new OperationNotAllowedException("Expected Work hours must be positive"); }
     }
     public float getRemainingHours() {
         return getExpectedWorkHours() - getSpendHours();
     }
     public void assignEmployee(Employee employee) throws OperationNotAllowedException {
         assignedEmployees.add(employee);
+
         employee.assignActivity(this);
     }
     public void assignEmployeeForUserActivity(Employee employee) {
@@ -115,6 +119,7 @@ public class Activity {
     public void unassignEmployee(Employee employee) {
         assignedEmployees.remove(employee);
     }
+
     public void unassignAllEmployees() {
         assignedEmployees.forEach(employee -> employee.unassignActivity(this));
         assignedEmployees.clear();

@@ -153,10 +153,11 @@ public class ManagementApp {
     /**
      * @author William Steffens (s185369)
      */
+    /* TODO: make
     public void generateProjectReport(Project project, String filelocation) throws OperationNotAllowedException {
         checkIsProjectLeader(project);
         project.generateReport(filelocation);
-    }
+    }*/
 
 
 
@@ -181,9 +182,10 @@ public class ManagementApp {
 
         support.firePropertyChange(NotificationType.UPDATE_ACTIVITY_REPO, null, null);
     }
+    /* TODO: delete?
     public Activity getProjectActivity(Project project, String activityName) {
         return project.getActivity(activityName);
-    }
+    }*/
     public List<Activity> getProjectActivityRepo(Project project) {
         return project.getActivityRepo();
     }
@@ -207,7 +209,7 @@ public class ManagementApp {
     /**
      * @author William Steffens (s185369)
      */
-    public void unassignEmployeeFromActivity(Activity activity, Employee employee) {
+    public void unassignEmployeeFromActivity(Activity activity, Employee employee) throws OperationNotAllowedException {
         employee.unassignActivity(activity);
         activity.unassignEmployee(employee);
 
@@ -273,11 +275,22 @@ public class ManagementApp {
         return activity.getExpectedWorkHours();
     }
     public void setExpectedWorkHoursOnActivity(Activity activity, float hours) throws OperationNotAllowedException {
+
+        // Pre-condition
+        assert activity != null : " Pre - condition violation " ;
+
         authorizeActivityChange(activity);
 
-        activity.setExpectedWorkHours(hours);
+        if (hours>=0) {
+            activity.setExpectedWorkHours(hours);}
+        else {
+            throw new OperationNotAllowedException("Expected Work hours must be positive"); }
 
         support.firePropertyChange(NotificationType.UPDATE_ACTIVITY, null, null);
+
+        // Post-condition
+        assert activity.getExpectedWorkHours() == hours : " post - condition violation ";
+
     }
     public float getRemainingHoursOnActivity(Activity activity) throws OperationNotAllowedException {
         authorizeActivityChange(activity);
@@ -311,7 +324,6 @@ public class ManagementApp {
     public Employee getUser() {
         return user;
     }
-
     /**
      * @author William Steffens (s185369)
      */

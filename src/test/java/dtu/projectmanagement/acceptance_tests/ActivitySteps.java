@@ -3,9 +3,7 @@ package dtu.projectmanagement.acceptance_tests;
 import dtu.projectmanagement.app.ManagementApp;
 
 import dtu.projectmanagement.app.OperationNotAllowedException;
-import dtu.projectmanagement.domain.Activity;
 import dtu.projectmanagement.domain.Employee;
-import dtu.projectmanagement.domain.Project;
 import io.cucumber.java.en.And;
 import io.cucumber.java.en.Then;
 
@@ -76,7 +74,7 @@ public class ActivitySteps {
 
     @When("the activity named {string} is deleted from the project")
     public void theActivityIsDeletedFromProject(String activityName) {
-        managementApp.deleteProjectActivity(projectHelper.getProject(), managementApp.getProjectActivity(projectHelper.getProject(), activityName));
+        managementApp.deleteProjectActivity(projectHelper.getProject(), projectHelper.getActivity(activityName));
     }
 
     @Then("the employee with username {string} is assigned to the activity named {string} and vice versa")
@@ -90,7 +88,7 @@ public class ActivitySteps {
                 .anyMatch(employee -> employee.getUsername().equals(username)));
     }
 
-    @When("the user registers {float} hours spent on the activity named {string} in the project")
+@When("the user registers {float} hours spent on the activity named {string} in the project")
     public void theEmployeeRegistersHoursSpentOnTheActivity(float hours, String activityName) {
         try {
             managementApp.registerWorkHoursOnActivity(projectHelper.getActivity(activityName), hours);
@@ -136,12 +134,12 @@ public class ActivitySteps {
     }
 
     @When("the employee activity named {string} is deleted")
-    public void theUserActivityNamedIsDeleted(String activityName) {
+    public void theUserActivityNamedIsDeleted(String activityName) throws OperationNotAllowedException {
         managementApp.unassignEmployeeFromActivity(managementApp.getUserActivity(activityName), managementApp.getUser());
     }
 
     @Then("the employee does not have an activity named {string}")
-    public void theUserDoesNotHaveAnActivityNamed(String activityName) {
+        public void theUserDoesNotHaveAnActivityNamed(String activityName) {
         assertFalse(managementApp.getUserActivities().stream().anyMatch(activity -> activity.getActivityName().equals(activityName)));
     }
 
@@ -192,17 +190,10 @@ public class ActivitySteps {
         }
     }
 
-    @When("the employee with username {string} is assigned to the activity named {string} in the project")
-    public void theEmployeeAssignsTheOtherEmployeeWithUsernameToTheActivityNamedInTheProject(String username, String activityName) {
-        try {
-            managementApp.assignEmployeeToActivity(projectHelper.getActivity(activityName), managementApp.getEmployee(username));
-        } catch (OperationNotAllowedException e) {
-            errorMessage.setErrorMessage(e.getMessage());
-        }
-    }
+
 
     @When("the user queries for the available employees for the activity named {string} in the project")
-    public void theProjectLeaderQueriesForTheAvailableEmployeesForTheSelectedActivity(String activityName) throws OperationNotAllowedException {
+    public void theProjectLeaderQueriesForTheAvailableEmployeesForTheSelectedActivity(String activityName) {
         try {
             availableEmployeesForActivity = managementApp.listAvailableEmployeesForActivity(projectHelper.getActivity(activityName));
         } catch (OperationNotAllowedException e) {
@@ -222,6 +213,32 @@ public class ActivitySteps {
 
     @And("the employee with username {string} is not assigned to a activity named {string}")
     public void theEmployeeWithUsernameIsNotAssignedToAActivityNamed(String username, String activityName) {
+        assertFalse(managementApp.getEmployee(username)
+                .getAssignedActivities()
+                .stream()
+                .anyMatch(activity -> activity.getActivityName().equals(activityName)));
+    }
+
+    @When("the employee with username {string} is assigned to the activity named {string} in the project")
+    public void theEmployeeAssignsTheOtherEmployeeWithUsernameToTheActivityNamedInTheProject(String username, String activityName) {
+        try {
+            managementApp.assignEmployeeToActivity(projectHelper.getActivity(activityName), managementApp.getEmployee(username));
+        } catch (OperationNotAllowedException e) {
+            errorMessage.setErrorMessage(e.getMessage());
+        }
+    }
+
+    @When("the employee with username {string} is unassigned from the activity named {string} in the project")
+    public void theEmployeeWithUsernameIsUnassignedFromTheActivityNamedInTheProject(String employeeName, String activityName) {
+        try {
+            managementApp.unassignEmployeeFromActivity(projectHelper.getActivity(activityName), managementApp.getEmployee(employeeName));
+        } catch (OperationNotAllowedException e) {
+            errorMessage.setErrorMessage(e.getMessage());
+        }
+    }
+
+    @Then("the employee with username {string} is unassigned from the activity named {string} and vice versa")
+    public void theEmployeeWithUsernameIsUnassignedFromTheActivityNamedAndViceVersa(String username, String activityName) {
         assertFalse(managementApp.getEmployee(username)
                 .getAssignedActivities()
                 .stream()
@@ -267,6 +284,8 @@ public class ActivitySteps {
 
     @And("the activity named {string} does not have an assigned employee named {string}")
     public void theActivityNamedDoesNotHaveAnAssignedEmployeeNamed(String activityName, String username) {
-        assertFalse(managementApp.getProjectActivity(projectHelper.getProject(), activityName).getAssignedEmployees().stream().anyMatch(employee -> employee.getUsername().equals(username)));
+        assertFalse(managementApp.getAssignedEmployees(projectHelper.getActivity(activityName))
+                .stream()
+                .anyMatch(employee -> employee.getUsername().equals(username)));
     }
 }
