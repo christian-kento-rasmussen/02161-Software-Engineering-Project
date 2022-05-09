@@ -1,0 +1,83 @@
+AnchorPane {
+    -fx-background-color: #313335;
+}
+
+.scroll-pane {
+    -fx-background-color: #313335;
+}
+
+Button {
+    -fx-background-color: #1180f0;
+}
+
+Button:hover {
+    -fx-background-color: #3297fd;
+    -fx-cursor: hand;
+}
+
+Button:pressed {
+    -fx-background-color: #2574c4;
+}
+
+Button:focused {
+    -fx-border-radius: 3;
+    -fx-border-width: 2;
+    -fx-border-color: #21bcff;
+}
+
+.btnNavBar {
+    -fx-background-color: #3c3f41;
+}
+
+.btnNavBar:hover {
+    -fx-background-color: #555;
+}
+
+.btnNavBar:pressed {
+    -fx-background-color: #1180f0;
+}
+
+.btnLeader {
+    -fx-background-color: #7422c7;
+}
+
+.btnLeader:hover {
+    -fx-background-color: #8926ed;
+}
+
+.btnLeader:pressed {
+    -fx-background-color: #581799;
+}
+
+.btnBack {
+    -fx-background-color: #8a8a8a;
+}
+
+.btnBack:hover {
+    -fx-background-color: #757575;
+}
+
+.btnBack:pressed {
+    -fx-background-color: #6e6e6e;
+}
+
+.btnRed {
+    -fx-background-color: #ff0000;
+}
+
+.btnRed:hover {
+    -fx-background-color: #ff5757;
+}
+
+.btnRed:pressed {
+    -fx-background-color: #c20404;
+}
+
+.tab-pane {
+    -fx-tab-max-height: 0;
+}
+
+.tab-pane .tab-header-area {
+    visibility: hidden;
+    -fx-padding: -20 0 0 0;
+}
