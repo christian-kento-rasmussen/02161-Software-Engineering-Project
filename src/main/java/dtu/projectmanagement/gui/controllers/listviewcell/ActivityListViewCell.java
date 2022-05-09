@@ -13,8 +13,8 @@ import java.io.IOException;
 
 public class ActivityListViewCell extends ListCell<Activity> {
 
-    //@FXML private FontAwesomeIconView
     @FXML private Label lblCellActivityName;
+    @FXML private Label lblCellActivityType;
     @FXML private VBox cell;
 
     public ActivityListViewCell() {
@@ -39,6 +39,11 @@ public class ActivityListViewCell extends ListCell<Activity> {
             }
 
             lblCellActivityName.setText(act.getActivityName());
+            if (act.getActivityType() == Activity.PROJECT_TYPE)
+                lblCellActivityType.setText("In Project: " + act.getParentProject().getProjectNum());
+            else
+                lblCellActivityType.setText("Personal Activity for " + act.getParentEmployee().getUsername());
+
             setCursor(Cursor.HAND);
 
             setText(null);

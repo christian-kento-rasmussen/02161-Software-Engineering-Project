@@ -15,6 +15,7 @@ public class ProjectListViewCell extends ListCell<Project> {
 
     //@FXML private FontAwesomeIconView
     @FXML private Label lblCellProjectName;
+    @FXML private Label lblCellProjectNum;
     @FXML private VBox cell;
 
     public ProjectListViewCell() {
@@ -38,6 +39,7 @@ public class ProjectListViewCell extends ListCell<Project> {
                 e.printStackTrace();
             }
 
+            lblCellProjectNum.setText(proj.getProjectNum());
             lblCellProjectName.setText(proj.getProjectName());
             setCursor(Cursor.HAND);
 

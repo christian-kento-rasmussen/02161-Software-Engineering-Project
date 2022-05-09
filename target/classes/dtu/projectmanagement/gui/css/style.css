@@ -54,7 +54,7 @@ Button:focused {
 }
 
 .btnBack:hover {
-    -fx-background-color: #8c8c8c;
+    -fx-background-color: #757575;
 }
 
 .btnBack:pressed {

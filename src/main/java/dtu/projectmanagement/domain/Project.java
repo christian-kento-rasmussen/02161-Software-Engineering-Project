@@ -49,6 +49,7 @@ public class Project {
         return startWeek;
     }
     public void setStartWeek(int startWeek) throws OperationNotAllowedException {
+        // Todo: test for this other case?
         if (endWeek != 0 && endWeek < startWeek)
             throw new OperationNotAllowedException("The start week cannot be after the end week");
         else

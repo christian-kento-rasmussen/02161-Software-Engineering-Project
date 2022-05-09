@@ -16,7 +16,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="467.0" prefWidth="1007.0" stylesheets="@../css/style.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dtu.projectmanagement.gui.controllers.HomeController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1082.0" prefWidth="1469.0" stylesheets="@../css/style.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="dtu.projectmanagement.gui.controllers.HomeController">
    <left>
       <VBox alignment="TOP_CENTER" prefHeight="876.0" prefWidth="200.0" style="-fx-background-color: #3c3f41;" BorderPane.alignment="CENTER">
          <children>
@@ -199,8 +199,8 @@
                                              </font>
                                           </Label>
                                           <Label fx:id="lblProjectNameError" textFill="RED" />
-                                          <TextField fx:id="tfChangeProjectName" />
-                                          <Button mnemonicParsing="false" onAction="#onBtnChangeProjectName" prefHeight="30.0" prefWidth="163.0" text="Change Project Name" textFill="#eeeeee">
+                                          <TextField fx:id="tfChangeProjectName" minWidth="150.0" />
+                                          <Button minWidth="163.0" mnemonicParsing="false" onAction="#onBtnChangeProjectName" prefHeight="30.0" prefWidth="163.0" text="Change Project Name" textFill="#eeeeee">
                                              <font>
                                                 <Font size="14.0" />
                                              </font>
@@ -228,8 +228,8 @@
                                                 <Font size="22.0" />
                                              </font>
                                           </Label>
-                                          <ComboBox fx:id="cbPickProjectLeader" prefWidth="150.0" promptText="select employee" />
-                                          <Button fx:id="btnChangeProjectLeader" disable="true" mnemonicParsing="false" onAction="#onBtnChangeProjectLeader" prefHeight="0.0" prefWidth="163.0" text="Change Project Leader" textFill="#eeeeee">
+                                          <ComboBox fx:id="cbPickProjectLeader" minWidth="150.0" prefWidth="150.0" promptText="select employee" />
+                                          <Button fx:id="btnChangeProjectLeader" disable="true" minWidth="163.0" mnemonicParsing="false" onAction="#onBtnChangeProjectLeader" prefHeight="0.0" prefWidth="163.0" text="Change Project Leader" textFill="#eeeeee">
                                              <font>
                                                 <Font size="14.0" />
                                              </font>
@@ -258,8 +258,8 @@
                                              </font>
                                           </Label>
                                           <Label fx:id="lblProjectStartWeekError" textFill="RED" />
-                                          <TextField fx:id="tfProjectStartWeek" promptText="yyyyww" />
-                                          <Button mnemonicParsing="false" onAction="#onBtnSetProjectStartWeek" prefHeight="0.0" prefWidth="163.0" styleClass="btnLeader" text="Set Start Week" textFill="#eeeeee">
+                                          <TextField fx:id="tfProjectStartWeek" maxWidth="70.0" minWidth="70.0" promptText="yyyyww" />
+                                          <Button minWidth="163.0" mnemonicParsing="false" onAction="#onBtnSetProjectStartWeek" prefHeight="0.0" prefWidth="163.0" styleClass="btnLeader" text="Set Start Week" textFill="#eeeeee">
                                              <font>
                                                 <Font size="14.0" />
                                              </font>
@@ -288,8 +288,8 @@
                                              </font>
                                           </Label>
                                           <Label fx:id="lblProjectEndWeekError" textFill="RED" />
-                                          <TextField fx:id="tfProjectEndWeek" promptText="yyyyww" />
-                                          <Button mnemonicParsing="false" onAction="#onBtnSetProjectEndWeek" prefHeight="0.0" prefWidth="163.0" styleClass="btnLeader" text="Set End Week" textFill="#eeeeee">
+                                          <TextField fx:id="tfProjectEndWeek" maxWidth="70.0" minWidth="70.0" promptText="yyyyww" />
+                                          <Button minWidth="163.0" mnemonicParsing="false" onAction="#onBtnSetProjectEndWeek" prefHeight="0.0" prefWidth="163.0" styleClass="btnLeader" text="Set End Week" textFill="#eeeeee">
                                              <font>
                                                 <Font size="14.0" />
                                              </font>
@@ -427,8 +427,8 @@
                                        </HBox.margin>
                                     </Label>
                                     <Label fx:id="lblProjectActivityNameError" textFill="RED" />
-                                    <TextField fx:id="tfProjectActivityName" />
-                                    <Button mnemonicParsing="false" onAction="#onBtnAddNewProjectActivity" prefHeight="29.0" prefWidth="189.0" text="+ Add New Activity" textFill="#eeeeee">
+                                    <TextField fx:id="tfProjectActivityName" minWidth="200.0" />
+                                    <Button minWidth="150.0" mnemonicParsing="false" onAction="#onBtnAddNewProjectActivity" prefHeight="29.0" prefWidth="189.0" text="+ Add New Activity" textFill="#eeeeee">
                                        <font>
                                           <Font size="14.0" />
                                        </font>
@@ -542,7 +542,7 @@
                                              </font>
                                           </Label>
                                           <Label fx:id="lblChangeActivityNameError" textFill="RED" />
-                                          <TextField fx:id="tfChangeActivityName" />
+                                          <TextField fx:id="tfChangeActivityName" minWidth="150.0" />
                                           <Button mnemonicParsing="false" onAction="#onBtnChangeActivityName" prefHeight="30.0" prefWidth="163.0" text="Change Activity Name" textFill="#eeeeee">
                                              <font>
                                                 <Font size="14.0" />
@@ -572,7 +572,7 @@
                                              </font>
                                           </Label>
                                           <Label fx:id="lblRegisterHoursError" textFill="RED" />
-                                          <TextField fx:id="tfRegisterHours" />
+                                          <TextField fx:id="tfRegisterHours" minWidth="150.0" />
                                           <Button mnemonicParsing="false" onAction="#onBtnRegisterHours" prefHeight="30.0" prefWidth="163.0" text="Register Hours" textFill="#eeeeee">
                                              <font>
                                                 <Font size="14.0" />
@@ -602,7 +602,7 @@
                                              </font>
                                           </Label>
                                           <Label fx:id="lblActivityExpectedHoursError" textFill="RED" />
-                                          <TextField fx:id="tfSetExpectedHours" />
+                                          <TextField fx:id="tfSetExpectedHours" minWidth="150.0" />
                                           <Button mnemonicParsing="false" onAction="#onBtnSetActivityExpectedHours" prefHeight="30.0" prefWidth="163.0" styleClass="btnLeader" text="Set Expected Hours" textFill="#eeeeee">
                                              <font>
                                                 <Font size="14.0" />
@@ -632,7 +632,7 @@
                                              </font>
                                           </Label>
                                           <Label fx:id="lblActivityStartWeekError" textFill="RED" />
-                                          <TextField fx:id="tfActivityStartWeek" promptText="yyyyww" />
+                                          <TextField fx:id="tfActivityStartWeek" maxWidth="70.0" minWidth="70.0" promptText="yyyyww" />
                                           <Button mnemonicParsing="false" onAction="#onBtnSetActivityStartWeek" prefHeight="0.0" prefWidth="163.0" styleClass="btnLeader" text="Set Start Week" textFill="#eeeeee">
                                              <font>
                                                 <Font size="14.0" />
@@ -645,7 +645,7 @@
                                     </HBox>
                                     <HBox alignment="CENTER_LEFT" prefHeight="24.0" prefWidth="1142.0" spacing="22.0">
                                        <children>
-                                          <Label text="Start Week:" textFill="#eeeeee">
+                                          <Label text="End Week:" textFill="#eeeeee">
                                              <font>
                                                 <Font size="22.0" />
                                              </font>
@@ -662,7 +662,7 @@
                                              </font>
                                           </Label>
                                           <Label fx:id="lblActivityEndWeekError" textFill="RED" />
-                                          <TextField fx:id="tfActivityEndWeek" promptText="yyyyww" />
+                                          <TextField fx:id="tfActivityEndWeek" maxWidth="70.0" minWidth="70.0" promptText="yyyyww" />
                                           <Button mnemonicParsing="false" onAction="#onBtnSetActivityEndWeek" prefHeight="0.0" prefWidth="163.0" styleClass="btnLeader" text="Set EndWeek" textFill="#eeeeee">
                                              <font>
                                                 <Font size="14.0" />
@@ -807,9 +807,9 @@
                                                       <Font size="26.0" />
                                                    </font>
                                                 </Label>
-                                                <ComboBox fx:id="cbAssignEmployee" prefWidth="158.0" promptText="select employee" />
+                                                <ComboBox fx:id="cbAssignEmployee" maxWidth="150.0" minWidth="150.0" prefWidth="158.0" promptText="select employee" />
                                                 <Label fx:id="lblProjectActivityAssignError" textFill="RED" />
-                                                <Button fx:id="btnAssignEmployee" disable="true" mnemonicParsing="false" onAction="#onBtnAssignEmployee" prefWidth="189.0" text="+ Assign Employee" textFill="#eeeeee">
+                                                <Button fx:id="btnAssignEmployee" disable="true" maxWidth="150.0" mnemonicParsing="false" onAction="#onBtnAssignEmployee" prefWidth="189.0" text="+ Assign Employee" textFill="#eeeeee">
                                                    <font>
                                                       <Font size="14.0" />
                                                    </font>
@@ -896,7 +896,7 @@
                                  </HBox.margin>
                               </Label>
                               <Label fx:id="lblActivityNameError" textFill="RED" />
-                              <TextField fx:id="tfActivityName" prefHeight="25.0" prefWidth="222.0" />
+                              <TextField fx:id="tfActivityName" maxWidth="200.0" minWidth="200.0" prefHeight="25.0" prefWidth="222.0" />
                               <Button mnemonicParsing="false" onAction="#onBtnAddNewUserActivity" prefHeight="46.0" prefWidth="331.0" text="+ Add New Personal Activity" textFill="#eeeeee">
                                  <font>
                                     <Font size="22.0" />
