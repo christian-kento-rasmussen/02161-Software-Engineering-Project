@@ -25,6 +25,7 @@ public class Project {
 
 
     // Info
+
     public String getProjectNum() {
         return projectNum;
     }
@@ -77,14 +78,19 @@ public class Project {
             this.endWeek = endWeek;
     }
 
-
-    // Activity - creation, deletion, repo
+    /**
+     * @author Christian Raasteen (s204148)
+     */
     public void addNewActivity(String activityName) throws OperationNotAllowedException {
         if (activities.stream().anyMatch(activity -> activity.getActivityName().equals(activityName)))
             throw new OperationNotAllowedException("An activity with that name already exists.");
 
         activities.add(new Activity(activityName, this));
     }
+
+    /**
+     * @author Christian Raasteen (s204148)
+     */
     public void deleteActivity(Activity activity) {
         activity.unassignAllEmployees();
         activities.remove(activity);

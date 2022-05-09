@@ -44,7 +44,7 @@ public class SetExpectedWorkHoursOnActivityWhiteBoxTest {
         managementApp.setExpectedWorkHoursOnActivity(projectHelper.getActivity("Lav mad"),-1);
 
 
-        System.out.println(projectHelper.getProject().getActivity("Lav mad").getExpectedWorkHours());
+//        System.out.println(projectHelper.getProject().getActivity("Lav mad").getExpectedWorkHours());
 
     }
 
@@ -61,7 +61,7 @@ public class SetExpectedWorkHoursOnActivityWhiteBoxTest {
         managementApp.setExpectedWorkHoursOnActivity(projectHelper.getActivity("Lav mad"),10);
 
 
-        System.out.println(projectHelper.getProject().getActivity("Lav mad").getExpectedWorkHours());
+//        System.out.println(projectHelper.getProject().getActivity("Lav mad").getExpectedWorkHours());
 
     }
 
